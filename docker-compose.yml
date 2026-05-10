@@ -1,0 +1,20 @@
+services:
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docs-mystoredigital:latest
+    container_name: docs-mystoredigital
+    restart: unless-stopped
+    networks:
+      - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.docs-mystoredigital.entrypoints=websecure
+      - traefik.http.routers.docs-mystoredigital.rule=Host(`docs.mystoredigital.cloud`)
+      - traefik.http.routers.docs-mystoredigital.tls.certresolver=letsencrypt
+      - traefik.http.services.docs-mystoredigital.loadbalancer.server.port=80
+
+networks:
+  dokploy-network:
+    external: true

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API de Dokploy para despliegues programáticos</title>
+  <meta name="description" content="Cómo descubrir, autenticar y consumir el API tRPC de Dokploy para gestionar proyectos y aplicaciones desde código.">
+  <meta name="category" content="AUTOMATIZACIÓN">
+  <meta name="date" content="2026-05-10">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc">
+  <main class="shell">
+    <div class="brand">
+      <span class="dot"></span>
+      <a href="../index.html" class="back">docs.mystoredigital.cloud</a>
+      <span class="sep">/</span>
+      <span class="crumb">dokploy-api</span>
+    </div>
+
+    <article>
+      <h1>API de Dokploy para despliegues programáticos</h1>
+      <div class="doc-meta">
+        <span class="pill">AUTOMATIZACIÓN</span>
+        <span>2026-05-10</span>
+      </div>
+
+      <p>Dokploy expone un API HTTP funcional, pero su documentación oficial es escasa y el patrón de auth no sigue el estándar habitual. Documentamos aquí lo que descubrimos para que el siguiente despliegue sea inmediato.</p>
+
+      <h2>Autenticación: <code>x-api-key</code>, no <code>Authorization: Bearer</code></h2>
+      <p>El token se obtiene desde el panel web (<code>Profile → API Keys</code>) y se envía en el header <code>x-api-key</code>. Si se usa <code>Authorization: Bearer &lt;token&gt;</code>, la API responde <code>401 Unauthorized</code> independientemente de si el token es válido. Es el primer descubrimiento crítico para no perder tiempo.</p>
+
+      <pre><code>curl -H "x-api-key: $DOKPLOY_API_TOKEN" https://&lt;panel&gt;/api/project.all
+[{"projectId":"...","name":"Apps", ...}]</code></pre>
+
+      <h2>Estilo del API: tRPC procedures</h2>
+      <p>Dokploy usa tRPC bajo el capó. Los endpoints siguen el patrón <code>/api/&lt;router&gt;.&lt;procedure&gt;</code>, no <code>/api/v1/resource</code>. Algunos ejemplos relevantes:</p>
+
+      <table>
+        <thead>
+          <tr><th>Endpoint</th><th>Método</th><th>Uso</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>project.all</code></td><td>GET</td><td>Listar proyectos visibles para el token</td></tr>
+          <tr><td><code>project.one?projectId=...</code></td><td>GET</td><td>Detalle del proyecto + environments + apps</td></tr>
+          <tr><td><code>project.create</code></td><td>POST</td><td>Crear proyecto. Body: <code>{name, description}</code></td></tr>
+          <tr><td><code>project.remove</code></td><td>POST</td><td>Eliminar. Body: <code>{projectId}</code></td></tr>
+          <tr><td><code>application.create</code></td><td>POST</td><td>Crear aplicación dentro de un environment</td></tr>
+          <tr><td><code>compose.create</code></td><td>POST</td><td>Crear stack docker-compose</td></tr>
+          <tr><td><code>application.deploy</code></td><td>POST</td><td>Forzar redeploy de una app</td></tr>
+        </tbody>
+      </table>
+
+      <p>La especificación OpenAPI completa está en <code>/api/openapi.json</code> (requiere auth). Es la fuente de verdad cuando se necesita un endpoint que no aparezca aquí.</p>
+
+      <h2>Modelo de datos</h2>
+      <p>La jerarquía es: <strong>Organization → Project → Environment → Application | Compose</strong>. Una organización suele ser una cuenta de cliente; los proyectos agrupan apps relacionadas; cada proyecto tiene al menos un environment (<em>production</em> por default); las apps viven dentro del environment.</p>
+
+      <p>Un token está scoped a una organización. Si el cliente tiene varios equipos en diferentes organizations, se necesita un token por organization.</p>
+
+      <h2>Test de write con un throwaway</h2>
+      <p>Antes de confiar en que un token tiene permisos efectivos, conviene un test idempotente:</p>
+
+      <pre><code># Crear
+POST /api/project.create
+  body: {"name":"smoke-test","description":"throwaway"}
+  → response: { project: { projectId: "..." }, environment: {...} }
+
+# Eliminar
+POST /api/project.remove
+  body: {"projectId":"..."}
+  → response: project eliminado
+
+# Confirmar
+GET /api/project.all
+  → smoke-test ya no aparece</code></pre>
+
+      <p>30 segundos en total, confirma read + write sin riesgo de tocar nada productivo.</p>
+
+      <h2>Despliegue desde repo Git (workflow recomendado)</h2>
+      <p>El patrón productivo es: el código vive en GitHub, Dokploy se conecta vía SSH key/PAT, y a cada push hace pull + rebuild + redeploy. La creación del app vía API queda así:</p>
+
+      <pre><code>POST /api/compose.create
+  body: {
+    name: "docs",
+    appName: "docs-mystoredigital",
+    environmentId: "&lt;production_env_id&gt;",
+    sourceType: "github",
+    repository: "My-Store-Digital-Team/docs-mystoredigital",
+    branch: "main",
+    composePath: "./docker-compose.yml"
+  }</code></pre>
+
+      <p>Una vez creado, push a <code>main</code> dispara el redeploy automáticamente.</p>
+
+      <h2>Cuándo usar API y cuándo no</h2>
+      <ul>
+        <li><strong>Sí:</strong> creación masiva de apps de un cliente, automatización de provisioning post-onboarding, scripts de migración entre proyectos, integraciones con CRM (cliente firma → app provisionada).</li>
+        <li><strong>No (todavía):</strong> ediciones puntuales de variables de entorno o re-config UI, donde el panel web es más rápido y menos propenso a errores.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Alternativa:</strong> si el cliente no quiere depender del panel de Dokploy y prefiere control puro, todo el stack se puede desplegar fuera de Dokploy con <code>docker compose up -d</code> directo, conectándose al mismo network <code>dokploy-network</code> que usa el Traefik existente. El reverse proxy y los certificados siguen funcionando idénticos. La pérdida es solo la visualización en el dashboard.
+      </div>
+    </article>
+
+    <footer>
+      <a href="../index.html">← volver al índice</a>
+    </footer>
+  </main>
+</body>
+</html>

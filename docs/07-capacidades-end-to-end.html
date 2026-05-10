@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Despliegue end-to-end de una aplicación nueva</title>
+  <meta name="description" content="Recorrido completo: del prompt a una URL pública con SSL en producción, sin intervención manual entre etapas.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-05-10">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc">
+  <main class="shell">
+    <div class="brand">
+      <span class="dot"></span>
+      <a href="../index.html" class="back">docs.mystoredigital.cloud</a>
+      <span class="sep">/</span>
+      <span class="crumb">capacidades-end-to-end</span>
+    </div>
+
+    <article>
+      <h1>Despliegue end-to-end de una aplicación nueva</h1>
+      <div class="doc-meta">
+        <span class="pill">CAPACIDADES</span>
+        <span>2026-05-10</span>
+      </div>
+
+      <p>Las integraciones documentadas en las otras entradas componen un pipeline en el que un cliente describe lo que necesita y, sin tocar consolas, dashboards ni archivos de configuración manualmente, termina con una URL pública servida con SSL detrás de un CDN. Esta entrada describe el flujo completo y lo que se requiere para reproducirlo.</p>
+
+      <h2>El flujo, paso por paso</h2>
+
+      <div class="callout">
+        <strong>Input:</strong> "Quiero que la herramienta interna del equipo de operaciones esté disponible en <code>ops.cliente.com</code>".
+      </div>
+
+      <h3>1. Generación del código</h3>
+      <p>Si la app no existe, se genera el código (frontend, backend, schema de DB) en un repo nuevo. Si ya existe, se clona y adapta. Lo que se entrega siempre incluye: <code>Dockerfile</code> productivo, <code>docker-compose.yml</code> con labels Traefik, configuración de variables de entorno con valores razonables.</p>
+
+      <h3>2. Push a GitHub</h3>
+      <p>El repo se crea en la organización del cliente, con visibilidad y branch protection según política. El operador se autentica con un PAT pre-configurado.</p>
+
+      <h3>3. Creación del registro DNS</h3>
+      <p>Una llamada al API de Cloudflare resuelve el zone, busca si el subdominio ya existe (idempotencia), y crea o actualiza el registro A apuntando a la IP del VPS. Por defecto se activa el proxy naranja (CDN + DDoS protection).</p>
+
+      <h3>4. Provisioning en el orquestador</h3>
+      <p>Una llamada al API de Dokploy crea el stack, lo conecta al repo, y dispara el primer build. Alternativamente, si se prefiere fuera del panel: SSH al VPS, <code>git clone</code>, <code>docker compose up -d</code>. Ambos caminos terminan en el mismo Traefik con los mismos certificados.</p>
+
+      <h3>5. Build y despliegue</h3>
+      <p>Docker hace el build multi-stage (Node/Bun para frontend, Go/Python/Node para backend, según el caso), aplica las variables de entorno, levanta los contenedores en la red <code>dokploy-network</code>.</p>
+
+      <h3>6. Negociación de SSL</h3>
+      <p>Traefik detecta el nuevo router gracias a las labels, solicita certificado a Let's Encrypt vía challenge HTTP-01, y empieza a servir HTTPS en cuanto el cert se emite (típicamente &lt;30 segundos).</p>
+
+      <h3>7. Verificación automática</h3>
+      <p>El pipeline hace <code>curl https://ops.cliente.com</code> y espera 200. Si falla, dispara un fallback al operador con los logs relevantes. Si pasa, se notifica completion.</p>
+
+      <h2>Tiempos típicos</h2>
+      <table>
+        <thead>
+          <tr><th>Etapa</th><th>Duración</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Generación de código (app simple)</td><td>3-15 min</td></tr>
+          <tr><td>Push a GitHub</td><td>5 s</td></tr>
+          <tr><td>DNS via Cloudflare API</td><td>1 s (propagación inmediata)</td></tr>
+          <tr><td>Build Docker (cache frío, app Node)</td><td>1-3 min</td></tr>
+          <tr><td>Levantamiento de contenedores</td><td>5-15 s</td></tr>
+          <tr><td>Emisión de certificado Let's Encrypt</td><td>5-30 s</td></tr>
+          <tr><td><strong>Total desde "manos a la obra" hasta URL viva</strong></td><td><strong>~5-20 min</strong></td></tr>
+        </tbody>
+      </table>
+
+      <h2>Lo que un cliente nuevo necesita aportar</h2>
+      <ol>
+        <li><strong>Acceso al VPS</strong> (Hostinger u otro). Si es nuevo, se provisiona en 5 min con la API.</li>
+        <li><strong>Dominio gestionado en Cloudflare</strong> (recomendado) o cualquier DNS donde se pueda automatizar. Necesita un token API con scope a los zones donde se vayan a crear subdominios.</li>
+        <li><strong>Cuenta de GitHub</strong> con organización para los repos.</li>
+        <li><strong>Email para Let's Encrypt</strong>. Cualquier dirección válida; se usa para alertas de expiración.</li>
+      </ol>
+
+      <p>Con esos cuatro inputs configurados una sola vez, cada despliegue posterior no requiere nada nuevo del cliente.</p>
+
+      <h2>Lo que queda fuera (intencionalmente)</h2>
+      <p>Algunos pasos NO se automatizan a propósito porque requieren juicio o son destructivos:</p>
+      <ul>
+        <li><strong>Eliminación de servicios.</strong> Siempre con periodo de gracia y backup explícito (ver <a href="04-vaultwarden-cleanup.html">cleanup de Vaultwarden</a>).</li>
+        <li><strong>Migraciones de schema en producción</strong> con riesgo de pérdida de datos.</li>
+        <li><strong>Cambios al firewall que afecten SSH del propio operador</strong> sin verificación previa de la regla.</li>
+        <li><strong>Ediciones en el DNS de zones críticos</strong> (registros raíz, MX, SPF, DKIM) sin confirmación humana.</li>
+      </ul>
+
+      <p>Para todos esos, el patrón es: proponer la acción, mostrar el diff, esperar confirmación. La velocidad se gana en lo seguro y reversible; la cautela se reserva para lo destructivo.</p>
+
+      <h2>Por qué importa este flujo</h2>
+      <p>Tradicionalmente, lanzar una app interna o una landing nueva del cliente cruza por: desarrollador genera código, devops configura servidor, alguien tramita el dominio, alguien más solicita el cert, alguien actualiza DNS, alguien valida que esté vivo. Cinco roles, varios días, y cada handoff es una oportunidad de bloqueo.</p>
+
+      <p>Con el pipeline descrito, esa cadena la ejecuta una sola persona (o agente), de forma trazable, en minutos en lugar de días. La capacidad técnica que tradicionalmente requería un equipo se convierte en una primitiva accesible para cualquier área del negocio.</p>
+
+      <div class="callout ok">
+        <strong>Esta misma página</strong> es un ejemplo del flujo: este sitio se generó, desplegó y publicó en <code>https://docs.mystoredigital.cloud</code> automáticamente, en una sola sesión, sin intervención manual entre la solicitud y la URL viva.
+      </div>
+    </article>
+
+    <footer>
+      <a href="../index.html">← volver al índice</a>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceso SSH gestionado y snapshot de seguridad</title>
+  <meta name="description" content="Provisioning automatizado de claves SSH al VPS y snapshot manual previo a cualquier intervención.">
+  <meta name="category" content="INFRAESTRUCTURA">
+  <meta name="date" content="2026-05-10">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="doc">
+  <main class="shell">
+    <div class="brand">
+      <span class="dot"></span>
+      <a href="../index.html" class="back">docs.mystoredigital.cloud</a>
+      <span class="sep">/</span>
+      <span class="crumb">acceso-ssh-y-snapshot</span>
+    </div>
+
+    <article>
+      <h1>Acceso SSH gestionado y snapshot de seguridad</h1>
+      <div class="doc-meta">
+        <span class="pill">INFRAESTRUCTURA</span>
+        <span>2026-05-10</span>
+      </div>
+
+      <p>Antes de tocar producción se necesitan dos cosas: una vía de acceso con auditoría, y un punto de retorno si algo falla. Documentamos el patrón que aplicamos al VPS Hostinger del cliente, ejecutado de extremo a extremo desde la terminal del operador sin pasar por interfaces gráficas.</p>
+
+      <h2>Paso 1 — Snapshot previo</h2>
+      <p>Antes de modificar nada, se solicita un snapshot vía la API de Hostinger. Es instantáneo, gratuito en la mayoría de los planes y captura el disco completo del VPS:</p>
+      <pre><code>POST /api/vps/v1/virtual-machines/{vm_id}/snapshot
+Authorization: Bearer &lt;HOSTINGER_API_TOKEN&gt;</code></pre>
+
+      <p>La respuesta devuelve un identificador de acción que se puede sondear para confirmar éxito. El snapshot expira a los 20 días (renovable). Cualquier cambio destructivo posterior se puede revertir con un solo POST a <code>/snapshot/restore</code>.</p>
+
+      <div class="callout ok">
+        <strong>Por qué no nos saltamos este paso.</strong> El costo es cero, el tiempo de creación &lt;3 segundos, y el de restauración ~30 minutos. Es la red de seguridad más barata que existe en infra.
+      </div>
+
+      <h2>Paso 2 — Inventario de claves existentes</h2>
+      <p>Consultamos qué claves SSH están registradas en la cuenta y cuáles ya están adjuntas al VPS. Esto evita duplicar entradas y da contexto para auditar permisos:</p>
+      <pre><code>GET /api/vps/v1/public-keys
+GET /api/vps/v1/virtual-machines/{vm_id}/attached-public-keys</code></pre>
+
+      <h2>Paso 3 — Subida y vinculación de la clave del operador</h2>
+      <p>Generamos (o reusamos) un par de claves <code>ed25519</code> en la máquina del operador, subimos la pública a Hostinger y la adjuntamos al VPS:</p>
+      <pre><code>POST /api/vps/v1/public-keys
+  body: { name: "Operator", key: "ssh-ed25519 AAAA..." }
+
+POST /api/vps/v1/virtual-machines/{vm_id}/attach-public-keys
+  body: { ids: [&lt;public_key_id&gt;] }</code></pre>
+
+      <div class="callout warn">
+        <strong>Gotcha conocido.</strong> Hostinger inyecta las claves vía cloud-init <em>solo al crear o recrear</em> el VM. Adjuntar una clave a un VM ya corriendo no la propaga al <code>authorized_keys</code> en vivo. La salida correcta cuando ya existen apps corriendo es bootstrap manual: pegar la clave una vez por consola web, y usarla a partir de ahí.
+      </div>
+
+      <h2>Paso 4 — Bootstrap del primer acceso</h2>
+      <p>Para evitar reiniciar el VM, instalamos la clave directamente en el archivo del usuario destino, asegurando que la línea anterior termina en salto:</p>
+      <pre><code>printf '\n%s\n' "ssh-ed25519 AAAA... operator@machine" >> ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys</code></pre>
+
+      <p>Pequeño detalle pero importante: usar <code>echo "..."  &gt;&gt;</code> sin verificar el final del archivo concatena la clave nueva al final de la línea previa cuando esa línea no termina en <code>\n</code>, dejando un <code>authorized_keys</code> sintácticamente inválido que sshd silenciosamente ignora. <code>printf '\n%s\n'</code> blinda contra eso.</p>
+
+      <h2>Verificación</h2>
+      <pre><code>ssh -o BatchMode=yes root@&lt;vps_ip&gt; 'whoami; uname -a; uptime'</code></pre>
+      <p>Si responde sin pedir password ni interacción, el acceso está operativo. A partir de aquí toda la administración se hace key-based, scriptable y auditable.</p>
+
+      <h2>Resultado</h2>
+      <ul>
+        <li>Acceso SSH passwordless con clave ed25519, registrada y trazable en el panel de Hostinger.</li>
+        <li>Snapshot disponible como punto de retorno si algo sale mal.</li>
+        <li>Toda la operación tomó menos de 5 minutos vía API + un único comando manual de bootstrap.</li>
+      </ul>
+    </article>
+
+    <footer>
+      <a href="../index.html">← volver al índice</a>
+    </footer>
+  </main>
+</body>
+</html>
