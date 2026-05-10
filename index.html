@@ -3,86 +3,114 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>docs.mystoredigital.cloud</title>
+  <title>docs · My Store Digital</title>
   <meta name="description" content="Documentación técnica de procesos, integraciones y capacidades de la infraestructura de My Store Digital.">
+  <link rel="icon" href="assets/isotipo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="shell">
-    <div class="brand">
-      <span class="dot"></span>
-      <span>docs.mystoredigital.cloud</span>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="/">
+        <img class="iso" src="assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta">
+        <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a>
+      </div>
     </div>
+  </nav>
 
-    <div class="hero">
-      <h1>Documentación técnica</h1>
-      <p class="lede">Procesos, integraciones y capacidades de nuestra infraestructura. Cada entrada documenta una intervención real ejecutada en producción, con la lógica del por qué y el cómo replicarla.</p>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="pill">Manual técnico</div>
+      <h1>Documentación <span class="accent">técnica</span>.<br>Procesos reales, ejecutables.</h1>
+      <p class="lede">Cada entrada documenta una intervención real ejecutada en producción: qué problema resolvía, cómo se atacó y qué quedó operando. Pensado para que un cliente entienda el alcance y para que un técnico pueda reproducirlo.</p>
     </div>
+  </header>
+
+  <main class="shell">
 
       <section class="section">
         <h2>INFRAESTRUCTURA</h2>
-        <a class="entry" href="docs/01-acceso-ssh-y-snapshot.html">
-          <div>
-            <p class="entry-title">Acceso SSH gestionado y snapshot de seguridad</p>
-            <p class="entry-desc">Provisioning automatizado de claves SSH al VPS y snapshot manual previo a cualquier intervención.</p>
-          </div>
-          <div class="entry-meta">2026-05-10</div>
-        </a>
-        <a class="entry" href="docs/02-recuperacion-supavisor.html">
-          <div>
-            <p class="entry-title">Recuperación de Supavisor en Supabase self-hosted</p>
-            <p class="entry-desc">Diagnóstico y fix de un pooler de conexiones en crashloop tras 9.896 reintentos fallidos.</p>
-          </div>
-          <div class="entry-meta">2026-05-10</div>
-        </a>
-        <a class="entry" href="docs/03-firewall-network-level.html">
-          <div>
-            <p class="entry-title">Firewall network-level con default-deny</p>
-            <p class="entry-desc">Reducción de superficie de ataque mediante firewall a nivel de hipervisor con whitelist explícita.</p>
-          </div>
-          <div class="entry-meta">2026-05-10</div>
-        </a>
-        <a class="entry" href="docs/04-vaultwarden-cleanup.html">
-          <div>
-            <p class="entry-title">Detección y limpieza de servicios abandonados</p>
-            <p class="entry-desc">Cómo identificar contenedores que ya no se usan, hacer backup verificable y dejarlos detenidos sin pérdida de datos.</p>
-          </div>
-          <div class="entry-meta">2026-05-10</div>
-        </a>
+        <div class="entries">
+          <a class="entry" href="docs/01-acceso-ssh-y-snapshot.html">
+            <div class="entry-num">01</div>
+            <div class="entry-body">
+              <div class="entry-title">Acceso SSH gestionado y snapshot de seguridad</div>
+              <div class="entry-desc">Provisioning automatizado de claves SSH al VPS y snapshot manual previo a cualquier intervención.</div>
+            </div>
+            <div class="entry-meta">2026-05-10</div>
+          </a>
+          <a class="entry" href="docs/02-recuperacion-supavisor.html">
+            <div class="entry-num">02</div>
+            <div class="entry-body">
+              <div class="entry-title">Recuperación de Supavisor en Supabase self-hosted</div>
+              <div class="entry-desc">Diagnóstico y fix de un pooler de conexiones en crashloop tras 9.896 reintentos fallidos.</div>
+            </div>
+            <div class="entry-meta">2026-05-10</div>
+          </a>
+          <a class="entry" href="docs/03-firewall-network-level.html">
+            <div class="entry-num">03</div>
+            <div class="entry-body">
+              <div class="entry-title">Firewall network-level con default-deny</div>
+              <div class="entry-desc">Reducción de superficie de ataque mediante firewall a nivel de hipervisor con whitelist explícita.</div>
+            </div>
+            <div class="entry-meta">2026-05-10</div>
+          </a>
+          <a class="entry" href="docs/04-vaultwarden-cleanup.html">
+            <div class="entry-num">04</div>
+            <div class="entry-body">
+              <div class="entry-title">Detección y limpieza de servicios abandonados</div>
+              <div class="entry-desc">Cómo identificar contenedores que ya no se usan, hacer backup verificable y dejarlos detenidos sin pérdida de datos.</div>
+            </div>
+            <div class="entry-meta">2026-05-10</div>
+          </a>
+        </div>
       </section>
 
       <section class="section">
         <h2>AUTOMATIZACIÓN</h2>
-        <a class="entry" href="docs/05-cloudflare-dns-integration.html">
-          <div>
-            <p class="entry-title">Integración programática con Cloudflare DNS</p>
-            <p class="entry-desc">Token con scope mínimo, gestión de zones y registros A vía API para automatizar despliegues con subdominio.</p>
-          </div>
-          <div class="entry-meta">2026-05-10</div>
-        </a>
-        <a class="entry" href="docs/06-dokploy-api.html">
-          <div>
-            <p class="entry-title">API de Dokploy para despliegues programáticos</p>
-            <p class="entry-desc">Cómo descubrir, autenticar y consumir el API tRPC de Dokploy para gestionar proyectos y aplicaciones desde código.</p>
-          </div>
-          <div class="entry-meta">2026-05-10</div>
-        </a>
+        <div class="entries">
+          <a class="entry" href="docs/05-cloudflare-dns-integration.html">
+            <div class="entry-num">05</div>
+            <div class="entry-body">
+              <div class="entry-title">Integración programática con Cloudflare DNS</div>
+              <div class="entry-desc">Token con scope mínimo, gestión de zones y registros A vía API para automatizar despliegues con subdominio.</div>
+            </div>
+            <div class="entry-meta">2026-05-10</div>
+          </a>
+          <a class="entry" href="docs/06-dokploy-api.html">
+            <div class="entry-num">06</div>
+            <div class="entry-body">
+              <div class="entry-title">API de Dokploy para despliegues programáticos</div>
+              <div class="entry-desc">Cómo descubrir, autenticar y consumir el API tRPC de Dokploy para gestionar proyectos y aplicaciones desde código.</div>
+            </div>
+            <div class="entry-meta">2026-05-10</div>
+          </a>
+        </div>
       </section>
 
       <section class="section">
         <h2>CAPACIDADES</h2>
-        <a class="entry" href="docs/07-capacidades-end-to-end.html">
-          <div>
-            <p class="entry-title">Despliegue end-to-end de una aplicación nueva</p>
-            <p class="entry-desc">Recorrido completo: del prompt a una URL pública con SSL en producción, sin intervención manual entre etapas.</p>
-          </div>
-          <div class="entry-meta">2026-05-10</div>
-        </a>
+        <div class="entries">
+          <a class="entry" href="docs/07-capacidades-end-to-end.html">
+            <div class="entry-num">07</div>
+            <div class="entry-body">
+              <div class="entry-title">Despliegue end-to-end de una aplicación nueva</div>
+              <div class="entry-desc">Recorrido completo: del prompt a una URL pública con SSL en producción, sin intervención manual entre etapas.</div>
+            </div>
+            <div class="entry-meta">2026-05-10</div>
+          </a>
+        </div>
       </section>
-
-    <footer>
-      My Store Digital · 7 documentos · build 2026-05-10 18:41 UTC · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital">github</a>
-    </footer>
   </main>
+
+  <footer class="site">
+    <div class="inner">
+      <img src="assets/logo.svg" alt="My Store Digital">
+      <div class="meta">7 documentos · build 2026-05-10 18:50 UTC · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </footer>
 </body>
 </html>

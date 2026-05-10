@@ -7,78 +7,84 @@
   <meta name="description" content="Diagnóstico y fix de un pooler de conexiones en crashloop tras 9.896 reintentos fallidos.">
   <meta name="category" content="INFRAESTRUCTURA">
   <meta name="date" content="2026-05-10">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../styles.css">
 </head>
-<body class="doc">
-  <main class="shell">
-    <div class="brand">
-      <span class="dot"></span>
-      <a href="../index.html" class="back">docs.mystoredigital.cloud</a>
-      <span class="sep">/</span>
-      <span class="crumb">recuperacion-supavisor</span>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
     </div>
+  </nav>
 
-    <article>
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Infraestructura</div>
       <h1>Recuperación de Supavisor en Supabase self-hosted</h1>
-      <div class="doc-meta">
-        <span class="pill">INFRAESTRUCTURA</span>
-        <span>2026-05-10</span>
+      <p class="lede">Un pooler de conexiones llevaba semanas en crash loop sin detectarse. Diagnóstico + fix idempotente en 4 minutos.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-05-10</span>
+        <span><strong>Sistema</strong> · Supabase self-hosted · Docker Swarm</span>
       </div>
+    </div>
+  </header>
 
-      <p>Una instancia de Supabase self-hosted llevaba semanas con su pooler de conexiones <strong>Supavisor</strong> en crash loop sin que nadie lo notara. El contador de reintentos marcaba <strong>9.896</strong> al momento del diagnóstico. Las apps que dependían de pooling estaban funcionando intermitente o pasando por la conexión directa, perdiendo todo el beneficio del pool.</p>
+  <main class="doc-body"><article>
+    <p>Una instancia de Supabase self-hosted llevaba semanas con su pooler de conexiones <strong>Supavisor</strong> en crash loop sin que nadie lo notara. El contador de reintentos marcaba <strong>9.896</strong> al momento del diagnóstico. Las apps que dependían de pooling estaban funcionando intermitente o pasando por la conexión directa, perdiendo todo el beneficio del pool.</p>
 
-      <h2>Sintoma</h2>
-      <pre><code>$ docker ps --filter "name=supavisor"
+    <h2>Síntoma</h2>
+    <pre><code>$ docker ps --filter "name=supavisor"
 NAME                          STATUS
 supabase-...-supavisor-1      Restarting (1) 45 seconds ago
 
 $ docker inspect ... --format "{{.RestartCount}}"
 9896</code></pre>
 
-      <h2>Diagnóstico</h2>
-      <p>Los logs revelaron el error real, oculto bajo decenas de páginas de stack traces de Ecto:</p>
-      <pre><code>** (Postgrex.Error) ERROR 3F000 (invalid_schema_name)
+    <h2>Diagnóstico</h2>
+    <p>Los logs revelaron el error real, oculto bajo decenas de páginas de stack traces de Ecto:</p>
+    <pre><code>** (Postgrex.Error) ERROR 3F000 (invalid_schema_name)
    schema "_supavisor" does not exist</code></pre>
+    <p>Supavisor (escrito en Elixir, usa Ecto como ORM) intenta correr sus migraciones contra el schema <code>_supavisor</code> al arrancar. Si el schema no existe, la migración falla, el proceso muere, Docker reinicia el contenedor, y se repite. Es un bucle determinista que no se resuelve solo.</p>
 
-      <p>Supavisor (escrito en Elixir, usa Ecto como ORM) intenta correr sus migraciones contra el schema <code>_supavisor</code> al arrancar. Si el schema no existe, la migración falla, el proceso muere, Docker reinicia el contenedor, y se repite. Es un bucle determinista que no se resuelve solo.</p>
+    <h2>Causa raíz</h2>
+    <p>Al provisionar Supabase self-hosted vía un orquestador (Dokploy en este caso), el script de inicialización del Postgres creó los schemas <code>public</code>, <code>_supabase</code>, <code>_analytics</code>, pero <strong>no</strong> <code>_supavisor</code>. Posiblemente por una versión del template anterior a que Supavisor fuera obligatorio.</p>
 
-      <h2>Causa raíz</h2>
-      <p>Al provisionar Supabase self-hosted vía un orquestador (en este caso Dokploy), el script de inicialización del Postgres creó los schemas <code>public</code>, <code>_supabase</code>, <code>_analytics</code>, pero <strong>no</strong> <code>_supavisor</code>. Posiblemente por una versión del template anterior a que Supavisor fuera obligatorio.</p>
-
-      <h2>Fix</h2>
-      <p>Conectar a la base donde Supavisor está apuntando (la URL de conexión está en su variable de entorno <code>DATABASE_URL</code>), y crear el schema con el dueño correcto:</p>
-
-      <pre><code>docker exec &lt;db_container&gt; psql -U supabase_admin -d _supabase \
+    <h2>Fix</h2>
+    <p>Conectar a la base donde Supavisor está apuntando (la URL de conexión está en su variable de entorno <code>DATABASE_URL</code>), y crear el schema con el dueño correcto:</p>
+    <pre><code>docker exec &lt;db_container&gt; psql -U supabase_admin -d _supabase \
   -c "CREATE SCHEMA IF NOT EXISTS _supavisor AUTHORIZATION supabase_admin;"</code></pre>
+    <p>Tras crear el schema, el siguiente intento del crash loop encuentra el espacio donde correr migraciones, las aplica (crea las tablas internas que necesita), y arranca limpio. No hay que reiniciar el contenedor manualmente: Docker ya lo está reintentando cada pocos segundos.</p>
 
-      <p>Tras crear el schema, el siguiente intento del crash loop encuentra el espacio donde correr migraciones, las aplica (crea las tablas internas que necesita), y arranca limpio. No hay que reiniciar el contenedor manualmente: Docker ya lo está reintentando cada pocos segundos.</p>
-
-      <h2>Verificación</h2>
-      <pre><code>$ docker ps --filter "name=supavisor"
+    <h2>Verificación</h2>
+    <pre><code>$ docker ps --filter "name=supavisor"
 NAME                          STATUS
 supabase-...-supavisor-1      Up 56 seconds (healthy)
 
 $ docker logs --tail 5 supabase-...-supavisor-1
 [info] HEAD /api/health
 [info] Sent 204 in 369µs</code></pre>
+    <p>Health checks fluyendo. Las apps que dependen del pooler recuperaron acceso transparentemente.</p>
 
-      <p>Health checks fluyendo. Las apps que dependen del pooler recuperaron acceso transparentemente.</p>
+    <h2>Lecciones</h2>
+    <ul>
+      <li>Los crash loops de Docker son <em>silenciosos</em> a nivel de monitoreo si no se observa específicamente <code>RestartCount</code> o se filtra <code>docker ps</code> por status. Vale la pena tener una alerta cuando algún contenedor supere N reintentos en M minutos.</li>
+      <li>Para diagnosticar errores de Ecto/Phoenix, ignora las primeras 30 líneas del stack: el error real suele estar bajo el ruido del migrator.</li>
+      <li>Los fixes de schema en bases productivas son <strong>idempotentes y baratos</strong> con <code>CREATE SCHEMA IF NOT EXISTS</code>. Si el schema ya existía, no pasa nada; si faltaba, queda creado.</li>
+    </ul>
 
-      <h2>Lecciones</h2>
-      <ul>
-        <li>Los crash loops de Docker son <em>silenciosos</em> a nivel de monitoreo si no se observa específicamente <code>RestartCount</code> o se filtra <code>docker ps</code> por status. Vale la pena tener una alerta cuando algún contenedor supere N reintentos en M minutos.</li>
-        <li>Para diagnosticar errores de Ecto/Phoenix, ignora las primeras 30 líneas del stack: el error real suele estar bajo el ruido del migrator.</li>
-        <li>Los fixes de schema en bases productivas son <strong>idempotentes y baratos</strong> con <code>CREATE SCHEMA IF NOT EXISTS</code>. Si el schema ya existía, no pasa nada; si faltaba, queda creado.</li>
-      </ul>
+    <div class="callout ok">
+      <strong>Tiempo total de la intervención:</strong> ~4 minutos desde el diagnóstico hasta verificar healthy. El crash loop llevaba activo aproximadamente un mes.
+    </div>
+  </article></main>
 
-      <div class="callout ok">
-        <strong>Tiempo total de la intervención:</strong> ~4 minutos desde el diagnóstico hasta verificar healthy. El crash loop llevaba activo aproximadamente un mes.
-      </div>
-    </article>
-
-    <footer>
-      <a href="../index.html">← volver al índice</a>
-    </footer>
-  </main>
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital">github</a></div>
+  </div></footer>
 </body>
 </html>

@@ -15,11 +15,7 @@ const path = require("path");
 const DOCS_DIR = path.join(__dirname, "docs");
 const OUT = path.join(__dirname, "index.html");
 
-const ORDER = [
-  "INFRAESTRUCTURA",
-  "AUTOMATIZACIÓN",
-  "CAPACIDADES",
-];
+const ORDER = ["INFRAESTRUCTURA", "AUTOMATIZACIÓN", "CAPACIDADES"];
 
 function extract(html, name) {
   const tag = name === "title"
@@ -62,16 +58,28 @@ const cats = Object.keys(grouped).sort((a, b) => {
   return ai - bi;
 });
 
+// Numeración global (basada en orden cronológico)
+let globalNum = 0;
+const allOrdered = [];
+for (const cat of cats) for (const e of grouped[cat]) {
+  globalNum += 1;
+  e.num = String(globalNum).padStart(2, "0");
+  allOrdered.push(e);
+}
+
 const sections = cats.map((cat) => `
       <section class="section">
         <h2>${escape(cat)}</h2>
-${grouped[cat].map((e) => `        <a class="entry" href="docs/${escape(e.file)}">
-          <div>
-            <p class="entry-title">${escape(e.title)}</p>
-            <p class="entry-desc">${escape(e.description)}</p>
-          </div>
-          <div class="entry-meta">${escape(e.date)}</div>
-        </a>`).join("\n")}
+        <div class="entries">
+${grouped[cat].map((e) => `          <a class="entry" href="docs/${escape(e.file)}">
+            <div class="entry-num">${e.num}</div>
+            <div class="entry-body">
+              <div class="entry-title">${escape(e.title)}</div>
+              <div class="entry-desc">${escape(e.description)}</div>
+            </div>
+            <div class="entry-meta">${escape(e.date)}</div>
+          </a>`).join("\n")}
+        </div>
       </section>`).join("\n");
 
 const buildId = new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC";
@@ -81,27 +89,42 @@ const out = `<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>docs.mystoredigital.cloud</title>
+  <title>docs · My Store Digital</title>
   <meta name="description" content="Documentación técnica de procesos, integraciones y capacidades de la infraestructura de My Store Digital.">
+  <link rel="icon" href="assets/isotipo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="/">
+        <img class="iso" src="assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta">
+        <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="pill">Manual técnico</div>
+      <h1>Documentación <span class="accent">técnica</span>.<br>Procesos reales, ejecutables.</h1>
+      <p class="lede">Cada entrada documenta una intervención real ejecutada en producción: qué problema resolvía, cómo se atacó y qué quedó operando. Pensado para que un cliente entienda el alcance y para que un técnico pueda reproducirlo.</p>
+    </div>
+  </header>
+
   <main class="shell">
-    <div class="brand">
-      <span class="dot"></span>
-      <span>docs.mystoredigital.cloud</span>
-    </div>
-
-    <div class="hero">
-      <h1>Documentación técnica</h1>
-      <p class="lede">Procesos, integraciones y capacidades de nuestra infraestructura. Cada entrada documenta una intervención real ejecutada en producción, con la lógica del por qué y el cómo replicarla.</p>
-    </div>
 ${sections}
-
-    <footer>
-      My Store Digital · ${entries.length} documento${entries.length === 1 ? "" : "s"} · build ${escape(buildId)} · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital">github</a>
-    </footer>
   </main>
+
+  <footer class="site">
+    <div class="inner">
+      <img src="assets/logo.svg" alt="My Store Digital">
+      <div class="meta">${entries.length} documento${entries.length === 1 ? "" : "s"} · build ${escape(buildId)} · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </footer>
 </body>
 </html>
 `;

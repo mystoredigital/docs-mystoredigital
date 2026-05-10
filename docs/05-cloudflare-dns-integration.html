@@ -7,55 +7,63 @@
   <meta name="description" content="Token con scope mínimo, gestión de zones y registros A vía API para automatizar despliegues con subdominio.">
   <meta name="category" content="AUTOMATIZACIÓN">
   <meta name="date" content="2026-05-10">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../styles.css">
 </head>
-<body class="doc">
-  <main class="shell">
-    <div class="brand">
-      <span class="dot"></span>
-      <a href="../index.html" class="back">docs.mystoredigital.cloud</a>
-      <span class="sep">/</span>
-      <span class="crumb">cloudflare-dns-integration</span>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
     </div>
+  </nav>
 
-    <article>
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Automatización</div>
       <h1>Integración programática con Cloudflare DNS</h1>
-      <div class="doc-meta">
-        <span class="pill">AUTOMATIZACIÓN</span>
-        <span>2026-05-10</span>
+      <p class="lede">Token con scope mínimo y gestión idempotente de registros A para subdominios de apps, sin tocar la UI.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-05-10</span>
+        <span><strong>Sistema</strong> · Cloudflare API v4 · Let's Encrypt</span>
       </div>
+    </div>
+  </header>
 
-      <p>Para que un despliegue sea verdaderamente end-to-end, el subdominio donde la app va a vivir tiene que crearse automáticamente. Cloudflare expone una API REST limpia que permite hacerlo en una llamada, una vez se tiene un token con scope correcto.</p>
+  <main class="doc-body"><article>
+    <p>Para que un despliegue sea verdaderamente end-to-end, el subdominio donde la app va a vivir tiene que crearse automáticamente. Cloudflare expone una API REST limpia que permite hacerlo en una llamada, una vez se tiene un token con scope correcto.</p>
 
-      <h2>Generación del token con scope mínimo</h2>
-      <p>El principio aplicado es <strong>least privilege</strong>: el token solo puede editar registros DNS de los zones explícitos que va a gestionar, no toca firewall, no toca billing, no puede crear nuevos zones.</p>
-
-      <p>En <code>https://dash.cloudflare.com/profile/api-tokens</code> se crea un token con plantilla <em>"Edit zone DNS"</em> o configuración custom:</p>
-      <ul>
-        <li>Permission: <code>Zone — DNS — Edit</code></li>
-        <li>Permission: <code>Zone — Zone — Read</code></li>
-        <li>Zone Resources: específicos (solo los dominios bajo gestión, no <em>"all zones"</em>)</li>
-      </ul>
-
-      <p>Verificación del token y listado de zones accesibles:</p>
-      <pre><code>curl -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+    <h2>Generación del token con scope mínimo</h2>
+    <p>El principio aplicado es <strong>least privilege</strong>: el token solo puede editar registros DNS de los zones explícitos que va a gestionar, no toca firewall, no toca billing, no puede crear nuevos zones.</p>
+    <p>En <code>https://dash.cloudflare.com/profile/api-tokens</code> se crea un token con plantilla <em>"Edit zone DNS"</em> o configuración custom:</p>
+    <ul>
+      <li>Permission: <code>Zone — DNS — Edit</code></li>
+      <li>Permission: <code>Zone — Zone — Read</code></li>
+      <li>Zone Resources: específicos (solo los dominios bajo gestión, no <em>"all zones"</em>)</li>
+    </ul>
+    <p>Verificación del token y listado de zones accesibles:</p>
+    <pre><code>curl -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   https://api.cloudflare.com/client/v4/user/tokens/verify
 
 curl -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   "https://api.cloudflare.com/client/v4/zones?per_page=50"</code></pre>
 
-      <h2>Esquema de operación típico</h2>
+    <h2>Esquema de operación típico</h2>
 
-      <h3>1. Resolver el zone_id del dominio</h3>
-      <pre><code>GET /zones?name=mystoredigital.cloud
+    <h3>1. Resolver el zone_id del dominio</h3>
+    <pre><code>GET /zones?name=mystoredigital.cloud
 → result[0].id  →  a29f55cabbff8a3262bb6bc1e4d4d0ee</code></pre>
-      <p>El <code>zone_id</code> es estable; en deployments repetidos se cachea para evitar la llamada extra.</p>
+    <p>El <code>zone_id</code> es estable; en deployments repetidos se cachea para evitar la llamada extra.</p>
 
-      <h3>2. Buscar si ya existe el registro</h3>
-      <pre><code>GET /zones/{zone_id}/dns_records?name=docs.mystoredigital.cloud&amp;type=A</code></pre>
+    <h3>2. Buscar si ya existe el registro</h3>
+    <pre><code>GET /zones/{zone_id}/dns_records?name=docs.mystoredigital.cloud&amp;type=A</code></pre>
 
-      <h3>3. Crear o actualizar (idempotente)</h3>
-      <pre><code>POST /zones/{zone_id}/dns_records
+    <h3>3. Crear o actualizar (idempotente)</h3>
+    <pre><code>POST /zones/{zone_id}/dns_records
 {
   "type": "A",
   "name": "docs.mystoredigital.cloud",
@@ -64,21 +72,18 @@ curl -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   "proxied": true,
   "comment": "Auto-creado por pipeline de despliegue"
 }</code></pre>
+    <p><code>ttl: 1</code> equivale a "automático" en Cloudflare. <code>proxied: true</code> activa la nube naranja: el tráfico va por edge de Cloudflare con CDN, DDoS protection y HTTPS terminación en edge. <code>proxied: false</code> deja DNS-only para servicios donde se necesita la IP real (SSH, conexiones TCP no-HTTP).</p>
 
-      <p><code>ttl: 1</code> equivale a "automático" en Cloudflare. <code>proxied: true</code> activa la nube naranja: el tráfico va por edge de Cloudflare con CDN, DDoS protection y HTTPS terminación en edge. <code>proxied: false</code> deja DNS-only para servicios donde se necesita la IP real (SSH, conexiones TCP no-HTTP).</p>
+    <h2>Convivencia con Let's Encrypt en el origen</h2>
+    <p>Una pregunta frecuente: si Cloudflare ya termina HTTPS en su edge, ¿necesitamos certificado en el origen? Sí, si el modo SSL del zone está en <strong>Full</strong> o <strong>Full (Strict)</strong>, Cloudflare necesita conectarse al origen vía HTTPS. Traefik resuelve esto con Let's Encrypt automáticamente, vía challenge HTTP-01 que pasa transparente a través del proxy de Cloudflare.</p>
 
-      <h2>Convivencia con Let's Encrypt en el origen</h2>
-      <p>Una pregunta frecuente: si Cloudflare ya termina HTTPS en su edge, ¿necesitamos certificado en el origen?</p>
+    <div class="callout warn">
+      <strong>Gotcha.</strong> El challenge HTTP-01 funciona porque Cloudflare proxy permite el tráfico hacia <code>/.well-known/acme-challenge/...</code> sin alterarlo. Pero si tienes habilitado <em>Always Use HTTPS</em> con <em>HSTS</em> agresivo o <em>Page Rules</em> que reescriben URLs, el challenge puede fallar. La salida segura es el challenge DNS-01 (que requiere darle al certificador permisos de DNS también).
+    </div>
 
-      <p>Respuesta: sí, si el modo SSL del zone está en <strong>Full</strong> o <strong>Full (Strict)</strong>, Cloudflare necesita conectarse al origen vía HTTPS. Traefik resuelve esto con Let's Encrypt automáticamente, vía challenge HTTP-01 que pasa transparente a través del proxy de Cloudflare.</p>
-
-      <div class="callout warn">
-        <strong>Gotcha.</strong> El challenge HTTP-01 funciona porque Cloudflare proxy permite el tráfico hacia <code>/.well-known/acme-challenge/...</code> sin alterarlo. Pero si tienes habilitado <em>Always Use HTTPS</em> con <em>HSTS</em> agresivo o <em>Page Rules</em> que reescriben URLs, el challenge puede fallar. La salida segura es el challenge DNS-01 (que requiere darle al certificador permisos de DNS también).
-      </div>
-
-      <h2>Lo que esto destraba</h2>
-      <p>Combinado con el resto del pipeline (GitHub + Dokploy + Traefik), un despliegue completo se reduce a:</p>
-      <pre><code># 1. Push de código
+    <h2>Lo que esto destraba</h2>
+    <p>Combinado con el resto del pipeline (GitHub + Dokploy + Traefik), un despliegue completo se reduce a:</p>
+    <pre><code># 1. Push de código
 git push
 
 # 2. Crear DNS automáticamente
@@ -89,16 +94,15 @@ POST /zones/{id}/dns_records  (proxied=true → 72.60.27.13)
 # 5. Cloudflare termina HTTPS en edge con su propio cert universal
 
 → https://nuevaapp.tudominio.com  (SSL + CDN + DDoS protect)</code></pre>
+    <p>Tiempo total típico desde <code>git push</code> hasta URL operativa: 2-4 minutos, dominado por el build de Docker y la propagación DNS (que Cloudflare hace cuasi-instantánea).</p>
 
-      <p>Tiempo total típico desde <code>git push</code> hasta URL operativa: 2-4 minutos, dominado por el build de Docker y la propagación DNS (que Cloudflare hace cuasi-instantánea).</p>
+    <h2>Auditoría de cambios</h2>
+    <p>Cada llamada de la API pasa por logs en <em>Audit Logs</em> de Cloudflare, identificada por el token. Si en algún momento se compromete o se sospecha de un cambio rogue, se revoca el token desde el dashboard y se rota; los registros que el token creó siguen intactos.</p>
+  </article></main>
 
-      <h2>Auditoría de cambios</h2>
-      <p>Cada llamada de la API pasa por logs en <em>Audit Logs</em> de Cloudflare, identificada por el token. Si en algún momento se compromete o se sospecha de un cambio rogue, se revoca el token desde el dashboard y se rota; los registros que el token creó siguen intactos.</p>
-    </article>
-
-    <footer>
-      <a href="../index.html">← volver al índice</a>
-    </footer>
-  </main>
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital">github</a></div>
+  </div></footer>
 </body>
 </html>

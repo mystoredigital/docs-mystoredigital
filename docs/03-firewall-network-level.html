@@ -7,35 +7,45 @@
   <meta name="description" content="Reducción de superficie de ataque mediante firewall a nivel de hipervisor con whitelist explícita.">
   <meta name="category" content="INFRAESTRUCTURA">
   <meta name="date" content="2026-05-10">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../styles.css">
 </head>
-<body class="doc">
-  <main class="shell">
-    <div class="brand">
-      <span class="dot"></span>
-      <a href="../index.html" class="back">docs.mystoredigital.cloud</a>
-      <span class="sep">/</span>
-      <span class="crumb">firewall-network-level</span>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
     </div>
+  </nav>
 
-    <article>
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Infraestructura</div>
       <h1>Firewall network-level con default-deny</h1>
-      <div class="doc-meta">
-        <span class="pill">INFRAESTRUCTURA</span>
-        <span>2026-05-10</span>
+      <p class="lede">Whitelist explícita a nivel de hipervisor. Reducción de 7 a 4 puertos expuestos, sin downtime, sin conflictos con Docker.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-05-10</span>
+        <span><strong>Sistema</strong> · Hostinger Firewall · Traefik · Docker Swarm</span>
       </div>
+    </div>
+  </header>
 
-      <p>Un VPS típico provisionado de fábrica deja todos los puertos abiertos al mundo. Cuando ya tiene apps corriendo, eso significa exponer dashboards internos, panels de admin, bases de datos directas y cualquier puerto que un servicio publique por error. La solución correcta es un firewall a nivel de hipervisor con default-deny, no UFW dentro del VM.</p>
+  <main class="doc-body"><article>
+    <p>Un VPS típico provisionado de fábrica deja todos los puertos abiertos al mundo. Cuando ya tiene apps corriendo, eso significa exponer dashboards internos, panels de admin, bases de datos directas y cualquier puerto que un servicio publique por error. La solución correcta es un firewall a nivel de hipervisor con default-deny, no UFW dentro del VM.</p>
 
-      <h2>Por qué firewall de hipervisor y no UFW</h2>
-      <ul>
-        <li><strong>Docker bypassa iptables.</strong> Cuando Docker publica un puerto vía <code>-p 80:80</code>, lo agrega a una cadena propia (<code>DOCKER</code>) que se ejecuta antes que las reglas de UFW. Resultado: tu UFW puede decir DENY en el 80 y el contenedor sigue siendo accesible.</li>
-        <li><strong>Hypervisor firewall corre antes del VM.</strong> El paquete jamás llega al VM si la regla lo bloquea. Cero latencia añadida y cero conflicto con orquestadores.</li>
-        <li><strong>Cambios sin downtime.</strong> Las reglas se aplican en caliente, sin reiniciar nada.</li>
-      </ul>
+    <h2>Por qué firewall de hipervisor y no UFW</h2>
+    <ul>
+      <li><strong>Docker bypassa iptables.</strong> Cuando Docker publica un puerto vía <code>-p 80:80</code>, lo agrega a una cadena propia (<code>DOCKER</code>) que se ejecuta antes que las reglas de UFW. Resultado: tu UFW puede decir DENY en el 80 y el contenedor sigue siendo accesible.</li>
+      <li><strong>Hypervisor firewall corre antes del VM.</strong> El paquete jamás llega al VM si la regla lo bloquea. Cero latencia añadida y cero conflicto con orquestadores.</li>
+      <li><strong>Cambios sin downtime.</strong> Las reglas se aplican en caliente, sin reiniciar nada.</li>
+    </ul>
 
-      <h2>Inventario previo: qué puertos están escuchando</h2>
-      <pre><code>$ ss -tlnp | head -10
+    <h2>Inventario previo: qué puertos están escuchando</h2>
+    <pre><code>$ ss -tlnp | head -10
 LISTEN  0.0.0.0:443      docker-proxy   # Traefik
 LISTEN  0.0.0.0:80       docker-proxy   # Traefik
 LISTEN  0.0.0.0:32769    docker-proxy   # Nextcloud directo
@@ -43,31 +53,29 @@ LISTEN  0.0.0.0:22       sshd
 LISTEN  0.0.0.0:3000     docker-proxy   # Dokploy panel directo
 LISTEN  0.0.0.0:31000    docker-proxy   # MDM device check-in</code></pre>
 
-      <p>Tres tipos de puertos:</p>
-      <ol>
-        <li><strong>Necesarios al mundo:</strong> 80, 443 (Traefik) y posiblemente uno específico de protocolo (en este caso 31000 para clientes MDM).</li>
-        <li><strong>Necesarios pero solo a tu IP:</strong> 22 (SSH).</li>
-        <li><strong>Innecesarios al mundo:</strong> 3000 y 32769 — son interfaces de admin que ya están detrás de Traefik con un subdominio HTTPS. Exponerlas directo es duplicar la superficie sin agregar valor.</li>
-      </ol>
+    <p>Tres tipos de puertos:</p>
+    <ol>
+      <li><strong>Necesarios al mundo:</strong> 80, 443 (Traefik) y posiblemente uno específico de protocolo (en este caso 31000 para clientes MDM).</li>
+      <li><strong>Necesarios pero solo a tu IP:</strong> 22 (SSH).</li>
+      <li><strong>Innecesarios al mundo:</strong> 3000 y 32769 — son interfaces de admin que ya están detrás de Traefik con un subdominio HTTPS. Exponerlas directo es duplicar la superficie sin agregar valor.</li>
+    </ol>
 
-      <h2>Reglas aplicadas</h2>
-      <table>
-        <thead>
-          <tr><th>Protocolo</th><th>Puerto</th><th>Origen</th><th>Justificación</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>TCP</td><td>22</td><td>IP del operador</td><td>SSH limitado, fail2ban innecesario</td></tr>
-          <tr><td>TCP</td><td>80</td><td>any</td><td>Traefik HTTP (redirige a HTTPS)</td></tr>
-          <tr><td>TCP</td><td>443</td><td>any</td><td>Traefik HTTPS</td></tr>
-          <tr><td>UDP</td><td>443</td><td>any</td><td>HTTP/3 (QUIC) vía Traefik</td></tr>
-          <tr><td>TCP</td><td>31000</td><td>any</td><td>MDM device check-in</td></tr>
-          <tr><td>ICMP</td><td>-</td><td>any</td><td>Ping/traceroute para monitoreo</td></tr>
-        </tbody>
-      </table>
-      <p>Todo lo demás cae al default-deny. Los puertos 3000 y 32769 ya no responden desde fuera, pero siguen accesibles internamente y por su subdominio HTTPS detrás de Traefik.</p>
+    <h2>Reglas aplicadas</h2>
+    <table>
+      <thead><tr><th>Protocolo</th><th>Puerto</th><th>Origen</th><th>Justificación</th></tr></thead>
+      <tbody>
+        <tr><td>TCP</td><td>22</td><td>IP del operador</td><td>SSH limitado, fail2ban innecesario</td></tr>
+        <tr><td>TCP</td><td>80</td><td>any</td><td>Traefik HTTP (redirige a HTTPS)</td></tr>
+        <tr><td>TCP</td><td>443</td><td>any</td><td>Traefik HTTPS</td></tr>
+        <tr><td>UDP</td><td>443</td><td>any</td><td>HTTP/3 (QUIC) vía Traefik</td></tr>
+        <tr><td>TCP</td><td>31000</td><td>any</td><td>MDM device check-in</td></tr>
+        <tr><td>ICMP</td><td>-</td><td>any</td><td>Ping/traceroute para monitoreo</td></tr>
+      </tbody>
+    </table>
+    <p>Todo lo demás cae al default-deny. Los puertos 3000 y 32769 ya no responden desde fuera, pero siguen accesibles internamente y por su subdominio HTTPS detrás de Traefik.</p>
 
-      <h2>Implementación vía API</h2>
-      <pre><code>POST /api/vps/v1/firewalls
+    <h2>Implementación vía API</h2>
+    <pre><code>POST /api/vps/v1/firewalls
   body: { name: "claudeclaw-vps" }
 
 # Por cada regla:
@@ -82,9 +90,9 @@ POST /api/vps/v1/firewalls/{id}/rules
 # Activar el firewall en el VM:
 POST /api/vps/v1/virtual-machines/{vm_id}/firewall/{firewall_id}</code></pre>
 
-      <h2>Verificación</h2>
-      <p>Desde la IP del operador:</p>
-      <pre><code>$ ssh root@vps "echo OK"
+    <h2>Verificación</h2>
+    <p>Desde la IP del operador:</p>
+    <pre><code>$ ssh root@vps "echo OK"
 OK                              # SSH permitido para mi IP
 
 $ curl -m 5 http://&lt;vps_ip&gt;:443
@@ -93,25 +101,21 @@ HTTP 404                        # responde, esperado
 $ curl -m 5 http://&lt;vps_ip&gt;:3000
 (timeout)                       # bloqueado, esperado</code></pre>
 
-      <p>Desde otra IP (probada con un VPS de prueba):</p>
-      <pre><code>$ ssh root@vps
-ssh: connect to host ... port 22: Connection timed out</code></pre>
+    <h2>Notas operativas</h2>
+    <ul>
+      <li>Si la IP del operador cambia (red móvil, viaje), se actualiza la regla por API en 5 segundos.</li>
+      <li>El default-deny aplica también a los puertos del Docker Swarm (2377, 7946, 4789), que estaban escuchando en <code>*</code> pero solo deberían usarse entre nodos del cluster — quedaron correctamente cerrados al exterior.</li>
+      <li>Conexiones ya establecidas no se cortan al activar el firewall, así que se puede aplicar sin downtime.</li>
+    </ul>
 
-      <h2>Notas operativas</h2>
-      <ul>
-        <li>Si la IP del operador cambia (red móvil, viaje), se actualiza la regla por API en 5 segundos.</li>
-        <li>El default-deny aplica también a los puertos del Docker Swarm (2377, 7946, 4789), que estaban escuchando en <code>*</code> pero solo deberían usarse entre nodos del cluster — quedaron correctamente cerrados al exterior.</li>
-        <li>Conexiones ya establecidas no se cortan al activar el firewall, así que se puede aplicar sin downtime.</li>
-      </ul>
+    <div class="callout ok">
+      <strong>Reducción de superficie:</strong> de 7 puertos expuestos al mundo a 4. Los dos paneles internos (Dokploy y Nextcloud direct port) ya no son alcanzables desde Internet, eliminando vectores de ataque dirigidos a versiones específicas de esos servicios.
+    </div>
+  </article></main>
 
-      <div class="callout ok">
-        <strong>Reducción de superficie:</strong> de 7 puertos expuestos al mundo a 4. Los dos paneles internos (Dokploy y Nextcloud direct port) ya no son alcanzables desde Internet, eliminando vectores de ataque dirigidos a versiones específicas de esos servicios.
-      </div>
-    </article>
-
-    <footer>
-      <a href="../index.html">← volver al índice</a>
-    </footer>
-  </main>
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital">github</a></div>
+  </div></footer>
 </body>
 </html>
