@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Affine — Nuestra nueva base de conocimiento (reemplaza Notion)</title>
+  <meta name="description" content="Guía rápida para el equipo: cómo acceder a Affine self-hosted, crear tu primer workspace, importar plantillas y usar la herramienta día a día.">
+  <meta name="category" content="HERRAMIENTAS">
+  <meta name="date" content="2026-05-16">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Herramientas</div>
+      <h1>Affine: nuestra nueva base de conocimiento</h1>
+      <p class="lede">Reemplazo de Notion, self-hosted en nuestra infraestructura. Docs, bases de datos, whiteboards y colaboración en tiempo real. Sin pagar por seats, con tu data en tus servidores.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-05-16</span>
+        <span><strong>URL</strong> · <a href="https://affine.mystoredigital.cloud" target="_blank" rel="noopener">affine.mystoredigital.cloud</a></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <h2>Qué es Affine y por qué dejamos Notion</h2>
+    <p>Affine es una alternativa open source a Notion. Cubre los mismos casos de uso (páginas anidadas, bases de datos tipo tablero/calendario/galería, whiteboards colaborativos, importación desde Notion) pero corre en nuestra propia infraestructura.</p>
+    <p>Razones del cambio:</p>
+    <ul>
+      <li><strong>Control de la data:</strong> todo vive en nuestro VPS Oracle + Cloudflare R2. Nadie de afuera puede leer ni filtrar nuestros documentos.</li>
+      <li><strong>Sin costo por usuario:</strong> hasta 10 seats incluidos en la versión gratuita self-hosted, sin pago a Affine la empresa.</li>
+      <li><strong>Migración natural desde Notion:</strong> Affine acepta directamente el export oficial de Notion (zip Markdown & CSV) y reconstruye la estructura de páginas.</li>
+      <li><strong>Open source genuino:</strong> licencia MIT, código completo en GitHub, sin módulos propietarios bloqueando funcionalidad básica.</li>
+    </ul>
+
+    <h2>Cómo entrar por primera vez</h2>
+
+    <h3>1. Abrir la URL</h3>
+    <p>Andá a <a href="https://affine.mystoredigital.cloud" target="_blank" rel="noopener">https://affine.mystoredigital.cloud</a> desde cualquier navegador. Funciona en Chrome, Firefox, Edge, Safari, Opera.</p>
+
+    <h3>2. Crear cuenta</h3>
+    <p>Click en <strong>Sign Up</strong> e ingresá tu email del trabajo. Affine te manda un código de 6 dígitos por correo (revisá la bandeja de entrada y spam). Pegás el código, definís tu nombre y password, y entrás.</p>
+    <div class="callout">
+      <strong>¿No te llega el correo?</strong> Avisá al admin. El SMTP de salida está configurado con Gmail Workspace; a veces Gmail demora hasta 1 minuto la primera vez que escribe a un destinatario nuevo.
+    </div>
+
+    <h3>3. Crear tu primer workspace</h3>
+    <p>Después de logueado, Affine te pide crear o unirte a un workspace. Si vas a usarlo para trabajo en equipo, elegí el tipo <strong>AFFiNE SelfHosted Cloud</strong>. <em>No</em> elijas "Local storage" salvo que quieras notas privadas que vivan solo en tu navegador y se pierdan al limpiar caché.</p>
+
+    <h3>4. Bajar la app de escritorio (opcional pero recomendado)</h3>
+    <p>La app desktop es más rápida que la web, funciona sin conexión y sincroniza al volver online. Descargala desde <a href="https://affine.pro/download" target="_blank" rel="noopener">affine.pro/download</a>. Al primer login, en "Server URL" poné <code>https://affine.mystoredigital.cloud</code> en lugar del cloud oficial de Affine.</p>
+
+    <h2>Importar tu workspace de Notion</h2>
+    <p>Si todavía tenés contenido en Notion, podés migrarlo de una:</p>
+    <ol>
+      <li>En Notion: <strong>Settings &amp; Members</strong> → <strong>Settings</strong> → <strong>Export all workspace content</strong> → formato <strong>Markdown &amp; CSV</strong> → download.</li>
+      <li>Si el zip pesa más de 100 MB, partilo: exportá cada página top-level por separado (click derecho sobre la página → Export → con subpáginas incluidas). Cada zip queda más chico y se sube independiente.</li>
+      <li>En Affine: dentro de tu workspace, sidebar → <strong>Importar</strong> → seleccioná <strong>Notion</strong> → arrastrás el zip.</li>
+      <li>Affine reconstruye la estructura de páginas. Las bases de datos vienen como tablas que podés cambiar de vista (kanban, calendario, galería).</li>
+    </ol>
+
+    <h2>Plantillas oficiales</h2>
+    <p>Affine ofrece un catálogo de plantillas en <a href="https://affine.pro/templates" target="_blank" rel="noopener">affine.pro/templates</a> (planners, kanbans, agendas, SOPs, vision boards, etc.). Como nuestra instancia es self-hosted, para importarlas usamos una página propia que reescribe el link de forma transparente:</p>
+    <ol>
+      <li>Andá a <a href="https://affine.pro/templates" target="_blank" rel="noopener">affine.pro/templates</a> y abrí la plantilla que querés.</li>
+      <li>Click derecho sobre el botón <strong>"Use this template"</strong> → <strong>Copy link</strong>.</li>
+      <li>Abrí <a href="https://affine.mystoredigital.cloud/template-cdn/" target="_blank" rel="noopener">affine.mystoredigital.cloud/template-cdn/</a></li>
+      <li>Pegá el link en el input → click <strong>Importar</strong>.</li>
+      <li>Te redirige a tu Affine con la plantilla cargada.</li>
+    </ol>
+    <div class="callout">
+      <strong>Por qué hace falta este paso extra:</strong> el CDN oficial de Affine no permite cross-origin para servers ajenos. Configuramos un proxy interno con CORS habilitado para que el flujo funcione idéntico al SaaS.
+    </div>
+
+    <h2>Conceptos básicos para arrancar</h2>
+
+    <h3>Docs (páginas)</h3>
+    <p>Cada doc es una página tipo Notion: combinás texto, listas, imágenes, tablas, bloques de código, embeds. Anidás páginas hijas arrastrándolas en la sidebar. Slash command (<code>/</code>) abre el menú de bloques.</p>
+
+    <h3>Databases</h3>
+    <p>Tabla con campos tipados (texto, número, fecha, select, multi-select, persona, etc.). Cambiás de vista entre tabla, kanban (por estado), calendario, galería, lista. Útil para tareas, leads, contenido editorial, planes de marketing.</p>
+
+    <h3>Edgeless / Whiteboard</h3>
+    <p>Modo lienzo infinito. Arrastrás docs, imágenes, frames y los conectás con flechas. Pensado para diagramar procesos, brainstorming, mapas de stakeholders. Es el equivalente al "Whiteboard" de Notion + algo de Miro.</p>
+
+    <h3>Workspaces y permisos</h3>
+    <p>Cada workspace tiene su propio set de docs, members y permisos. Roles: <strong>Owner</strong>, <strong>Admin</strong>, <strong>Editor</strong>, <strong>Viewer</strong>. Para invitar gente nueva al workspace: Settings (engranaje) → <strong>Members</strong> → <strong>Invite</strong> → ponés el email → la persona recibe un correo con link de invitación.</p>
+
+    <h2>Cosas prácticas que conviene saber</h2>
+    <ul>
+      <li><strong>Storage:</strong> los archivos que subas (imágenes, PDFs, videos) viven en Cloudflare R2. 10 GB gratis, después centavos por GB. Sin pagar por egress.</li>
+      <li><strong>Backup:</strong> la base de datos Postgres se respalda automáticamente. R2 es durable cross-region por default.</li>
+      <li><strong>Tamaño máximo de archivo:</strong> 100 MB por archivo individual. Si necesitás subir algo más grande (un video corto, por ejemplo), usá un link a Google Drive o YouTube embed.</li>
+      <li><strong>Búsqueda:</strong> Affine indexa todo el contenido. <code>Ctrl+K</code> (o <code>Cmd+K</code> en Mac) abre la búsqueda rápida.</li>
+      <li><strong>AI:</strong> está desactivada por ahora. Si la necesitamos, podemos activarla conectando una OpenAI/Anthropic API key.</li>
+    </ul>
+
+    <h2>Si algo falla</h2>
+    <p>Reportá al equipo de infra con estos datos:</p>
+    <ul>
+      <li>Qué intentabas hacer (crear página, importar, invitar member, etc.).</li>
+      <li>Qué mensaje de error apareció (screenshot si se puede).</li>
+      <li>El navegador / dispositivo que usás.</li>
+      <li>Si funcionó antes y desde cuándo no funciona.</li>
+    </ul>
+
+    <h2>Referencias</h2>
+    <ul>
+      <li>Documentación oficial: <a href="https://docs.affine.pro/" target="_blank" rel="noopener">docs.affine.pro</a></li>
+      <li>Templates: <a href="https://affine.pro/templates" target="_blank" rel="noopener">affine.pro/templates</a></li>
+      <li>Descarga apps: <a href="https://affine.pro/download" target="_blank" rel="noopener">affine.pro/download</a></li>
+      <li>Repo de nuestra instancia: <a href="https://github.com/My-Store-Digital-Team/affine" target="_blank" rel="noopener">github.com/My-Store-Digital-Team/affine</a></li>
+    </ul>
+
+  </article></main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>My Store Digital · docs internos</span>
+      <span><a href="../index.html">Volver al índice</a></span>
+    </div>
+  </footer>
+</body>
+</html>
