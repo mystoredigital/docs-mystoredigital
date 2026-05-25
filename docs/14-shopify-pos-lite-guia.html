@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopify POS Lite — Guía de tu punto de venta físico</title>
+  <meta name="description" content="Cómo activar y usar Shopify POS Lite (incluido en tu plan, sin costo extra) para vender en tu tienda física con inventario sincronizado al e-commerce.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-05-25">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Capacidades</div>
+      <h1>Shopify POS Lite: vendé en físico y en línea desde una sola plataforma</h1>
+      <p class="lede">Guía completa de Shopify POS Lite, la solución de punto de venta incluida en tu plan de Shopify. Conecta tu tienda física con tu inventario online sin pagar nada extra.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-05-25</span>
+        <span><strong>Sistema</strong> · Shopify · App iOS/Android</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <h2>Resumen ejecutivo</h2>
+    <p>Shopify POS Lite es el punto de venta físico que viene incluido en cualquier plan pago de Shopify. No paga nada adicional, descuenta inventario en tiempo real y funciona desde un celular o tablet con la app gratuita de Shopify POS.</p>
+    <ul>
+      <li><strong>Costo:</strong> $0 adicionales. Ya está incluido en el plan.</li>
+      <li><strong>Inventario:</strong> cada venta física descuenta automáticamente del stock online.</li>
+      <li><strong>Dispositivo:</strong> solo necesita un celular con iOS o Android.</li>
+    </ul>
+
+    <h2>POS Lite vs POS Pro</h2>
+    <p>Shopify tiene dos versiones de su punto de venta. Para una sola sucursal sin personal múltiple con permisos diferenciados, <strong>POS Lite es más que suficiente</strong>. POS Pro cuesta USD $89/mes adicionales por sucursal y solo se justifica cuando hay varios empleados, varias tiendas, o flujos como retira-en-tienda de pedidos online.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Función</th>
+          <th>POS Lite (incluido)</th>
+          <th>POS Pro (+$89/mes)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Aceptar pagos en persona</td><td>Sí</td><td>Sí</td></tr>
+        <tr><td>Descuento automático de inventario</td><td>Sí</td><td>Sí</td></tr>
+        <tr><td>Códigos de descuento</td><td>Sí</td><td>Sí</td></tr>
+        <tr><td>Reembolsos y devoluciones</td><td>Sí</td><td>Sí</td></tr>
+        <tr><td>Recibos digitales (email / SMS)</td><td>Sí</td><td>Sí</td></tr>
+        <tr><td>Perfiles de clientes básicos</td><td>Sí</td><td>Sí</td></tr>
+        <tr><td>Sincronización con la tienda online</td><td>Sí</td><td>Sí</td></tr>
+        <tr><td>Empleados ilimitados con permisos</td><td>No</td><td>Sí</td></tr>
+        <tr><td>Devoluciones cruzadas entre sucursales</td><td>No</td><td>Sí</td></tr>
+        <tr><td>Compra online / retiro en tienda</td><td>No</td><td>Sí</td></tr>
+        <tr><td>Informes de ventas avanzados</td><td>Básico</td><td>Sí</td></tr>
+        <tr><td>Combinaciones de descuentos automáticos</td><td>No</td><td>Sí</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Qué incluye POS Lite</h2>
+    <p>Todo lo necesario para una tienda física de una sola ubicación, sin pagar un centavo extra.</p>
+    <ul>
+      <li><strong>Pagos en persona.</strong> Efectivo, tarjeta de crédito/débito o pagos digitales. El método se configura según el procesador local.</li>
+      <li><strong>Inventario en tiempo real.</strong> Cada venta física descuenta el stock automáticamente, tanto en la tienda como en el e-commerce.</li>
+      <li><strong>Descuentos y promociones.</strong> Aplica códigos o porcentajes manuales directamente desde la app.</li>
+      <li><strong>Devoluciones simples.</strong> Procesa reembolsos desde el historial de pedidos de la app.</li>
+      <li><strong>Recibos digitales.</strong> Envía el recibo por email o SMS. No necesitás impresora (aunque podés conectar una).</li>
+      <li><strong>Perfiles de clientes.</strong> Registra clientes en el momento de la venta para hacer seguimiento de historial de compras.</li>
+      <li><strong>Búsqueda de productos.</strong> Buscá por nombre, escaneá código de barras o navegá por colecciones.</li>
+      <li><strong>Reportes básicos.</strong> Ventas del día, productos más vendidos e historial desde el panel de Shopify.</li>
+    </ul>
+
+    <h2>Cómo activarlo en 4 pasos</h2>
+    <p>La configuración inicial toma menos de 15 minutos.</p>
+
+    <h3>1. Configurá tu ubicación física en Shopify</h3>
+    <p>Desde el panel de administración andá a <strong>Configuración → Ubicaciones</strong>. Creá o editá la ubicación de tu tienda física. Esa ubicación se enlaza con el inventario disponible en ese punto, así Shopify sabe qué stock descontar cuando se haga una venta presencial.</p>
+
+    <h3>2. Descargá la app Shopify POS</h3>
+    <p>Buscá <strong>"Shopify POS"</strong> en App Store (iOS) o Google Play (Android). Iniciá sesión con la misma cuenta de Shopify. La app detecta automáticamente tu plan y activa POS Lite sin pasos adicionales.</p>
+
+    <h3>3. Configurá los métodos de pago</h3>
+    <p>Dentro de la app, andá a <strong>Configuración → Pagos</strong>. Activá <strong>efectivo</strong> como mínimo. Si usás un datáfono externo (Wompi, Bold, Nequi, Bancolombia, etc.), creá un método de pago personalizado llamado <code>Tarjeta</code> para registrar esos cobros manualmente. El pedido y el descuento de inventario quedan registrados en Shopify igual.</p>
+
+    <h3>4. Personalizá la pantalla de inicio del POS</h3>
+    <p>Desde la app podés definir qué productos o colecciones aparecen en la pantalla principal para agilizar el cobro. También podés agregar accesos rápidos a descuentos frecuentes.</p>
+
+    <h2>Flujo de una venta en la tienda</h2>
+    <p>Así se ve el proceso desde que llega un cliente hasta que se cierra la venta:</p>
+    <ol>
+      <li><strong>Buscar el producto.</strong> Por nombre, escaneando código de barras o navegando colecciones.</li>
+      <li><strong>Agregar al carrito.</strong> Ajustar cantidad y aplicar descuentos si corresponde.</li>
+      <li><strong>Cobrar al cliente.</strong> Efectivo o tarjeta mediante el datáfono externo.</li>
+      <li><strong>Cerrar la venta.</strong> Shopify descuenta el inventario automáticamente, tanto del stock físico como del online, y envía el recibo digital.</li>
+    </ol>
+
+    <h2>Importante para Colombia: pagos con tarjeta</h2>
+    <div class="callout warn">
+      <strong>Shopify Payments aún no opera en Colombia.</strong> Esto significa que no se puede conectar directamente un datáfono nativo de Shopify. La solución es usar cualquier datáfono o pasarela local y registrar el cobro como un método personalizado dentro del POS.
+    </div>
+    <p>Opciones de procesamiento de pagos que funcionan junto a POS Lite en Colombia:</p>
+    <ul>
+      <li><strong>Wompi</strong> — pasarela colombiana, datáfono físico y link de pago.</li>
+      <li><strong>Bold</strong> — datáfono móvil bluetooth, muy popular para tiendas pequeñas.</li>
+      <li><strong>Nequi</strong> — pagos por QR o número de celular.</li>
+      <li><strong>Bancolombia</strong> — datáfono tradicional o QR.</li>
+    </ul>
+    <p>En cualquier caso, el flujo es: el cliente paga por el medio externo, vos confirmás en el POS de Shopify usando el método personalizado <code>Tarjeta</code>, y Shopify cierra la venta, descuenta inventario y emite el recibo.</p>
+
+    <h2>Cuándo justifica saltar a POS Pro</h2>
+    <p>POS Pro solo se justifica si aplica al menos uno de estos escenarios:</p>
+    <ul>
+      <li>Tenés <strong>más de una sucursal física</strong> y necesitás devoluciones cruzadas o transferencias de stock entre tiendas.</li>
+      <li>Tenés <strong>varios empleados</strong> con permisos diferenciados (cajero, supervisor, admin).</li>
+      <li>Ofrecés <strong>compra online y retiro en tienda</strong> como flujo formal.</li>
+      <li>Necesitás <strong>reportes de venta diarios avanzados</strong> por turno, por cajero o por hora.</li>
+    </ul>
+    <div class="callout">
+      <strong>Recomendación.</strong> Empezar siempre con POS Lite. Solo migrar a POS Pro cuando alguno de los escenarios anteriores se convierta en un cuello de botella real, no antes.
+    </div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
