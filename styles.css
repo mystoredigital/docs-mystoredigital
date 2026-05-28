@@ -434,6 +434,257 @@ a:hover { color: var(--orange); }
 .callout.warn strong { color: #B45309; }
 .callout.ok { border-left-color: var(--green); background: #D1FAE5; }
 .callout.ok strong { color: #047857; }
+.callout.info { border-left-color: var(--blue); background: #DBEAFE; }
+.callout.info strong { color: #1D4ED8; }
+.callout.risk { border-left-color: var(--red); background: #FEE2E2; }
+.callout.risk strong { color: #B91C1C; }
+
+/* ─────────────────────────────────────────────────
+   SUMMARY CARD — TLDR / metadata block para abrir un doc
+   ───────────────────────────────────────────────── */
+.summary-card {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 0 0 32px;
+}
+.summary-card .summary-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange-dark);
+  margin-bottom: 12px;
+}
+.summary-card p { margin: 0 0 8px; font-size: 15px; color: var(--gray-800); }
+.summary-card p:last-child { margin-bottom: 0; }
+
+/* ─────────────────────────────────────────────────
+   KV-GRID — bloque de metadata clave/valor
+   ───────────────────────────────────────────────── */
+.kv-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 24px;
+  margin: 22px 0;
+  font-size: 14px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  padding: 18px 22px;
+}
+.kv-grid dt {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  font-weight: 600;
+  padding-top: 2px;
+}
+.kv-grid dd { margin: 0; color: var(--gray-900); }
+
+/* ─────────────────────────────────────────────────
+   STATUS BADGES — chips de estado
+   ───────────────────────────────────────────────── */
+.status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.status.pending     { background: #FEF3C7; color: #B45309; }
+.status.in-progress { background: #DBEAFE; color: #1D4ED8; }
+.status.done        { background: #D1FAE5; color: #047857; }
+.status.risk        { background: #FEE2E2; color: #B91C1C; }
+.status.neutral     { background: var(--gray-200); color: var(--gray-700); }
+.status.brand       { background: var(--orange-tint); color: var(--orange-dark); }
+
+/* ─────────────────────────────────────────────────
+   COLLAPSIBLES — secciones plegables auditables
+   ───────────────────────────────────────────────── */
+.doc-body details.collapse {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  margin: 14px 0;
+  overflow: hidden;
+  transition: border-color 120ms;
+}
+.doc-body details.collapse[open] { border-color: var(--orange-light); }
+.doc-body details.collapse summary {
+  padding: 16px 22px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15.5px;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  list-style: none;
+  user-select: none;
+}
+.doc-body details.collapse summary::-webkit-details-marker { display: none; }
+.doc-body details.collapse summary::before {
+  content: "▸";
+  color: var(--orange);
+  font-size: 12px;
+  transition: transform 140ms;
+  flex-shrink: 0;
+}
+.doc-body details.collapse[open] summary::before { transform: rotate(90deg); }
+.doc-body details.collapse summary .title { flex: 1; }
+.doc-body details.collapse .collapse-body {
+  padding: 4px 22px 18px;
+  border-top: 1px solid var(--gray-200);
+  margin-top: 0;
+}
+.doc-body details.collapse .collapse-body > :first-child { margin-top: 14px; }
+.doc-body details.collapse .collapse-body > :last-child { margin-bottom: 0; }
+
+/* ─────────────────────────────────────────────────
+   STEPS — pasos numerados con estado
+   ───────────────────────────────────────────────── */
+.doc-body ol.steps {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+  counter-reset: step;
+}
+.doc-body ol.steps li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--gray-200);
+  margin: 0;
+  counter-increment: step;
+}
+.doc-body ol.steps li:last-child { border-bottom: none; }
+.doc-body ol.steps li::before {
+  content: counter(step);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--orange);
+  background: var(--orange-tint);
+  border-radius: 6px;
+  text-align: center;
+  line-height: 22px;
+  height: 22px;
+  margin-top: 1px;
+}
+.doc-body ol.steps li.done { color: var(--gray-600); }
+.doc-body ol.steps li.done::before {
+  content: "✓";
+  background: #D1FAE5;
+  color: #047857;
+}
+.doc-body ol.steps li.in-progress::before {
+  background: #DBEAFE;
+  color: #1D4ED8;
+}
+.doc-body ol.steps li.risk::before {
+  background: #FEE2E2;
+  color: #B91C1C;
+  content: "!";
+}
+
+/* ─────────────────────────────────────────────────
+   DECISIONS — timeline de decisiones tomadas
+   ───────────────────────────────────────────────── */
+.decisions {
+  border-left: 2px solid var(--gray-200);
+  padding: 4px 0 4px 22px;
+  margin: 24px 0;
+  position: relative;
+}
+.decisions .decision {
+  position: relative;
+  padding: 10px 0 14px;
+  font-size: 14.5px;
+}
+.decisions .decision::before {
+  content: "";
+  position: absolute;
+  left: -27px;
+  top: 18px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 1px var(--orange);
+}
+.decisions .decision .ts {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gray-500);
+  letter-spacing: 0.04em;
+  display: block;
+  margin-bottom: 4px;
+}
+.decisions .decision .what { display: block; color: var(--gray-900); font-weight: 600; margin-bottom: 4px; }
+.decisions .decision .why { display: block; color: var(--gray-600); font-size: 13.5px; }
+
+/* ─────────────────────────────────────────────────
+   PHASE — bloque de fase de un plan
+   ───────────────────────────────────────────────── */
+.phase {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-left: 4px solid var(--orange);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 16px 0;
+}
+.phase header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.phase header h3 {
+  font-size: 16px;
+  margin: 0;
+  flex: 1;
+  color: var(--black);
+}
+.phase.done { border-left-color: var(--green); background: #F0FDF4; }
+.phase.risk { border-left-color: var(--red); background: #FEF2F2; }
+.phase.pending { border-left-color: #D97706; background: #FFFBEB; }
+
+/* ─────────────────────────────────────────────────
+   TOC — tabla de contenidos opcional
+   ───────────────────────────────────────────────── */
+.toc {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 0 0 28px;
+  font-size: 14px;
+}
+.toc .toc-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange-dark);
+  margin-bottom: 8px;
+}
+.toc ol { padding-left: 20px; margin: 0; }
+.toc ol li { margin: 2px 0; }
+.toc a { color: var(--gray-800); }
+.toc a:hover { color: var(--orange-dark); }
 
 /* ─────────────────────────────────────────────────
    FOOTER
