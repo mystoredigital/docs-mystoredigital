@@ -102,7 +102,7 @@ const out = `<!doctype html>
         <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
       </a>
       <div class="nav-meta">
-        <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a>
+        <a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a>
       </div>
     </div>
   </nav>
@@ -122,7 +122,7 @@ ${sections}
   <footer class="site">
     <div class="inner">
       <img src="assets/logo.svg" alt="My Store Digital">
-      <div class="meta">${entries.length} documento${entries.length === 1 ? "" : "s"} · build ${escape(buildId)} · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+      <div class="meta">${entries.length} documento${entries.length === 1 ? "" : "s"} · build ${escape(buildId)} · <a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
     </div>
   </footer>
 </body>
