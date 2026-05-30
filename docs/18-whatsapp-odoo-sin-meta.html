@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WhatsApp nativo en Odoo — sin la API de Meta</title>
+  <meta name="description" content="Integración de WhatsApp con Odoo 19 mediante un agente propio (Baileys): enviar, recibir, IA y conversaciones unificadas en Discuss, con instancia privada por cliente.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-05-30">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Capacidades</div>
+      <h1>WhatsApp nativo en Odoo — sin la API de Meta</h1>
+      <p class="lede">Cómo integramos WhatsApp con Odoo 19 usando un agente propio: enviar, recibir, IA, y conversaciones unificadas en el inbox de Odoo — con una instancia privada por cliente.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-05-30</span>
+        <span><strong>Sistema</strong> · Odoo 19 · Baileys · Dokploy · Cloudflare</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué se hizo:</strong> integramos WhatsApp con Odoo sin depender de la WhatsApp Business API de Meta, usando un agente propio (Baileys) conectado a Odoo por API y webhooks.</p>
+      <p><strong>Por qué:</strong> el WhatsApp oficial de Odoo exige cuenta Meta verificada, plantillas aprobadas y costo por conversación. Para una PyME que solo quiere chatear con sus clientes desde Odoo, es fricción y costo innecesarios.</p>
+      <p><strong>Resultado:</strong> envío y recepción desde Odoo, conversaciones unificadas en el inbox de Conversaciones (Discuss), captación automática al CRM, sitio web que alimenta leads, IA opcional, y una instancia aislada y privada por cliente.</p>
+    </div>
+
+    <div class="toc">
+      <div class="toc-label">Contenido</div>
+      <ol>
+        <li><a href="#problema">El problema con el WhatsApp "oficial"</a></li>
+        <li><a href="#solucion">La solución: agente propio + módulo Odoo</a></li>
+        <li><a href="#negocio">Qué hace, de cara al negocio</a></li>
+        <li><a href="#privacidad">Privacidad: una instancia por cliente</a></li>
+        <li><a href="#stack">El stack técnico</a></li>
+        <li><a href="#para-quien">¿Para quién es esto?</a></li>
+        <li><a href="#cta">¿Quieres implementarlo?</a></li>
+      </ol>
+    </div>
+
+    <h2 id="problema">El problema con el WhatsApp "oficial" de Odoo</h2>
+    <p>El módulo WhatsApp de Odoo (Enterprise) es excelente, pero exige:</p>
+    <ul>
+      <li>Una cuenta <strong>Meta Business</strong> verificada.</li>
+      <li>Un número aprobado y <strong>plantillas pre-aprobadas</strong> por Meta para iniciar conversaciones.</li>
+      <li><strong>Costo por conversación</strong> según la tarifa de Meta por país.</li>
+      <li>Un proceso de aprobación que puede tardar días.</li>
+    </ul>
+    <p>Para una PyME que solo quiere <strong>chatear con sus clientes desde Odoo</strong> —responder dudas, enviar recordatorios de cartera, captar prospectos— eso es fricción y costo innecesarios.</p>
+
+    <h2 id="solucion">La solución: un agente de WhatsApp propio + un módulo Odoo</h2>
+    <p>La arquitectura tiene dos partes desacopladas que se comunican por HTTP:</p>
+    <pre><code>   Cliente (WhatsApp)
+        │  ▲
+        ▼  │
+  ┌──────────────────┐   POST /api/send (Bearer)     ┌──────────────────────┐
+  │  Agente WhatsApp  │ ◀──────────────────────────── │  Odoo (módulo propio) │
+  │  (Node + Baileys) │   webhook firmado (HMAC)       │  - Contactos / CRM    │
+  │  Dashboard + IA   │ ────────────────────────────▶ │  - Conversaciones     │
+  └──────────────────┘   message.received             └──────────────────────┘</code></pre>
+    <ul>
+      <li><strong>Agente WhatsApp</strong> — servicio Node.js basado en <strong>Baileys</strong> (conexión a WhatsApp Web por QR, sin Meta). Aporta: conexión multi-número, dashboard web en tiempo real, IA opcional (vía OpenRouter), webhooks firmados y anti-ban.</li>
+      <li><strong>Módulo Odoo</strong> — un addon que <strong>envía</strong> mensajes llamando al agente (<code>POST /api/send</code>), <strong>recibe</strong> mensajes vía un <strong>webhook firmado (HMAC-SHA256)</strong> en un endpoint propio, e integra todo en contactos, CRM y <strong>Conversaciones (Discuss)</strong>.</li>
+    </ul>
+    <div class="callout info"><strong>Info.</strong> El agente es <strong>independiente de Odoo</strong>. El mismo servicio puede servir a varios clientes, cada uno con su instancia aislada (ver más abajo).</div>
+
+    <h2 id="negocio">Qué hace, de cara al negocio</h2>
+
+    <h3>1. Enviar y recibir WhatsApp desde Odoo</h3>
+    <p>Un asistente "Enviar WhatsApp" desde la ficha del contacto, y un registro completo y trazable de cada mensaje (entrante/saliente, estado, fecha).</p>
+
+    <h3>2. Conversaciones unificadas en el inbox de Odoo</h3>
+    <p>Aquí está la magia: cada contacto tiene su <strong>canal de WhatsApp dentro de Conversaciones (Discuss)</strong>.</p>
+    <ul>
+      <li>Un mensaje entrante aparece como un chat normal en el inbox del equipo.</li>
+      <li><strong>Responder desde Conversaciones envía el WhatsApp</strong> automáticamente — el módulo intercepta el mensaje y lo releva al agente.</li>
+      <li>Inbox <strong>compartido</strong>: todo el equipo atiende las conversaciones desde un solo lugar.</li>
+    </ul>
+    <div class="callout ok"><strong>OK.</strong> Adiós a la dispersión de "el chatter por un lado, el WhatsApp por otro". Todo vive en Conversaciones, con badges de no leído.</div>
+
+    <h3>3. Captación automática de prospectos (CRM)</h3>
+    <ul>
+      <li>Un número <strong>desconocido</strong> que escribe → se <strong>crea el contacto</strong> automáticamente.</li>
+      <li>Además se <strong>crea un lead en el CRM</strong> → separa <em>venta</em> (número nuevo) de <em>soporte</em> (cliente existente).</li>
+      <li>Un número <strong>conocido</strong> → la conversación se <strong>enlaza a su contacto</strong> existente.</li>
+    </ul>
+
+    <h3>4. Sitio web que alimenta el CRM</h3>
+    <ul>
+      <li><strong>Botón flotante de WhatsApp</strong> en todas las páginas (click-to-chat).</li>
+      <li><strong>Formulario de cotización</strong> que crea un <strong>lead en el CRM</strong> de Odoo, con el producto/ramo de interés.</li>
+      <li>Construido con el <strong>constructor de sitios de Odoo</strong> (editable sin código).</li>
+    </ul>
+
+    <h3>5. IA opcional con control humano</h3>
+    <ul>
+      <li>Auto-respuestas con IA (modelo configurable vía OpenRouter) y <strong>system prompt personalizable</strong> por negocio.</li>
+      <li><strong>Toggle IA / humano</strong> por chat y global.</li>
+      <li><strong>Anti-ban</strong>: límite de mensajes por minuto, <em>cooldown</em> por chat y <strong>horas de silencio</strong>.</li>
+      <li>Opción "el primer mensaje de un contacto nuevo escala a humano".</li>
+    </ul>
+
+    <h2 id="privacidad">Privacidad: una instancia por cliente</h2>
+    <p>Un agente multi-tenant es cómodo, pero el operador del servidor podría ver las conversaciones de todos. Para clientes que exigen confidencialidad, desplegamos una <strong>instancia dedicada y aislada</strong> por cliente:</p>
+    <ul>
+      <li>Contenedor propio, <strong>volumen de datos propio</strong> (la sesión de WhatsApp y las conversaciones quedan separadas).</li>
+      <li>Credenciales de dashboard propias.</li>
+      <li>Reutiliza la infraestructura compartida (almacenamiento de medios) sin mezclar datos sensibles.</li>
+    </ul>
+    <div class="callout ok"><strong>Resultado.</strong> El cliente tiene <strong>su propio WhatsApp empresarial</strong> conectado a <strong>su propio Odoo</strong>, sin depender de terceros.</div>
+
+    <h2 id="stack">El stack técnico</h2>
+    <table>
+      <thead><tr><th>Capa</th><th>Tecnología</th></tr></thead>
+      <tbody>
+        <tr><td>WhatsApp</td><td><strong>Baileys</strong> (WhatsApp Web, sin Meta)</td></tr>
+        <tr><td>Agente</td><td><strong>Node.js 20</strong>, Express + Socket.io (dashboard en vivo)</td></tr>
+        <tr><td>IA</td><td><strong>OpenRouter</strong> (modelos GPT/Claude intercambiables)</td></tr>
+        <tr><td>Odoo</td><td><strong>Odoo 19</strong> — módulo propio (Python): controladores HTTP, modelos, extensión de <code>discuss.channel</code></td></tr>
+        <tr><td>Despliegue</td><td><strong>Dokploy</strong> + Traefik + Let's Encrypt sobre Docker</td></tr>
+        <tr><td>DNS/CDN</td><td><strong>Cloudflare</strong></td></tr>
+        <tr><td>Hosting Odoo</td><td><strong>Odoo.sh</strong> (permite módulos personalizados)</td></tr>
+      </tbody>
+    </table>
+
+    <details class="collapse">
+      <summary><span class="title">Detalles técnicos para la comunidad Odoo</span> <span class="status brand">dev</span></summary>
+      <div class="collapse-body">
+        <ul>
+          <li><strong>Recepción robusta:</strong> el agente firma cada entrega con <code>X-Webhook-Signature: sha256=HMAC(secret, body)</code>; el endpoint de Odoo valida la firma con <code>hmac.compare_digest</code> antes de procesar.</li>
+          <li><strong>El endpoint que escribe en BD necesita <code>auth='public'</code></strong>, no <code>auth='none'</code> — este último no provee transacción ORM y produce un 500 al crear registros. Un detalle que cuesta horas si no se conoce.</li>
+          <li><strong>Anti-bucle en Discuss:</strong> el mensaje entrante se publica en el canal con un <em>flag</em> de contexto y como autor el contacto; el override de <code>message_post</code> solo releva a WhatsApp los mensajes escritos por <strong>usuarios internos</strong>. El relevo va en <code>try/except</code>, así que un fallo nunca rompe la mensajería de Odoo.</li>
+          <li><strong>Odoo 19:</strong> <code>read_group</code> quedó <strong>deprecado</strong> a favor de <code>formatted_read_group</code> (firma: <code>domain, groupby, aggregates, …</code>; los many2one vuelven como <code>[id, nombre]</code> y el conteo se pide como <code>__count</code>).</li>
+          <li><strong>Aislamiento de datos:</strong> en Dokploy cada <em>compose</em> tiene su propia carpeta de volúmenes → los datos de cada cliente quedan separados sin esfuerzo extra.</li>
+        </ul>
+      </div>
+    </details>
+
+    <h2 id="para-quien">¿Para quién es esto?</h2>
+    <p>Para cualquier empresa en <strong>Odoo (Odoo.sh o self-hosted)</strong> que quiera WhatsApp de verdad integrado a su operación —ventas, soporte, cartera— <strong>sin pagar ni pelear con la API de Meta</strong>, y manteniendo el control y la privacidad de sus datos.</p>
+    <div class="callout risk"><strong>Riesgo / límite conocido.</strong> Odoo Online (SaaS) <strong>no permite módulos personalizados</strong>; esta solución requiere <strong>Odoo.sh</strong> o un Odoo <strong>self-hosted</strong>. La migración SaaS → Odoo.sh es un camino soportado por Odoo.</div>
+    <div class="callout warn"><strong>Advertencia.</strong> Baileys usa WhatsApp Web (no oficial). Se debe operar con prudencia (límites de envío, horas de silencio) para reducir el riesgo de bloqueo del número.</div>
+
+    <h2 id="cta">¿Quieres implementarlo?</h2>
+    <p>En <strong>My Store Digital</strong> construimos e implementamos esta integración a la medida de tu Odoo, con tu marca y tu flujo: desde el despliegue del agente y el módulo, hasta el sitio web que alimenta tu CRM.</p>
+    <div class="callout ok"><strong>Hablemos.</strong> 📩 <a href="https://mystoredigital.com" target="_blank" rel="noopener">mystoredigital.com</a> — llevemos WhatsApp a tu Odoo, sin Meta.</div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
