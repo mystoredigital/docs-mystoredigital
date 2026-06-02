@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amscot vs. Xepelin — Integración a SmartCash</title>
+  <meta name="description" content="Análisis de dos referentes financieros y cómo integrar sus mejores prácticas al sistema de cartera de SmartCash, con foco en dar al cliente más posibilidades y facilidades.">
+  <meta name="category" content="ANÁLISIS DE MERCADO">
+  <meta name="date" content="2026-06-01">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Análisis de Mercado</div>
+      <h1>Amscot vs. Xepelin — Integración a SmartCash</h1>
+      <p class="lede">Análisis de dos referentes financieros y cómo integrar sus mejores prácticas al sistema de cartera de SmartCash, con foco en dar al cliente más posibilidades y facilidades.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-06-01</span>
+        <span><strong>Sistema</strong> · SmartCash — gestión de cartera (cheques + pagarés)</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué se hizo:</strong> investigación de Amscot (EE.UU.) y Xepelin (México/LatAm) como referentes para SmartCash.</p>
+      <p><strong>Por qué:</strong> Paul pidió en la reunión del 1 de junio darle al cliente más <em>posibilidades y facilidades</em>; estos dos modelos muestran el extremo presencial y el extremo digital del mismo negocio.</p>
+      <p><strong>Resultado:</strong> un roadmap de 6 fases que combina la <strong>transparencia/conveniencia de Amscot</strong> con la <strong>automatización/autoservicio de Xepelin</strong>, empezando por conciliación bancaria automática.</p>
+    </div>
+
+    <div class="toc">
+      <div class="toc-label">Contenido</div>
+      <ol>
+        <li><a href="#contexto">Por qué estos dos referentes</a></li>
+        <li><a href="#amscot">Amscot — The Money Superstore</a></li>
+        <li><a href="#xepelin">Xepelin — Fintech B2B de financiamiento</a></li>
+        <li><a href="#comparativa">Comparativa rápida</a></li>
+        <li><a href="#integracion">Integración a SmartCash</a></li>
+        <li><a href="#roadmap">Roadmap priorizado</a></li>
+      </ol>
+    </div>
+
+    <h2 id="contexto">1. Por qué estos dos referentes</h2>
+    <p>Paul mencionó ambos como modelos a estudiar. Son útiles porque representan <strong>dos extremos del mismo eje</strong>, y SmartCash está justo en medio:</p>
+    <ul>
+      <li><strong>Amscot</strong> — servicio financiero presencial, instantáneo, de alto volumen y bajo riesgo de crédito. Cobra el cheque hoy, cobra una tarifa, y la relación termina. Modelo "superstore financiera".</li>
+      <li><strong>Xepelin</strong> — fintech 100% digital de financiamiento (factoraje), con riesgo de crédito, evaluación automática y plataforma de autoservicio.</li>
+    </ul>
+    <p>SmartCash hace <strong>factoring con cheque post-fechado como garantía + pagaré como contragarantía</strong>. Tiene el <em>riesgo de crédito</em> de Xepelin pero hoy opera con la <em>manualidad</em> de un negocio presencial.</p>
+    <div class="callout info"><strong>La oportunidad.</strong> Tomar la <strong>facilidad digital de Xepelin</strong> y la <strong>transparencia/conveniencia de Amscot</strong>, sin copiar el perfil de riesgo de ninguno.</div>
+
+    <h2 id="amscot">2. Amscot — "The Money Superstore"</h2>
+    <p>Fundada en 1989, con sede en Tampa, Florida. Más de <strong>200 sucursales físicas</strong>. Licenciada por la <em>Florida Office of Financial Regulation</em> y registrada en <strong>FinCEN como Money Service Business (MSB)</strong>. Modelo exclusivamente presencial.</p>
+
+    <h3>Productos y servicios</h3>
+    <ul>
+      <li><strong>Check Cashing</strong> — núcleo del negocio. Cobra casi cualquier cheque (nómina, gobierno, seguros, reembolso fiscal, personales, cashier's, fuera del estado). "No hay monto demasiado grande."</li>
+      <li><strong>Cash Advance</strong> — adelanto de $50 a $500, sin revisión de crédito.</li>
+      <li><strong>Installment Loans</strong> — $100 a $1,000, en cuotas alineadas a los días de pago del cliente.</li>
+      <li><strong>Free Money Orders</strong> — sin cargo por emisión.</li>
+      <li><strong>Bill Payment, wire transfers, tarjeta prepago, ATM, fax/copias, estampillas.</strong></li>
+    </ul>
+
+    <h3>Tarifas — transparencia como producto</h3>
+    <table>
+      <thead><tr><th>Servicio</th><th>Tarifa</th></tr></thead>
+      <tbody>
+        <tr><td>Cheques personales</td><td>9.99% del monto</td></tr>
+        <tr><td>Reembolsos fiscales</td><td>2.5%</td></tr>
+        <tr><td>Nómina</td><td>Hasta 70% por debajo del máximo legal estatal</td></tr>
+        <tr><td>Gobierno</td><td>66% por debajo del máximo legal</td></tr>
+        <tr><td>Mínimo por transacción</td><td>$3.50</td></tr>
+        <tr><td>Cash advance</td><td>10% del monto + $3.00 fee estatal (ej. $100 → $13)</td></tr>
+      </tbody>
+    </table>
+    <p>Las tarifas están <strong>publicadas en el lobby</strong> de cada sucursal (visible en las fotos de la reunión).</p>
+
+    <h3>Facilidades / conveniencia (lo clave para SmartCash)</h3>
+    <ul>
+      <li><strong>Abierto 365 días al año</strong>, muchas sucursales 24 horas.</li>
+      <li><strong>Sin revisión de crédito</strong> en cash advance.</li>
+      <li><strong>Instantáneo</strong> — el cliente sale con el efectivo.</li>
+      <li><strong>"Customer Bill of Rights"</strong> muy visible → transparencia como diferenciador de confianza.</li>
+      <li><strong>Pricing simple y público</strong> ("for a low 1.99%") → el cliente sabe exactamente qué paga.</li>
+      <li><strong>Multi-servicio en una visita</strong> → el cliente resuelve todo en un lugar.</li>
+    </ul>
+    <div class="callout ok"><strong>Qué tomar de Amscot.</strong> Transparencia + conveniencia + multi-servicio. El cliente confía porque ve las reglas claras y resuelve rápido.</div>
+
+    <h2 id="xepelin">3. Xepelin — Fintech B2B de financiamiento</h2>
+    <p>Fintech fundada en Chile, llegó a México en 2021. Una de las fintech B2B de mayor crecimiento en LatAm (levantó USD $111M). 100% digital, enfocada en financiamiento a pymes.</p>
+
+    <h3>Productos</h3>
+    <ul>
+      <li><strong>Financiamiento Directo / Adelanto de Facturas (factoraje)</strong> — adelanta hasta el <strong>80% del valor</strong> de las facturas sin esperar 30–120 días. <em>No es deuda</em> (se basa en cuentas por cobrar).</li>
+      <li><strong>Payments</strong> — Xepelin paga HOY a los proveedores del cliente; el cliente paga después.</li>
+      <li><strong>Crédito Simple</strong> — sin garantías, aprobación el mismo día, tasa fija, depósito inmediato.</li>
+      <li><strong>XData</strong> — herramienta de evaluación de riesgo de clientes y proveedores (prevención de fraude).</li>
+      <li><strong>Xepelin Suite</strong> — gestión integral de cobros y pagos en una sola plataforma.</li>
+      <li><strong>Herramientas gratuitas</strong> — simuladores, calculadoras, generadores de documentos.</li>
+    </ul>
+
+    <h3>Tasas y proceso</h3>
+    <dl class="kv-grid">
+      <dt>Tasas</dt>          <dd>1.5% – 3% mensual, asignadas <strong>por factura</strong> según riesgo</dd>
+      <dt>Anticipo</dt>       <dd>Hasta el 80% del monto (ej. $10,000 → $8,000)</dd>
+      <dt>Aprobación</dt>     <dd>Menos de 48 horas</dd>
+      <dt>Registro</dt>       <dd>Gratuito</dd>
+    </dl>
+
+    <h3>Tecnología / integraciones (lo clave para SmartCash)</h3>
+    <ul>
+      <li><strong>Conexión con el SAT</strong> (autoridad fiscal MX) → valida facturas y actividad tributaria automáticamente.</li>
+      <li><strong>Consulta a Buró de Crédito</strong> autorizada por el cliente.</li>
+      <li><strong>Motor de scoring automático</strong> que asigna tasa por riesgo en tiempo real ("arma un traje a la medida" por operación).</li>
+      <li><strong>Autoservicio 100% digital</strong> → el cliente sube documentos, firma y dispone de fondos sin intervención manual.</li>
+    </ul>
+    <div class="callout ok"><strong>Qué tomar de Xepelin.</strong> Automatización del riesgo + autoservicio digital + integraciones de datos. Respuesta en minutos/horas, sin papeleo manual ni descuadres.</div>
+
+    <h2 id="comparativa">4. Comparativa rápida</h2>
+    <table>
+      <thead><tr><th>Dimensión</th><th>Amscot</th><th>Xepelin</th><th>SmartCash hoy</th></tr></thead>
+      <tbody>
+        <tr><td>Canal</td><td>Presencial (365 días, 24h)</td><td>100% digital</td><td>Mixto / manual</td></tr>
+        <tr><td>Producto base</td><td>Cobro de cheque instantáneo</td><td>Factoraje de facturas</td><td>Factoring con cheque + pagaré</td></tr>
+        <tr><td>Riesgo de crédito</td><td>Bajo</td><td>Medio-alto (evaluado)</td><td>Alto (cartera a plazo)</td></tr>
+        <tr><td>Evaluación del cliente</td><td>Sin checar crédito</td><td>Motor automático + buró + SAT</td><td>Manual / criterio de Paul</td></tr>
+        <tr><td>Garantía</td><td>N/A</td><td>Factura (cuenta por cobrar)</td><td><strong>Cheque + pagaré</strong></td></tr>
+        <tr><td>Transparencia de precio</td><td>Tarifa pública en lobby</td><td>Simulador online</td><td>Poco visible al cliente</td></tr>
+        <tr><td>Conciliación</td><td>Punto de venta</td><td>Automática</td><td><span class="status risk">Manual</span></td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="integracion">5. Cómo integrarlo a SmartCash — "posibilidades y facilidades"</h2>
+    <p>Esto responde directo a lo que pidió Paul. Lo aterrizamos en un <strong>Portal/App del Cliente</strong> sobre el sistema actual.</p>
+
+    <h3>Posibilidades — más opciones para el cliente (de Xepelin)</h3>
+    <ol>
+      <li><strong>Autoservicio de solicitud:</strong> el cliente sube su cheque/operación desde el portal o WhatsApp (ya conectado al CRM) y recibe oferta sin esperar a Paul.</li>
+      <li><strong>Reliquidación / extensión self-service:</strong> el cliente pide más días desde el portal; el sistema recalcula capital + días automáticamente (ya lo hace internamente — falta exponerlo).</li>
+      <li><strong>Simulador de costo</strong> estilo Xepelin: antes de operar, el cliente ve cuánto recibe, cuánto paga y la fecha.</li>
+      <li><strong>Múltiples productos:</strong> además del cheque-garantía, anticipo sobre facturas (factoraje puro) y pago a proveedores (Payments).</li>
+    </ol>
+
+    <h3>Facilidades — más fácil y confiable (de Amscot + Xepelin)</h3>
+    <ol start="5">
+      <li><strong>Tarifa transparente y visible</strong> (Amscot "Bill of Rights"): tabla de comisiones clara en el portal.</li>
+      <li><strong>Estado de cuenta en vivo:</strong> cheques, saldos, vencimientos y reliquidaciones en tiempo real.</li>
+      <li><strong>Notificaciones automáticas</strong> por WhatsApp: cheque por vencer, pago recibido, reliquidación aprobada.</li>
+      <li><strong>Firma electrónica</strong> de pagarés/contratos desde el portal (ya en investigación con Security Data / notaría).</li>
+    </ol>
+
+    <h3>Motor de riesgo (de Xepelin) — el cambio de fondo</h3>
+    <p><strong>Scoring automático del cliente</strong> integrando buró de crédito ecuatoriano + historial interno → asignar tasa por riesgo en lugar de criterio manual. Esto permite <strong>escalar volumen</strong> sin que Paul sea el cuello de botella.</p>
+    <div class="callout warn"><strong>Aclarar la fuente de datos.</strong> El "FIBI/FBI" de la transcripción casi seguro es <strong>Equifax</strong> (buró de crédito en Ecuador), no el FBI. El costo y la viabilidad cambian por completo según la fuente real.</div>
+
+    <div class="callout risk"><strong>Conciliación automática primero.</strong> El marcado manual de cheques uno por uno generó la discrepancia de la reunión (~$8,000 reportados por Paul vs. $10,938 en el sistema). Sin números confiables, ninguna facilidad al cliente es creíble. Importar el extracto bancario y cruzar automáticamente debe ir antes que todo lo demás.</div>
+
+    <h2 id="roadmap">6. Roadmap sugerido (priorizado)</h2>
+
+    <div class="phase pending">
+      <header><h3>Fase 0 — Base: conciliación bancaria automática</h3><span class="status pending">Próxima</span></header>
+      <p>Importar extracto y cruzar cheques cobrados. Resuelve el descuadre y es el cimiento de confianza. <em>Inspirado en Xepelin.</em></p>
+    </div>
+    <div class="phase pending">
+      <header><h3>Fase 1 — Transparencia: portal del cliente</h3><span class="status pending">Próxima</span></header>
+      <p>Estado de cuenta + tarifa visible + simulador de costo. Bajo costo, alto impacto en confianza. <em>Amscot + Xepelin.</em></p>
+    </div>
+    <div class="phase pending">
+      <header><h3>Fase 2 — Autoservicio</h3><span class="status pending">Próxima</span></header>
+      <p>Solicitud y reliquidación self-service + notificaciones WhatsApp. Las "facilidades" que pidió Paul. <em>Xepelin + Amscot.</em></p>
+    </div>
+    <div class="phase pending">
+      <header><h3>Fase 3 — Cierre digital</h3><span class="status in-progress">En investigación</span></header>
+      <p>Firma electrónica de pagarés/contratos. Elimina la presencia física.</p>
+    </div>
+    <div class="phase pending">
+      <header><h3>Fase 4 — Escala</h3><span class="status pending">Próxima</span></header>
+      <p>Motor de scoring + buró de crédito. Quita el cuello de botella manual. <em>Xepelin (XData).</em></p>
+    </div>
+    <div class="phase pending">
+      <header><h3>Fase 5 — Nuevos productos</h3><span class="status pending">Próxima</span></header>
+      <p>Factoraje de facturas + pago a proveedores, para clientes sin cheque. <em>Xepelin.</em></p>
+    </div>
+
+    <div class="callout info"><strong>Diferencia de modelo a no perder de vista.</strong> Amscot cobra cheques de terceros al instante (riesgo bajo, volumen alto). SmartCash da financiamiento contra cheque post-fechado (riesgo de crédito a plazo). De Amscot se copia la <strong>experiencia</strong> (transparencia + conveniencia); el <strong>motor de riesgo</strong> se copia de Xepelin, que sí asume crédito.</div>
+
+    <details class="collapse">
+      <summary><span class="title">Fuentes consultadas</span></summary>
+      <div class="collapse-body">
+        <ul>
+          <li><a href="https://www.amscot.com/financial-services.aspx" target="_blank" rel="noopener">Amscot — Financial Services</a></li>
+          <li><a href="https://www.amscot.com/check-cashing.aspx" target="_blank" rel="noopener">Amscot — Check Cashing</a></li>
+          <li><a href="https://www.amscot.com/cash-advance.aspx" target="_blank" rel="noopener">Amscot — Cash Advance</a></li>
+          <li><a href="https://www.amscot.com/free-money-orders.aspx" target="_blank" rel="noopener">Amscot — Free Money Orders</a></li>
+          <li><a href="https://xepelin.com/mx/factoraje" target="_blank" rel="noopener">Xepelin — Factoraje (MX)</a></li>
+          <li><a href="https://xepelin.com/blog/noticias/como-se-determinan-las-tasas-de-factoring-en-xepelin" target="_blank" rel="noopener">Xepelin — Cómo se determinan las tasas</a></li>
+          <li><a href="https://xepelin.com/blog/noticias/que-es-xepelin" target="_blank" rel="noopener">Xepelin — Qué es Xepelin</a></li>
+          <li><a href="https://finantres.mx/xepelin-opiniones/" target="_blank" rel="noopener">Xepelin opiniones 2026 — Finantres</a></li>
+        </ul>
+      </div>
+    </details>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
