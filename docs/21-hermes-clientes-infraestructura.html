@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hermes para Clientes — Infraestructura</title>
+  <meta name="description" content="Un agente Hermes por cliente en Proxmox, con acceso remoto seguro vía Cloudflare Tunnel + Access y uso diario por Telegram.">
+  <meta name="category" content="INFRAESTRUCTURA">
+  <meta name="date" content="2026-06-04">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Infraestructura</div>
+      <h1>Hermes para Clientes — Infraestructura</h1>
+      <p class="lede">Un agente Hermes aislado por cliente en el homelab Proxmox, accesible de forma remota con login y operable por Telegram 24/7.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-06-04</span>
+        <span><strong>Sistema</strong> · Proxmox + Hermes Agent + Cloudflare (Tunnel/Access) + Telegram</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué se hizo:</strong> se montó un prototipo donde cada cliente tiene su propio agente Hermes en un contenedor LXC, accesible desde internet por un panel web protegido con login.</p>
+      <p><strong>Cómo:</strong> se clona el Hermes base (LXC 108), se expone con un túnel de Cloudflare + Cloudflare Access (login por email), y el uso diario se hace por Telegram (sin abrir puertos del router).</p>
+      <p><strong>Resultado:</strong> primer cliente funcionando en <code>hermes-cliente1.mystoredigital.cloud</code>. Hermes es muy liviano (~0.4 GB RAM en reposo), así que caben ~20 clientes en el nodo actual.</p>
+    </div>
+
+    <div class="toc">
+      <div class="toc-label">Contenido</div>
+      <ol>
+        <li><a href="#que-es">Qué es Hermes y qué resuelve</a></li>
+        <li><a href="#consumo">Consumo de recursos</a></li>
+        <li><a href="#arquitectura">Arquitectura</a></li>
+        <li><a href="#inventario">Inventario y prototipo</a></li>
+        <li><a href="#receta">Receta: añadir un cliente nuevo</a></li>
+        <li><a href="#telegram">Conectar Telegram</a></li>
+        <li><a href="#pendientes">Pendientes antes de cliente real</a></li>
+      </ol>
+    </div>
+
+    <h2 id="que-es">Qué es Hermes y qué resuelve</h2>
+    <p><strong>Hermes</strong> es un agente de IA open source (Nous Research) que no solo conversa, sino que <em>ejecuta acciones</em>: se conecta a herramientas, corre tareas programadas y opera 24/7. La idea de este proyecto es ofrecer a cada cliente <strong>su propia instancia aislada</strong>, que pueda usar de forma remota.</p>
+    <p>El reto principal no es Hermes en sí, sino que el servidor vive en una <strong>red doméstica</strong> (el homelab Proxmox). Exponerlo a internet de forma segura se resolvió con <strong>Cloudflare Tunnel + Access</strong>, sin abrir puertos del router ni exponer la IP de casa.</p>
+
+    <h2 id="consumo">Consumo de recursos</h2>
+    <p>Medido sobre el Hermes base en reposo. Es importante porque define cuántos clientes caben:</p>
+    <table>
+      <thead><tr><th>Recurso</th><th>Asignado</th><th>Uso real (idle)</th></tr></thead>
+      <tbody>
+        <tr><td>CPU</td><td>2 vCPU</td><td>~0 %</td></tr>
+        <tr><td>RAM</td><td>2 GB</td><td><strong>~0.4 GB</strong> (proceso ~200 MB)</td></tr>
+        <tr><td>Disco</td><td>10 GB</td><td><strong>4.3 GB</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="callout ok"><strong>OK.</strong> Un cliente cabe holgado en <strong>1 vCPU / 1.5 GB / 10 GB</strong>. En el nodo de 31 GB de RAM caben aproximadamente <strong>20 clientes</strong>. El disco no es limitante (thin provisioning, ~600 GB libres).</div>
+
+    <h2 id="arquitectura">Arquitectura</h2>
+    <p>Dos vías de acceso, complementarias: <strong>panel web</strong> (para administrar/configurar) y <strong>Telegram</strong> (para el uso diario).</p>
+    <pre><code>Panel web:
+Internet → Cloudflare (HTTPS) → Cloudflare Access (login por email)
+        → Cloudflare Tunnel (cloudflared en el LXC) → Hermes Dashboard :9119
+
+Telegram:
+Cliente → Bot de Telegram → (long polling, saliente) → hermes-gateway (LXC)</code></pre>
+    <div class="callout info"><strong>Info.</strong> Telegram <strong>no necesita túnel ni Cloudflare</strong>: el gateway se conecta hacia Telegram (saliente), así que funciona directo desde la red doméstica. Por eso es la vía recomendada para el día a día.</div>
+
+    <h2 id="inventario">Inventario y prototipo</h2>
+    <dl class="kv-grid">
+      <dt>LXC 108 · hermes</dt>      <dd>Base / plantilla. Hermes v0.14.0. <span class="status neutral">running</span></dd>
+      <dt>LXC 109 · hermes-cliente1</dt><dd>Primer prototipo de cliente. <span class="status done">funcional</span></dd>
+      <dt>URL pública</dt>           <dd>hermes-cliente1.mystoredigital.cloud</dd>
+      <dt>Recursos del clon</dt>     <dd>1 vCPU / 1.5 GB / 10 GB</dd>
+      <dt>Modelo IA</dt>            <dd>Claude Sonnet 4.6 vía OpenRouter (clave temporal)</dd>
+      <dt>Login autorizado</dt>      <dd>connect@mystoredigital.com (Cloudflare Access)</dd>
+    </dl>
+
+    <p>Servicios dentro del clon:</p>
+    <table>
+      <thead><tr><th>Servicio</th><th>Función</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td><code>hermes-dashboard</code></td><td>Panel web en 127.0.0.1:9119 (con chat)</td><td><span class="status done">activo</span></td></tr>
+        <tr><td><code>cloudflared</code></td><td>Túnel a Cloudflare</td><td><span class="status done">activo</span></td></tr>
+        <tr><td><code>hermes-gateway</code></td><td>Mensajería (Telegram)</td><td><span class="status pending">pendiente</span></td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="receta">Receta: añadir un cliente nuevo</h2>
+    <ol class="steps">
+      <li class="done">Clonar el LXC 108 desde el snapshot limpio <code>clean-install</code></li>
+      <li class="done">Asignar recursos (1 vCPU / 1.5 GB / 10 GB) y arrancar</li>
+      <li class="in-progress">Poner la clave LLM del cliente en <code>/root/.hermes/.env</code></li>
+      <li>Levantar el panel web <code>hermes-dashboard</code> (puerto 9119)</li>
+      <li>Crear túnel Cloudflare + DNS + ingress a 127.0.0.1:9119</li>
+      <li>Crear app de Cloudflare Access con el email del cliente</li>
+      <li class="risk">Conectar Telegram (bot + autorizar usuario) para uso diario</li>
+    </ol>
+
+    <details class="collapse">
+      <summary><span class="title">Detalle técnico — gotcha del Host header</span> <span class="status done">resuelto</span></summary>
+      <div class="collapse-body">
+        <p>El dashboard se ata a <code>127.0.0.1</code> y valida el header <code>Host</code>. Al llegar la petición por el túnel con el hostname público, la rechazaba con <em>"Invalid Host header"</em>. Se resolvió diciéndole al túnel que reescriba el Host:</p>
+        <pre><code>ingress → originRequest.httpHostHeader = "127.0.0.1:9119"</code></pre>
+      </div>
+    </details>
+
+    <h2 id="telegram">Conectar Telegram</h2>
+    <p>Para operar el agente por Telegram (recomendado), el cliente solo necesita:</p>
+    <ol>
+      <li>Crear un bot con <strong>@BotFather</strong> (<code>/newbot</code>) → obtener el <em>bot token</em>.</li>
+      <li>Obtener su <strong>Id de Telegram</strong> (con @userinfobot) para autorizarlo.</li>
+    </ol>
+    <p>Con esos dos datos se configura <code>TELEGRAM_BOT_TOKEN</code> + <code>TELEGRAM_ALLOWED_USERS</code> en el clon y se arranca el servicio <code>hermes-gateway</code>. A partir de ahí, el cliente le escribe al bot y el agente responde 24/7.</p>
+
+    <h2 id="pendientes">Pendientes antes de cliente real</h2>
+    <div class="callout warn"><strong>Advertencia.</strong> El prototipo es funcional, pero antes de entregarlo a un cliente que pague hay que cerrar estos puntos.</div>
+    <ol class="steps">
+      <li class="risk">Cambiar la clave OpenRouter temporal por la del cliente (o una gestionada con tope de gasto)</li>
+      <li class="risk">El panel muestra la pestaña de claves (API keys) tras el login → restringir o usar vista solo-chat</li>
+      <li>Cambiar el email autorizado en Access por el del cliente</li>
+      <li>Definir el modelo de cobro del LLM</li>
+      <li>(Opcional) Login con Google en vez de PIN por email — más fiable, 1 clic</li>
+    </ol>
+
+    <div class="callout ok"><strong>Resultado.</strong> Base reproducible para un add-on comercial: cada cliente con su agente Hermes aislado, seguro y operable por Telegram. Añadir un cliente nuevo es repetir la receta (automatizable).</div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
