@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historial de WhatsApp en Odoo — opciones</title>
+  <meta name="description" content="¿Se puede traer el historial de conversaciones de WhatsApp al vincular? Opciones, alcance real y nuestra recomendación.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-06-05">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Capacidades</div>
+      <h1>¿Se puede traer el historial de WhatsApp a Odoo?</h1>
+      <p class="lede">Opciones para recuperar conversaciones previas al vincular WhatsApp, su alcance real, y nuestra recomendación.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-06-05</span>
+        <span><strong>Para</strong> · Decisión del cliente</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">En una frase</div>
+      <p><strong>Hacia adelante:</strong> todas las conversaciones quedan en Odoo automáticamente (ya funciona).</p>
+      <p><strong>Historial pasado:</strong> se puede traer una <strong>ventana reciente</strong> (varios meses, hasta ~1 año) re-vinculando con sincronización de historial. Traer el 100&nbsp;% de todo el historial de forma automática <strong>no es posible</strong> — es un límite de WhatsApp, no de la solución.</p>
+      <p><strong>Recomendación:</strong> <span class="status brand">Opción A</span> — sincronización automática del historial reciente. Es el mejor equilibrio entre alcance y esfuerzo.</p>
+    </div>
+
+    <h2 id="realidad">La realidad técnica (importante)</h2>
+    <p>El historial de WhatsApp vive en <strong>el teléfono</strong>, no en los servidores de WhatsApp. Cuando se vincula un dispositivo nuevo (que es como Odoo se conecta a WhatsApp), el teléfono envía una <strong>sincronización acotada</strong> de mensajes — nunca "todo".</p>
+    <div class="callout info"><strong>Por eso</strong> al vincular solo aparecen los mensajes <em>nuevos</em>: la conexión actual se hizo sin pedir el historial. Esto se puede cambiar (Opción A), dentro de los límites que impone WhatsApp.</div>
+
+    <h2 id="opciones">Las opciones sobre la mesa</h2>
+    <table>
+      <thead>
+        <tr><th>Opción</th><th>Qué trae</th><th>Esfuerzo</th><th>Alcance</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>A · Sincronización automática</strong> <span class="status brand">Recomendada</span></td>
+          <td>Historial reciente (meses → ~1 año) importado a Odoo automáticamente al re-vincular.</td>
+          <td>Medio — lo implementamos nosotros una sola vez.</td>
+          <td><span class="status done">Bueno</span> · cubre lo que el equipo realmente consulta.</td>
+        </tr>
+        <tr>
+          <td>B · Exportar chat manual</td>
+          <td>Historial 100&nbsp;% completo, pero conversación por conversación.</td>
+          <td>Alto — manual, chat por chat, desde el teléfono.</td>
+          <td><span class="status neutral">Completo pero inviable</span> si son muchos chats.</td>
+        </tr>
+        <tr>
+          <td>Todo el historial, automático y completo</td>
+          <td>—</td>
+          <td>—</td>
+          <td><span class="status risk">No es posible</span> · límite del protocolo de WhatsApp.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 id="recomendacion">Nuestra recomendación</h2>
+    <div class="callout ok"><strong>Vamos con la Opción A.</strong> Es la única que combina <strong>alcance útil</strong> (traer el historial reciente que el equipo de verdad consulta) con <strong>esfuerzo razonable</strong> y <strong>cero trabajo manual</strong> para el cliente. La Opción B solo tiene sentido para un puñado de conversaciones críticas puntuales; perseguir "todo el historial completo" no es alcanzable por WhatsApp y no vale la pena el costo.</div>
+
+    <h3>Qué incluye la Opción A</h3>
+    <ol class="steps">
+      <li>Activamos la sincronización de historial en el conector de WhatsApp.</li>
+      <li>Re-vinculamos el número (un único escaneo de QR).</li>
+      <li>El historial reciente se importa a las conversaciones de Odoo, ligado a cada contacto.</li>
+      <li>De ahí en adelante, todo queda registrado en Odoo en tiempo real.</li>
+    </ol>
+
+    <div class="callout warn"><strong>A tener en cuenta.</strong> El volumen exacto depende de lo que el teléfono tenga almacenado; los archivos antiguos (fotos/audios) pueden no transferirse completos. Es <strong>historial reciente</strong>, no un archivo total de por vida.</div>
+
+    <h2 id="decision">Para decidir</h2>
+    <p>Necesitamos tu confirmación para proceder:</p>
+    <ul>
+      <li>✅ <strong>Opción A</strong> (recomendada) — la implementamos y re-vinculamos. <em>Esto es lo que sugerimos.</em></li>
+      <li>➕ <strong>A + B selectiva</strong> — Opción A y, además, exportar manualmente 2–3 conversaciones críticas puntuales si las hay.</li>
+    </ul>
+    <div class="callout ok"><strong>Siguiente paso.</strong> Confírmanos que avanzamos con la <strong>Opción A</strong> y la dejamos lista. 📩 <a href="https://mystoredigital.com" target="_blank" rel="noopener">mystoredigital.com</a></div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
