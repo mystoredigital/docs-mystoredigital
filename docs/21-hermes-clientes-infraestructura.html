@@ -40,7 +40,7 @@
       <div class="summary-label">Resumen</div>
       <p><strong>Qué se hizo:</strong> se montó un prototipo donde cada cliente tiene su propio agente Hermes en un contenedor LXC, accesible desde internet por un panel web protegido con login.</p>
       <p><strong>Cómo:</strong> se clona el Hermes base (LXC 108), se expone con un túnel de Cloudflare + Cloudflare Access (login por email), y el uso diario se hace por Telegram (sin abrir puertos del router).</p>
-      <p><strong>Resultado:</strong> primer cliente funcionando en <code>hermes-cliente1.mystoredigital.cloud</code>. Hermes es muy liviano (~0.4 GB RAM en reposo), así que caben ~20 clientes en el nodo actual.</p>
+      <p><strong>Resultado:</strong> primer cliente funcionando en <code>hermes-cliente1.mystoredigital.cloud</code>, con Telegram, cerebro digital (OneDrive), Gmail y Calendar conectados y probados. Hermes es muy liviano (~0.4 GB RAM en reposo), así que caben ~20 clientes en el nodo actual.</p>
     </div>
 
     <div class="toc">
@@ -50,6 +50,7 @@
         <li><a href="#consumo">Consumo de recursos</a></li>
         <li><a href="#arquitectura">Arquitectura</a></li>
         <li><a href="#inventario">Inventario y prototipo</a></li>
+        <li><a href="#integraciones">Integraciones conectadas</a></li>
         <li><a href="#receta">Receta: añadir un cliente nuevo</a></li>
         <li><a href="#telegram">Conectar Telegram</a></li>
         <li><a href="#pendientes">Pendientes antes de cliente real</a></li>
@@ -98,9 +99,31 @@ Cliente → Bot de Telegram → (long polling, saliente) → hermes-gateway (LXC
       <tbody>
         <tr><td><code>hermes-dashboard</code></td><td>Panel web en 127.0.0.1:9119 (con chat)</td><td><span class="status done">activo</span></td></tr>
         <tr><td><code>cloudflared</code></td><td>Túnel a Cloudflare</td><td><span class="status done">activo</span></td></tr>
-        <tr><td><code>hermes-gateway</code></td><td>Mensajería (Telegram)</td><td><span class="status pending">pendiente</span></td></tr>
+        <tr><td><code>hermes-gateway</code></td><td>Mensajería (Telegram)</td><td><span class="status done">activo</span></td></tr>
       </tbody>
     </table>
+
+    <h2 id="integraciones">Integraciones conectadas</h2>
+    <p>El prototipo quedó con cuatro integraciones funcionando, todas probadas end-to-end:</p>
+    <dl class="kv-grid">
+      <dt>📱 Telegram</dt>     <dd>Bot operativo; el cliente le escribe y el agente responde 24/7. <span class="status done">probado</span></dd>
+      <dt>🧠 Cerebro digital</dt><dd>Vault Obsidian del cliente (OneDrive) sincronizado a <code>/root/cerebro</code>, refresco horario. El agente lo lee como contexto. <span class="status done">probado</span></dd>
+      <dt>📧 Gmail</dt>        <dd>MCP Google Workspace; leer/enviar correos. <span class="status done">probado</span></dd>
+      <dt>📅 Calendar</dt>     <dd>Mismo MCP; consultar/crear eventos. <span class="status done">probado</span></dd>
+    </dl>
+    <div class="callout info"><strong>Info.</strong> Telegram y el cerebro (OneDrive) usan conexiones <em>salientes</em>: no requieren túnel ni puertos abiertos. Gmail/Calendar van por el MCP <code>workspace-mcp</code> con OAuth del cliente.</div>
+
+    <details class="collapse">
+      <summary><span class="title">Gotchas técnicos resueltos en las integraciones</span> <span class="status done">documentado</span></summary>
+      <div class="collapse-body">
+        <ul>
+          <li><strong>AGENTS.md del cerebro</strong> debe ir en el CWD del messaging (<code>/root/AGENTS.md</code>, con <code>MESSAGING_CWD=/root</code>), no en <code>~/.hermes/</code>, o el agente no lo carga.</li>
+          <li><strong>Telegram:</strong> un bot solo admite una instancia (long polling). Compartirlo entre dos LXC da error 409 — cada cliente necesita su propio bot.</li>
+          <li><strong>Credencial Google:</strong> el archivo debe nombrarse con el email crudo (<code>usuario@gmail.com.json</code>), no URL-encoded; y el token necesita los 12 scopes que pide el MCP o re-pide OAuth.</li>
+          <li><strong>MCP:</strong> <code>hermes mcp add</code> se cuelga probando el server stdio → escribir el bloque <code>mcp_servers</code> directo en <code>config.yaml</code>.</li>
+        </ul>
+      </div>
+    </details>
 
     <h2 id="receta">Receta: añadir un cliente nuevo</h2>
     <ol class="steps">
@@ -133,10 +156,11 @@ Cliente → Bot de Telegram → (long polling, saliente) → hermes-gateway (LXC
     <div class="callout warn"><strong>Advertencia.</strong> El prototipo es funcional, pero antes de entregarlo a un cliente que pague hay que cerrar estos puntos.</div>
     <ol class="steps">
       <li class="risk">Cambiar la clave OpenRouter temporal por la del cliente (o una gestionada con tope de gasto)</li>
+      <li class="risk">Publicar la app OAuth de Google — en modo "prueba" el token caduca a los 7 días</li>
       <li class="risk">El panel muestra la pestaña de claves (API keys) tras el login → restringir o usar vista solo-chat</li>
       <li>Cambiar el email autorizado en Access por el del cliente</li>
+      <li>Crear un bot de Telegram propio por cliente (no se comparte)</li>
       <li>Definir el modelo de cobro del LLM</li>
-      <li>(Opcional) Login con Google en vez de PIN por email — más fiable, 1 clic</li>
     </ol>
 
     <div class="callout ok"><strong>Resultado.</strong> Base reproducible para un add-on comercial: cada cliente con su agente Hermes aislado, seguro y operable por Telegram. Añadir un cliente nuevo es repetir la receta (automatizable).</div>
