@@ -13,6 +13,9 @@
     .shot{margin:1.5rem 0;text-align:center}
     .shot img{max-width:100%;width:520px;border-radius:10px;border:1px solid rgba(255,255,255,.12);box-shadow:0 6px 28px rgba(0,0,0,.35)}
     .shot figcaption{margin-top:.6rem;font-size:.85rem;opacity:.65}
+    /* Fix: .steps usa grid y rompe con texto enriquecido; lo paso a layout posicionado */
+    .doc-body ol.steps li{display:block;padding:10px 0 10px 40px;position:relative}
+    .doc-body ol.steps li::before{position:absolute;left:0;top:10px;width:28px;margin-top:0}
   </style>
 </head>
 <body>
