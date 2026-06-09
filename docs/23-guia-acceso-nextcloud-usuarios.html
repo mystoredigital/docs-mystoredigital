@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guía de acceso — Tu nube privada My Store Digital</title>
+  <meta name="description" content="Cómo crear tu contraseña, ingresar, activar la verificación en dos pasos e instalar la app de tu nube privada.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-06-08">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Capacidades</div>
+      <h1>Guía de acceso — Tu nube privada</h1>
+      <p class="lede">Tu propio espacio para guardar, sincronizar y compartir archivos, seguro y privado. Seguí estos pasos para entrar por primera vez.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-06-08</span>
+        <span><strong>Sistema</strong> · Nextcloud · drive.mystoredigital.cloud</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">En resumen</div>
+      <p><strong>Qué es:</strong> tu nube personal para guardar y sincronizar archivos desde el celular y la computadora.</p>
+      <p><strong>Dónde se entra:</strong> <a href="https://drive.mystoredigital.cloud">https://drive.mystoredigital.cloud</a></p>
+      <p><strong>Qué necesitás:</strong> tu nombre de usuario (te lo asignan) y crear tu contraseña con el correo que recibís.</p>
+    </div>
+
+    <h2 id="ingreso">1. Cómo ingresar por primera vez</h2>
+    <p>Cuando se crea tu cuenta, te llega un correo de <strong>Nextcloud</strong> (remitente <code>no-reply@mystoredigital.cloud</code>) con el asunto <em>“Tu cuenta de Nextcloud fue creada”</em>.</p>
+
+    <ol class="steps">
+      <li>Abrí el correo de bienvenida y hacé clic en el botón para <strong>crear tu contraseña</strong>.</li>
+      <li>Escribí una contraseña <strong>larga y única</strong> (no la repitas de otro sitio) y confirmala.</li>
+      <li>Listo: ya quedás dentro de tu nube.</li>
+    </ol>
+
+    <div class="callout info">
+      <strong>Dirección de ingreso.</strong> Guardala en favoritos:<br>
+      👉 <a href="https://drive.mystoredigital.cloud"><strong>https://drive.mystoredigital.cloud</strong></a><br>
+      Usuario: el que te asignaron · Contraseña: la que creaste.
+    </div>
+
+    <div class="callout warn">
+      <strong>¿No te llegó el correo o se venció el enlace?</strong> Entrá a
+      <a href="https://drive.mystoredigital.cloud">drive.mystoredigital.cloud</a> y tocá
+      <strong>“¿Has olvidado tu contraseña?”</strong>. Te llegará un correo para definirla de nuevo.
+      (Revisá también la carpeta de <em>spam</em>.)
+    </div>
+
+    <h2 id="2fa">2. Activá la verificación en dos pasos (2FA)</h2>
+    <p>Le suma una capa extra de seguridad: aunque alguien supiera tu contraseña, no podría entrar sin el código de tu teléfono. <strong>Muy recomendado.</strong></p>
+
+    <ol class="steps">
+      <li>Necesitás una app de autenticación en tu celular: <strong>Google Authenticator</strong>, <strong>Authy</strong> o <strong>Microsoft Authenticator</strong> (gratis en App Store / Play Store).</li>
+      <li>En la web, arriba a la derecha, hacé clic en tu <strong>inicial / avatar</strong> → <strong>Configuración</strong>.</li>
+      <li>En el menú izquierdo entrá a <strong>Seguridad</strong>.</li>
+      <li>Buscá <strong>“Autenticación de dos factores (TOTP)”</strong> y activala.</li>
+      <li>Escaneá el <strong>código QR</strong> que aparece con tu app de autenticación.</li>
+      <li>Escribí el <strong>código de 6 dígitos</strong> que muestra la app para confirmar. ¡Listo!</li>
+    </ol>
+
+    <div class="callout warn">
+      <strong>Guardá los códigos de respaldo.</strong> Al activar 2FA, Nextcloud te ofrece unos <em>códigos de recuperación</em>. Anotalos en un lugar seguro: te sirven para entrar si perdés el teléfono.
+    </div>
+
+    <h2 id="apps">3. Instalá la app para sincronizar (opcional, recomendado)</h2>
+    <p>Con la app, tus archivos se sincronizan solos entre tus dispositivos y la nube.</p>
+
+    <h3>En el celular</h3>
+    <ol class="steps">
+      <li>Descargá la app <strong>“Nextcloud”</strong> desde App Store (iPhone) o Play Store (Android).</li>
+      <li>En “Dirección del servidor” escribí: <code>https://drive.mystoredigital.cloud</code></li>
+      <li>Iniciá sesión con tu usuario y contraseña (se abre el navegador una vez para autorizar el dispositivo).</li>
+    </ol>
+
+    <h3>En la computadora</h3>
+    <ol class="steps">
+      <li>Descargá el cliente de escritorio en <a href="https://nextcloud.com/install" target="_blank" rel="noopener">nextcloud.com/install</a> (Windows, Mac o Linux).</li>
+      <li>Servidor: <code>https://drive.mystoredigital.cloud</code> → tu usuario y contraseña.</li>
+      <li>Elegí qué carpeta querés sincronizar. Los archivos se mantienen al día automáticamente.</li>
+    </ol>
+
+    <h2 id="seguridad">4. Consejos de seguridad</h2>
+    <ul>
+      <li>Usá una contraseña <strong>larga y única</strong>; no la reutilices de otros servicios.</li>
+      <li><strong>No compartas</strong> tu usuario ni tu contraseña con nadie.</li>
+      <li>Para compartir un archivo o carpeta, usá la opción <strong>“Compartir”</strong> dentro de Nextcloud — nunca des tu contraseña.</li>
+      <li>Si entrás desde una computadora ajena, acordate de <strong>cerrar sesión</strong> al terminar.</li>
+    </ul>
+
+    <div class="callout ok">
+      <strong>¡Eso es todo!</strong> Con tu contraseña creada, el 2FA activo y la app instalada, ya tenés tu nube privada lista para usar desde cualquier dispositivo.
+    </div>
+
+    <h2 id="soporte">5. ¿Necesitás ayuda?</h2>
+    <p>Si tenés problemas para ingresar o alguna duda, escribinos y te ayudamos a resolverlo.</p>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
