@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML sobre Markdown para planning con IA</title>
+  <meta name="description" content="Por qué los planes de tareas que un humano va a auditar deben ser HTML, no Markdown — metodología human-in-the-loop con Claude Code.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-06-10">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Capacidades</div>
+      <h1>HTML sobre Markdown para planning con IA</h1>
+      <p class="lede">Por qué los planes de tareas que un humano va a auditar deben ser HTML, no Markdown — y cómo lo aplicamos en el flujo de trabajo con Claude Code.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-06-10</span>
+        <span><strong>Sistema</strong> · Claude Code · HTML · metodología human-in-the-loop</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué se propone:</strong> usar HTML self-contained (no Markdown) para los planes de tareas no triviales que un humano va a revisar antes de ejecutar.</p>
+      <p><strong>Por qué:</strong> el lift de rendimiento del modelo es despreciable; lo que cambia es la <em>auditabilidad</em>. El formato HTML obliga a mirar en serio, en lugar de escanear un plan en diagonal y darle el visto bueno por inercia.</p>
+      <p><strong>Resultado:</strong> separamos captura (sigue en Markdown) de planning ejecutable (pasa a HTML auditable), reduciendo el riesgo de descubrir a mitad de camino que una fase tenía una dependencia mal puesta.</p>
+    </div>
+
+    <h2 id="problema">El problema: leer no es auditar</h2>
+    <p>Cuando un agente como Claude Code genera un plan en Markdown, lo normal es escanearlo en diagonal: ves los encabezados de fase, te convences de que "se ve bien" y sigues. Eso no es auditar — es confiar a ciegas. El plan parece sólido hasta que, ya ejecutando, descubres que la fase 2 nunca tuvo la dependencia correcta.</p>
+    <p>La tesis que origina esta metodología es directa: <strong>para planes que un humano va a leer (no solo el modelo), HTML supera a Markdown</strong>. La mejora en el rendimiento del propio modelo es marginal. Lo que realmente cambia es la capacidad del humano de revisar el plan con rigor.</p>
+
+    <div class="callout info"><strong>Origen.</strong> La idea proviene de una observación de Anthropic sobre la "efectividad poco razonable del HTML" para planes legibles por humanos, popularizada por Mark Kashef (Early AI Dopters). Aquí está destilada y adaptada al flujo de trabajo del estudio.</div>
+
+    <h2 id="por-que">Por qué el HTML resuelve el problema</h2>
+    <p>El punto no es estético. Un plan en HTML cambia el comportamiento del lector porque la estructura visual <em>obliga</em> a detenerse en cada parte en lugar de deslizarse por una pared de texto monocromática.</p>
+
+    <table>
+      <thead><tr><th>Plan en Markdown</th><th>Plan en HTML</th></tr></thead>
+      <tbody>
+        <tr><td>Lectura en diagonal — todo "se ve ok"</td><td>Lectura forzada por la estructura visual</td></tr>
+        <tr><td>Encabezados planos <code>##</code> <code>###</code></td><td>Tabs, secciones colapsables, paneles</td></tr>
+        <tr><td>El ASCII art se rompe entre fuentes proporcionales</td><td><code>&lt;pre&gt;</code> mantiene el monoespaciado intacto</td></tr>
+        <tr><td>Estado de fase = emoji o texto suelto</td><td>Estado = color + etiqueta + timestamp</td></tr>
+        <tr><td>Una decisión cambia → editas y pierdes el hilo</td><td>Una decisión cambia → entrada nueva con timestamp</td></tr>
+        <tr><td>Confías a ciegas</td><td>Auditas porque el formato te obliga a mirar</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Las ventajas concretas</h3>
+    <ol>
+      <li><strong>Claridad visual</strong> — fácil de recorrer con la vista; no es un bloque uniforme de texto.</li>
+      <li><strong>Tabs y secciones plegables</strong> — entras a una fase específica sin que el resto te tape la vista.</li>
+      <li><strong>El ASCII art funciona</strong> — los diagramas de arquitectura se siguen viendo bien dentro de <code>&lt;pre&gt;</code>.</li>
+      <li><strong>Edición en vivo</strong> — el agente puede actualizar el HTML mientras trabaja y registrar decisiones en tiempo real, cambiando de rumbo cuando hace falta, en lugar de solo "avisar" en el chat.</li>
+    </ol>
+
+    <div class="callout warn"><strong>Advertencia.</strong> Esto <em>no</em> es "todo a HTML". Para captura, notas, ideas y journaling, Markdown sigue siendo lo correcto: rápido, grep-able, plain text. El HTML entra solo cuando el output necesita auditoría humana antes de ejecutarse.</div>
+
+    <h2 id="flujo">El cambio de flujo</h2>
+
+    <div class="phase">
+      <header>
+        <h3>Antes — confianza por inercia</h3>
+        <span class="status risk">Frágil</span>
+      </header>
+      <ol class="steps">
+        <li>El agente genera el plan en Markdown.</li>
+        <li>Lo lees en Obsidian.</li>
+        <li>Asumes que está bien.</li>
+        <li>Ejecutas.</li>
+        <li class="risk">A mitad de camino descubres que la fase 2 no tenía la dependencia correcta.</li>
+      </ol>
+    </div>
+
+    <div class="phase done">
+      <header>
+        <h3>Después — auditoría forzada</h3>
+        <span class="status done">Robusto</span>
+      </header>
+      <ol class="steps">
+        <li class="done">Captura, notas e ideas siguen en Markdown. No se toca.</li>
+        <li class="done">Para planes de tareas no triviales, le pides al agente un HTML self-contained.</li>
+        <li class="done">Guardas los planes en una carpeta separada (p. ej. <code>_planes/</code>).</li>
+        <li class="done">Abres cada plan en el navegador <strong>antes</strong> de ejecutar. El formato obliga la auditoría.</li>
+        <li class="in-progress">El agente actualiza el HTML mientras trabaja — no solo te avisa en el chat.</li>
+      </ol>
+    </div>
+
+    <h2 id="prompt">El prompt para generarlo</h2>
+    <p>El plan se pide explícitamente como un único archivo HTML autocontenido, sin librerías externas, para poder abrirlo en cualquier navegador sin dependencias:</p>
+
+    <pre><code>Antes de tocar código, dame el plan completo como UN archivo HTML
+self-contained (CSS inline, sin librerías externas) con:
+
+- Header: nombre del proyecto + objetivo en una línea + riesgos
+- Una sección por fase, colapsable con &lt;details&gt;
+- Estado por fase (pending / in_progress / done) con color de fondo
+- Sub-pasos numerados dentro de cada fase
+- Panel lateral "Decisiones" con timestamp + razón
+- Diagrama ASCII en &lt;pre&gt; si hay arquitectura
+- Botón final "Aprobar y ejecutar"
+
+Output: un solo .html que pueda abrir en el navegador.
+NO lo abras tú, solo dame el archivo.</code></pre>
+
+    <div class="callout info"><strong>Patrón de checkpoint.</strong> Un uso real adicional: cuando una sesión de trabajo larga llena el context window, el plan HTML sirve como punto de control. En lugar de copiar y pegar para reiniciar, retomas desde un documento que ya refleja el estado y las decisiones tomadas.</div>
+
+    <h2 id="conexion">Conexión con el resto del estudio</h2>
+    <p>Esta práctica generaliza un patrón que ya usamos:</p>
+    <dl class="kv-grid">
+      <dt>Dashboards HTML</dt>      <dd>Mission Control y otros paneles ya usan HTML como salida. Aquí extendemos el patrón: <em>todo</em> plan debería ser HTML auditable, no solo el dashboard final.</dd>
+      <dt>Obsidian</dt>            <dd>Renderiza HTML embebido, así que un <code>.html</code> puede vivir directamente en el vault sin convertir nada.</dd>
+      <dt>docs.mystoredigital</dt> <dd>La idea de "documento HTML auditable" ya vive aquí. Lo nuevo es aplicarla <strong>internamente al planning</strong>, no solo al entregable final del cliente.</dd>
+    </dl>
+
+    <h2 id="decision">La regla que adoptamos</h2>
+    <div class="decisions">
+      <div class="decision">
+        <span class="ts">2026-06-10</span>
+        <span class="what">Separar captura de planning ejecutable.</span>
+        <span class="why">Markdown es óptimo para input rápido y grep-able; HTML es óptimo para output que necesita auditoría antes de actuar. Son dos trabajos distintos.</span>
+      </div>
+      <div class="decision">
+        <span class="ts">2026-06-10</span>
+        <span class="what">Captura, journaling, notas y referencias → Markdown en Obsidian.</span>
+        <span class="why">Velocidad y portabilidad en texto plano. No requieren auditoría visual.</span>
+      </div>
+      <div class="decision">
+        <span class="ts">2026-06-10</span>
+        <span class="what">Planes de tareas que se ejecutan con Claude Code → HTML self-contained.</span>
+        <span class="why">El formato obliga a revisar de verdad y permite registrar decisiones con timestamp mientras el agente trabaja.</span>
+      </div>
+    </div>
+
+    <div class="callout ok"><strong>En una línea.</strong> Markdown se queda para el input rápido. HTML entra para el output que necesita auditoría.</div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
