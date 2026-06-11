@@ -558,11 +558,14 @@ a:hover { color: var(--orange); }
   margin: 18px 0;
   counter-reset: step;
 }
+/* Badge posicionado en valor absoluto + contenido en flujo normal.
+   NO usar `display:grid` en el <li>: en grid cada hijo en linea (texto,
+   <strong>, <code>, <em>) se vuelve un grid-item suelto y se apila en la
+   columna del badge, "montando" el texto. Con position:absolute el
+   contenido fluye normal y soporta cualquier markup en linea. */
 .doc-body ol.steps li {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 12px;
-  padding: 10px 0;
+  position: relative;
+  padding: 10px 0 10px 40px;
   border-bottom: 1px dashed var(--gray-200);
   margin: 0;
   counter-increment: step;
@@ -570,6 +573,11 @@ a:hover { color: var(--orange); }
 .doc-body ol.steps li:last-child { border-bottom: none; }
 .doc-body ol.steps li::before {
   content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 22px;
+  height: 22px;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 700;
@@ -578,8 +586,6 @@ a:hover { color: var(--orange); }
   border-radius: 6px;
   text-align: center;
   line-height: 22px;
-  height: 22px;
-  margin-top: 1px;
 }
 .doc-body ol.steps li.done { color: var(--gray-600); }
 .doc-body ol.steps li.done::before {
