@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceso a admin.ecuabet.com mediante proxy con IP fija</title>
+  <meta name="description" content="Guía para operadores: conectarse al panel de Ecuabet a través del proxy con IP autorizada de My Store Digital.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-06-12">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </div>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <div class="badge">Capacidades</div>
+      <h1>Acceso a admin.ecuabet.com mediante proxy con IP fija</h1>
+      <p class="lede">Guía paso a paso para que los operadores y la agencia se conecten al panel de Ecuabet a través del proxy con IP autorizada de My Store Digital.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-06-12</span>
+        <span><strong>Sistema</strong> · Proxy HTTP/HTTPS · Firefox · FoxyProxy</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué es:</strong> un proxy con una IP fija autorizada que te deja entrar a <code>admin.ecuabet.com</code> aunque tu internet de casa cambie de IP.</p>
+      <p><strong>Por qué:</strong> Ecuabet bloqueó el panel por seguridad y solo permite el acceso desde IPs autorizadas (whitelist). Tu IP de casa cambia sola, así que no se puede autorizar; el proxy sí tiene una IP fija.</p>
+      <p><strong>Qué haces:</strong> configuras el proxy en tu navegador con tu usuario y contraseña, verificas tu IP, operas, y al terminar lo desactivas.</p>
+    </div>
+
+    <h2>Antes de empezar</h2>
+    <p>Necesitas tus credenciales personales del proxy. <strong>Cada operador tiene las suyas</strong> — pídelas al administrador si todavía no las tienes:</p>
+
+    <dl class="kv-grid">
+      <dt>Servidor (Host)</dt>   <dd><code>150.230.28.174</code></dd>
+      <dt>Puerto</dt>           <dd><code>8443</code></dd>
+      <dt>Usuario</dt>          <dd><code>TU_USUARIO</code> (te lo da el administrador)</dd>
+      <dt>Contraseña</dt>       <dd><code>TU_CONTRASEÑA</code> (te la da el administrador)</dd>
+    </dl>
+
+    <div class="callout info"><strong>Info.</strong> El proxy funciona en cualquier red (casa, oficina, datos móviles). Lo único que importa es que pongas bien el usuario y la contraseña.</div>
+
+    <h2>¿Por qué pasa esto?</h2>
+    <p>El panel <code>admin.ecuabet.com</code> sufrió un ataque y, como medida de seguridad, ahora solo acepta conexiones que vengan desde una <strong>IP autorizada</strong>. El problema: los servicios de internet domésticos entregan IPs <em>dinámicas</em> (cambian solas cada cierto tiempo), por lo que no se puede autorizar tu IP de casa.</p>
+    <p>La solución es pasar tu conexión por un <strong>proxy</strong> de My Store Digital que tiene una <strong>IP fija</strong> (<code>150.230.28.174</code>). Esa IP sí está autorizada por Ecuabet. Cuando activas el proxy, Ecuabet ve esa IP fija en lugar de la tuya y te deja entrar.</p>
+
+    <h2>Opción A — Configurar en Firefox (recomendado)</h2>
+    <p>Firefox es la opción más limpia porque el proxy solo afecta a ese navegador, no al resto de tu computadora.</p>
+
+    <ol class="steps">
+      <li>Abre Firefox y entra a <strong>Ajustes</strong> (menú ☰ arriba a la derecha → <em>Ajustes</em>).</li>
+      <li>En el buscador de ajustes escribe <code>proxy</code> y haz clic en <strong>Configuración…</strong> (sección "Configuración de red").</li>
+      <li>Marca la opción <strong>Configuración manual del proxy</strong>.</li>
+      <li>En <strong>Proxy HTTP</strong> escribe <code>150.230.28.174</code> y en <strong>Puerto</strong> escribe <code>8443</code>.</li>
+      <li>Marca la casilla <strong>"Usar también este proxy para HTTPS"</strong>.</li>
+      <li>Haz clic en <strong>Aceptar</strong> para guardar.</li>
+      <li>Entra a <code>admin.ecuabet.com</code>. Firefox te pedirá <strong>usuario y contraseña</strong> → escribe los tuyos (<code>TU_USUARIO</code> / <code>TU_CONTRASEÑA</code>).</li>
+    </ol>
+
+    <div class="callout warn"><strong>Advertencia.</strong> Si Firefox no te pide usuario y contraseña y la página no carga, revisa que escribiste bien el host y el puerto. La contraseña distingue mayúsculas y minúsculas.</div>
+
+    <h2>Opción B — Configurar con FoxyProxy</h2>
+    <p>FoxyProxy es una extensión que permite activar el proxy <strong>solo para el panel de Ecuabet</strong> y dejar el resto de tu navegación normal. Útil si usas el mismo navegador para todo.</p>
+
+    <ol class="steps">
+      <li>Instala la extensión <strong>FoxyProxy Standard</strong> (disponible para Chrome y Firefox).</li>
+      <li>Abre FoxyProxy → <strong>Options</strong> → <strong>Add</strong> (agregar proxy nuevo).</li>
+      <li>Completa los datos:
+        <ul>
+          <li><strong>Title:</strong> Ecuabet</li>
+          <li><strong>Proxy Type:</strong> HTTP</li>
+          <li><strong>Hostname / IP:</strong> <code>150.230.28.174</code></li>
+          <li><strong>Port:</strong> <code>8443</code></li>
+          <li><strong>Username:</strong> <code>TU_USUARIO</code></li>
+          <li><strong>Password:</strong> <code>TU_CONTRASEÑA</code></li>
+        </ul>
+      </li>
+      <li>Guarda. Luego agrega un <strong>patrón de URL</strong> para que el proxy se active solo en Ecuabet:
+        <ul>
+          <li>En el proxy creado → <strong>Patterns</strong> → <strong>Add</strong></li>
+          <li><strong>Pattern:</strong> <code>*admin.ecuabet.com*</code> · <strong>Type:</strong> Wildcard</li>
+        </ul>
+      </li>
+      <li>En el ícono de FoxyProxy elige el modo <strong>"Use proxies based on their patterns"</strong>. Así solo Ecuabet pasa por el proxy.</li>
+    </ol>
+
+    <h2>Verificar que funciona</h2>
+    <p>Antes de operar, confirma que tu conexión está saliendo por la IP autorizada:</p>
+    <ol class="steps">
+      <li>Con el proxy activo, entra a <a href="https://ipinfo.io" target="_blank" rel="noopener">ipinfo.io</a>.</li>
+      <li>Verifica que la IP que muestra sea <strong><code>150.230.28.174</code></strong>.</li>
+    </ol>
+
+    <div class="callout ok"><strong>OK.</strong> Si ves <code>150.230.28.174</code>, el proxy está funcionando y ya puedes entrar a <code>admin.ecuabet.com</code> con normalidad.</div>
+    <div class="callout risk"><strong>Riesgo.</strong> Si ves <em>otra</em> IP, el proxy NO está activo y Ecuabet te seguirá bloqueando. Revisa la configuración antes de continuar — no operes hasta ver la IP correcta.</div>
+
+    <h2>Checklist antes de operar</h2>
+    <ol class="steps">
+      <li>Tengo mi usuario y contraseña del administrador.</li>
+      <li>Configuré el proxy <code>150.230.28.174 : 8443</code> en Firefox o FoxyProxy.</li>
+      <li>Marqué "usar también para HTTPS" (Firefox) o el patrón de Ecuabet (FoxyProxy).</li>
+      <li>Verifiqué en ipinfo.io que mi IP es <code>150.230.28.174</code>.</li>
+      <li>El panel <code>admin.ecuabet.com</code> carga correctamente.</li>
+    </ol>
+
+    <h2>Al terminar de operar</h2>
+    <div class="callout warn"><strong>Importante.</strong> Cuando termines de trabajar en Ecuabet, <strong>desactiva el proxy</strong> para que tu navegación normal no pase por él:</div>
+    <ul>
+      <li><strong>Firefox:</strong> Ajustes → Configuración de red → marca <strong>"Sin proxy"</strong> → Aceptar.</li>
+      <li><strong>FoxyProxy:</strong> haz clic en el ícono y elige <strong>"Turn off"</strong> (desactivar).</li>
+    </ul>
+
+    <h2>Problemas comunes</h2>
+    <details class="collapse">
+      <summary><span class="title">No me pide usuario/contraseña y la página no carga</span></summary>
+      <div class="collapse-body">
+        <p>Revisa que el host sea exactamente <code>150.230.28.174</code> y el puerto <code>8443</code>. Un espacio de más o un número mal escrito impide la conexión.</p>
+      </div>
+    </details>
+    <details class="collapse">
+      <summary><span class="title">Me pide usuario/contraseña pero las rechaza</span></summary>
+      <div class="collapse-body">
+        <p>La contraseña distingue mayúsculas, minúsculas y números. Cópiala y pégala con cuidado. Si sigue fallando, pide al administrador que verifique o regenere tu clave.</p>
+      </div>
+    </details>
+    <details class="collapse">
+      <summary><span class="title">ipinfo.io muestra otra IP, no la 150.230.28.174</span></summary>
+      <div class="collapse-body">
+        <p>El proxy no está activo. En Firefox confirma que está marcada la "Configuración manual del proxy"; en FoxyProxy confirma que el modo por patrones está activo y que estás dentro de una URL de Ecuabet.</p>
+      </div>
+    </details>
+    <details class="collapse">
+      <summary><span class="title">Mi navegación normal (otras webs) se volvió lenta</span></summary>
+      <div class="collapse-body">
+        <p>Probablemente dejaste el proxy activo para todo. Usa FoxyProxy con el patrón de Ecuabet, o desactiva el proxy de Firefox cuando no estés en el panel.</p>
+      </div>
+    </details>
+
+    <div class="callout info"><strong>Soporte.</strong> Si después de revisar todo sigues sin poder entrar, contacta al administrador de My Store Digital con una captura de lo que muestra ipinfo.io.</div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
