@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NVIDIA y los modelos de IA gratis: la estrategia detrás de build.nvidia.com</title>
+  <meta name="description" content="Por qué NVIDIA regala acceso a 100+ modelos de IA, qué ofrece su tier gratuito, y qué significa para My Store Digital.">
+  <meta name="category" content="ANÁLISIS DE MERCADO">
+  <meta name="date" content="2026-06-17">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Análisis de Mercado</div>
+      <h1>NVIDIA y los modelos de IA gratis: la estrategia detrás de build.nvidia.com</h1>
+      <p class="lede">NVIDIA regala acceso a 100+ modelos de IA. No es generosidad: es la misma jugada que hizo Google con Android. Esto es qué ofrece, por qué, y qué significa para nosotros.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-06-17</span>
+        <span><strong>Sistema</strong> · NVIDIA NIM · build.nvidia.com · modelos open source</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué pasa:</strong> NVIDIA ofrece acceso gratuito a más de 100 modelos de IA vía <strong>build.nvidia.com</strong>, sin tarjeta de crédito.</p>
+      <p><strong>Por qué:</strong> regalar el software crea dependencia de su hardware (GPUs). Los devs prototipan gratis, se acostumbran al ecosistema y compran GPUs cuando escalan a producción.</p>
+      <p><strong>Qué significa para nosotros:</strong> APIs gratis para prototipar funcionalidades de IA en productos de clientes, y modelos open source que permiten fine-tuning sin depender de APIs de pago.</p>
+    </div>
+
+    <h2 id="oferta">Qué ofrece NVIDIA en su tier gratuito</h2>
+    <p>NVIDIA abrió su catálogo de inferencia al público. Cualquier desarrollador puede registrarse y empezar a hacer llamadas a modelos de frontera sin pagar nada.</p>
+
+    <dl class="kv-grid">
+      <dt>Plataforma</dt>       <dd><a href="https://build.nvidia.com/models" target="_blank" rel="noopener">build.nvidia.com/models</a></dd>
+      <dt>Modelos</dt>          <dd>100+ — DeepSeek V4, MiniMax M2.7, GLM 5.1, Gemma 4, Llama, Mistral, Qwen</dd>
+      <dt>Costo</dt>            <dd><span class="status done">Gratis</span> sin tarjeta de crédito</dd>
+      <dt>Requisito</dt>        <dd>Registro en NVIDIA Developer Program</dd>
+      <dt>Límite</dt>           <dd>40 requests / minuto</dd>
+      <dt>Uso ideal</dt>        <dd>Desarrollo y prototipado <span class="status risk">no producción</span></dd>
+    </dl>
+
+    <div class="callout info"><strong>Info.</strong> El límite de 40 req/min es suficiente para prototipar y validar casos de uso, pero no para servir tráfico real de clientes. Para eso hay que escalar a GPUs propias o al tier de pago — que es exactamente el objetivo de NVIDIA.</div>
+
+    <h2 id="modelos-abiertos">Modelos abiertos anunciados en GTC 2026</h2>
+    <p>Además del catálogo de inferencia, NVIDIA liberó familias de modelos open source orientadas a verticales específicos:</p>
+
+    <table>
+      <thead><tr><th>Familia</th><th>Enfoque</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Nemotron</strong></td><td>IA agéntica</td></tr>
+        <tr><td><strong>Cosmos</strong></td><td>IA física</td></tr>
+        <tr><td><strong>Isaac GR00T</strong></td><td>Robótica</td></tr>
+        <tr><td><strong>Alpamayo</strong></td><td>Vehículos autónomos</td></tr>
+        <tr><td><strong>BioNeMo</strong></td><td>Investigación biomédica</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="productos">Productos clave</h2>
+    <ul>
+      <li><strong>NVIDIA NIM</strong> — APIs de inferencia gratuitas para desarrollo. El punto de entrada al ecosistema.</li>
+      <li><strong>OpenClaw</strong> — agente de IA <em>local-first</em> que corre en tu propia PC con GPU RTX. Los datos nunca salen del equipo. Recuerda conversaciones y usa contexto de archivos.</li>
+      <li><strong>NemoClaw</strong> — capa de seguridad para OpenClaw.</li>
+    </ul>
+
+    <h2 id="estrategia">La estrategia: por qué es gratis</h2>
+    <p>No es filantropía. Es el manual de jugadas clásico de plataformas — el mismo que usó Google al regalar Android para vender servicios y dominar el móvil. NVIDIA regala el software para que el hardware se venda solo.</p>
+
+    <ol class="steps">
+      <li>Los desarrolladores prototipan <strong>gratis</strong> con las APIs de NVIDIA.</li>
+      <li>Se acostumbran al ecosistema, las herramientas y los modelos.</li>
+      <li>Cuando escalan a producción, compran GPUs o pagan el tier de pago.</li>
+      <li><strong>Lock-in por conveniencia</strong>, no por restricción — el costo de migrar a otro stack ya es demasiado alto.</li>
+    </ol>
+
+    <div class="callout warn"><strong>Advertencia.</strong> El valor real está en prototipar rápido sin compromiso, pero hay que entrar con los ojos abiertos: cada hora invertida en el stack de NVIDIA es una hora que aumenta el costo de salir de él. Conviene mantener el código de inferencia desacoplado (capa de abstracción sobre el proveedor) para no quedar atrapados.</div>
+
+    <h2 id="relevancia">Relevancia para My Store Digital</h2>
+    <ul>
+      <li><strong>NIM APIs</strong> para prototipar funcionalidades de IA en productos de clientes sin costo inicial.</li>
+      <li><strong>OpenClaw</strong> como complemento local a ClaudeClaw — 100% local en el equipo del cliente vs. la nube de Anthropic. Útil cuando la privacidad de datos es un requisito duro.</li>
+      <li><strong>Modelos open source</strong> permiten fine-tuning sobre casos específicos sin depender de APIs de pago por token.</li>
+    </ul>
+
+    <h2 id="proximos-pasos">Próximos pasos</h2>
+    <ol class="steps">
+      <li>Registrarse en el NVIDIA Developer Program y obtener una API key.</li>
+      <li>Probar las NIM APIs con un caso de uso real de My Store Digital.</li>
+      <li>Evaluar OpenClaw como complemento local a ClaudeClaw para clientes con requisitos de privacidad.</li>
+    </ol>
+
+    <div class="callout ok"><strong>OK.</strong> El tier gratuito es ideal para validar ideas de IA antes de comprometer presupuesto. Empezar por un prototipo acotado y medir si el resultado justifica escalar.</div>
+
+    <p style="margin-top:2rem;opacity:.7;font-size:.9em">Fuente: video de YouTube · <a href="https://www.youtube.com/watch?v=4AGcTp9UXic" target="_blank" rel="noopener">watch?v=4AGcTp9UXic</a> · capturado 2026-05-06.</p>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
