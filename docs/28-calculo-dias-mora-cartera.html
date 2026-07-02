@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>¿Cómo debe contar los días de mora la cartera?</title>
+  <meta name="description" content="Hallazgo sobre el cálculo de días de mora en cartera, con datos reales, y la fórmula que recomendamos.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-07-02">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Capacidades</div>
+      <h1>¿Cómo debe contar los días de mora la cartera?</h1>
+      <p class="lede">Pediste que la mora se cuente desde el inicio de vigencia. Al probarlo con tus datos reales encontramos un detalle importante — y una forma mejor de lograr exactamente lo que buscas.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-07-02</span>
+        <span><strong>Para</strong> · Decisión del cliente</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">En una frase</div>
+      <p><strong>Tu objetivo:</strong> que la mora refleje la realidad de hoy — no el número "viejo" con el que la baja la aseguradora — para actuar antes de que se cancele la póliza.</p>
+      <p><strong>Lo que encontramos:</strong> contar literalmente "hoy − inicio de vigencia" funciona para pólizas nuevas, pero <strong>infla la mora a 200–400 días</strong> en las pólizas que llevan meses o un año de vigencia. Afectaría a <strong>206 de 228</strong> registros de cartera.</p>
+      <p><strong>Lo que recomendamos:</strong> <span class="status brand">Envejecer el dato del reporte</span> — tomar el número oficial de la aseguradora y sumarle los días transcurridos desde que se generó. Da el mismo resultado que "inicio de vigencia" en las pólizas del ciclo actual, sin romper las viejas.</p>
+    </div>
+
+    <h2 id="objetivo">Qué nos pediste (y por qué tienes razón)</h2>
+    <p>El problema que planteaste es real y es de negocio, no técnico: la aseguradora reporta la mora <strong>congelada al día en que generó el reporte</strong>. Cuando lo revisas días después, el número ya se quedó corto.</p>
+    <div class="callout info"><strong>Tu ejemplo:</strong> "Aquí me dice que tiene 46 días de mora y en realidad tiene casi 60." Exacto — pasaron ~14 días desde que se generó ese reporte, pero el número siguió mostrando 46. Y como la póliza se cancela a los 60, ese desfase te puede costar la póliza.</div>
+    <p>La conclusión de la reunión fue: <em>"que el sistema cuente desde el inicio de vigencia"</em>. Fuimos a implementarlo y probarlo contra tu base real. Ahí apareció el detalle.</p>
+
+    <h2 id="hallazgo">El hallazgo: "inicio de vigencia" literal se rompe</h2>
+    <p>Una póliza tiene una <strong>fecha de inicio de vigencia</strong>. Pero muchas pólizas llevan <strong>meses o más de un año</strong> vigentes (se renuevan cada año, se pagan por cuotas). Contar "hoy − inicio de vigencia" en esas da un número enorme que <strong>no es la mora real</strong>.</p>
+
+    <p>Esto no es teoría — lo medimos en tus datos:</p>
+    <table>
+      <thead>
+        <tr><th>Póliza</th><th>Mora reportada</th><th>"Hoy − inicio vigencia"</th><th>¿Real?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Solidaria auto (inició may-2025)</td><td>36 días</td><td>424 días</td><td><span class="status risk">No</span></td></tr>
+        <tr><td>SURA auto (inició jul-2025)</td><td>33 días</td><td>353 días</td><td><span class="status risk">No</span></td></tr>
+        <tr><td>SURA incendio (inició dic-2025)</td><td>39 días</td><td>198 días</td><td><span class="status risk">No</span></td></tr>
+        <tr><td>SURA "otro" (inició may-2026)</td><td>60 días</td><td>61 días</td><td><span class="status done">Sí</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout risk"><strong>Impacto si lo dejáramos así:</strong> de 228 pólizas en cartera, <strong>206 quedarían sobreestimadas</strong> y <strong>125 saltarían a "mora crítica" (+90 días)</strong> cuando hoy solo hay 1. El sistema mandaría mensajes tipo <em>"usted tiene 424 días de mora"</em> a clientes que llevan 36. Por eso <strong>no lo activamos</strong>: lo detectamos a tiempo.</div>
+
+    <h2 id="descubrimiento">Lo importante: la aseguradora YA cuenta desde el inicio de vigencia</h2>
+    <p>Al revisar los reportes frescos, confirmamos algo clave: el número de "días en mora" que baja SURA <strong>ya está contado desde el inicio de vigencia</strong>. No te está aplicando un lapso de gracia en ese número.</p>
+    <div class="callout ok"><strong>Ejemplo verificado:</strong> póliza que inició el 2 de mayo, reporte generado el 1 de julio → la aseguradora reporta exactamente <strong>60 días</strong>. Es decir, del 2-may al 1-jul. Ya cuenta desde la vigencia.</div>
+    <p>Entonces el problema real <strong>no</strong> es "desde qué fecha cuenta la aseguradora" — es que <strong>ese número no envejece</strong>. Se queda pegado al día del reporte.</p>
+
+    <h2 id="solucion">La solución que recomendamos</h2>
+    <p>En vez de recalcular desde cero (que rompe las pólizas viejas), tomamos el número oficial de la aseguradora y lo <strong>envejecemos</strong> automáticamente:</p>
+
+    <div class="callout ok" style="font-size:1.05em"><strong>Días de mora hoy = días que reportó la aseguradora + (hoy − fecha del reporte)</strong></div>
+
+    <p>Con esto, cada día que pasa el número sube solo. Comparado con tus datos reales:</p>
+    <table>
+      <thead>
+        <tr><th>Póliza</th><th>Reportado</th><th>Fórmula "vigencia" (mala)</th><th>Envejecer reporte (buena)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Solidaria auto</td><td>36</td><td><span class="status risk">424</span></td><td><span class="status done">59</span></td></tr>
+        <tr><td>SURA auto</td><td>33</td><td><span class="status risk">353</span></td><td><span class="status done">49</span></td></tr>
+        <tr><td>SURA "otro" (ciclo actual)</td><td>60</td><td>61</td><td><span class="status done">61</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout ok"><strong>Por qué es lo que buscas:</strong> en las pólizas del ciclo actual da <strong>exactamente lo mismo</strong> que "desde inicio de vigencia" (porque la aseguradora ya cuenta así). Pero en las viejas se mantiene realista. Y resuelve tu queja original: "46 → casi 60" se cumple, porque suma los días transcurridos desde el reporte.</div>
+
+    <h3>Qué incluye, además</h3>
+    <ol class="steps">
+      <li><strong>Envejecimiento automático diario:</strong> el número sube solo cada día, sin esperar un nuevo reporte.</li>
+      <li><strong>Limpieza de cartera:</strong> cuando subes un reporte nuevo, las pólizas que ya pagaron (y por eso dejaron de aparecer) se marcan al día automáticamente. Se acabó el mezclar reportes de mayo con los de junio.</li>
+      <li><strong>Sin trabajo manual:</strong> no hay que marcar "pagada" póliza por póliza — se detecta solo por el saldo.</li>
+    </ol>
+
+    <h2 id="decision">Para decidir</h2>
+    <p>Necesitamos tu visto bueno sobre el criterio. Confírmanos cuál usamos:</p>
+    <ul>
+      <li>✅ <strong>Envejecer el dato del reporte</strong> (recomendada) — la implementamos y activamos. <em>Es lo que sugerimos y lo que en la práctica querías.</em></li>
+      <li>➕ <strong>Un ajuste extra</strong> — si en tu operación la mora debe arrancar en una fecha distinta (por ejemplo, la fecha de pago máximo en vez del inicio de vigencia), dínoslo y lo afinamos.</li>
+    </ul>
+
+    <div class="callout warn"><strong>Mientras decides:</strong> dejamos el cálculo automático <strong>en pausa</strong> para no afectar tus datos ni enviar notificaciones con cifras infladas. La cartera hoy muestra el número tal como lo bajó la aseguradora, como venía funcionando.</div>
+
+    <div class="callout ok"><strong>Siguiente paso.</strong> Confírmanos que vamos con <strong>"envejecer el dato del reporte"</strong> y lo dejamos funcionando el mismo día. 📩 <a href="https://mystoredigital.com" target="_blank" rel="noopener">mystoredigital.com</a></div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
