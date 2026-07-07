@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monta tu propio asistente de IA (corre solo, te responde por el celular)</title>
+  <meta name="description" content="Guía gratuita: un asistente de IA que vive 24/7 en tu servidor, te habla por chat, gestiona tus notas y corre con tu propia suscripción de Claude. Paso a paso, para que lo montes tú.">
+  <meta name="category" content="GUÍAS">
+  <meta name="date" content="2026-07-06">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .lm-hero{background:linear-gradient(135deg,var(--black) 0%,#241B10 55%,var(--orange-dark) 135%);
+      position:relative;overflow:hidden;padding:72px 32px 80px}
+    .lm-hero::before{content:'';position:absolute;top:-25%;right:-8%;width:620px;height:620px;
+      background:radial-gradient(circle,rgba(232,147,40,.18) 0%,transparent 60%);border-radius:50%}
+    .lm-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:2}
+    .lm-hero .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(232,147,40,.14);
+      color:var(--orange-light);padding:6px 14px;border-radius:100px;font-family:var(--mono);
+      font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px}
+    .lm-hero .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--orange)}
+    .lm-hero h1{font-family:var(--display);font-size:clamp(30px,6vw,52px);font-weight:700;color:#fff;
+      line-height:1.05;letter-spacing:-.02em;margin:0 0 18px;max-width:20ch;text-wrap:balance}
+    .lm-hero h1 .hl{color:var(--orange)}
+    .lm-hero .lede{font-size:clamp(16px,2.4vw,19px);color:rgba(255,255,255,.8);max-width:56ch;
+      line-height:1.6;margin:0 0 30px}
+    .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 22px;border-radius:12px;
+      font-weight:700;font-size:15px;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+    .btn-primary{background:var(--orange);color:#1A1A1A;box-shadow:0 8px 24px -8px rgba(232,147,40,.6)}
+    .btn-primary:hover{transform:translateY(-2px);color:#1A1A1A}
+    .btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22)}
+    .btn-ghost:hover{background:rgba(255,255,255,.14);color:#fff;transform:translateY(-2px)}
+    .lm-facts{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);
+      font-size:12px;color:rgba(255,255,255,.55);letter-spacing:.05em}
+    .lm-facts b{color:rgba(255,255,255,.92);font-weight:500}
+
+    .value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:26px 0 8px}
+    .value-card{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:22px}
+    .value-card .ic{font-size:22px;line-height:1;margin-bottom:12px;display:block}
+    .value-card h3{font-size:16px;font-weight:700;color:var(--black);margin:0 0 6px}
+    .value-card p{font-size:14px;color:var(--gray-600);margin:0;line-height:1.55}
+
+    .flow{list-style:none;padding:0;margin:24px 0;counter-reset:mv}
+    .flow>li{position:relative;padding:0 0 22px 58px;counter-increment:mv}
+    .flow>li:last-child{padding-bottom:0}
+    .flow>li::before{content:counter(mv);position:absolute;left:0;top:-4px;width:40px;height:40px;
+      display:flex;align-items:center;justify-content:center;border-radius:12px;
+      background:var(--orange-tint);border:1px solid #F2E1C5;color:var(--orange-dark);
+      font-family:var(--display);font-weight:700;font-size:17px}
+    .flow .mv-t{font-weight:700;color:var(--black);display:block;margin-bottom:3px;font-size:16px}
+    .flow .mv-d{color:var(--gray-700);font-size:14.5px}
+
+    .cta-final{background:var(--black);border-radius:18px;padding:clamp(28px,5vw,44px);margin:44px 0 8px;
+      text-align:center}
+    .cta-final h2{font-family:var(--display);font-size:clamp(22px,4vw,30px);color:#fff;margin:0 0 10px;
+      border:0;display:block}
+    .cta-final p{color:rgba(255,255,255,.7);max-width:52ch;margin:0 auto 24px;font-size:15.5px}
+    .cta-final .cta-row{justify-content:center}
+    @media(max-width:700px){.lm-hero{padding:52px 22px 60px}.flow>li{padding-left:52px}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://mystoredigital.com" target="_blank" rel="noopener">mystoredigital.com</a></div>
+    </div>
+  </nav>
+
+  <header class="lm-hero">
+    <div class="lm-hero-inner">
+      <span class="eyebrow">Guía gratuita</span>
+      <h1>Tu propio asistente de IA, viviendo en <span class="hl">tu servidor</span> y respondiéndote por el celular.</h1>
+      <p class="lede">No un chatbot de libreto: un agente real que gestiona tus archivos, tu correo, tu calendario y tus notas — encendido 24/7, con <strong>tu</strong> suscripción de Claude, y con nadie más husmeando en tus datos. Aquí está cómo montarlo. El límite lo pones tú.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://yoany.link/hostinger" target="_blank" rel="noopener">Conseguir mi VPS →</a>
+        <a class="btn btn-ghost" href="https://yoany.link/imperio" target="_blank" rel="noopener">Aprender en la comunidad</a>
+      </div>
+      <div class="lm-facts">
+        <span><b>6</b> movimientos</span>
+        <span><b>~1 hora</b> de montaje</span>
+        <span>desde <b>~$8</b>/mes</span>
+        <span><b>100%</b> tuyo</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+    <p>La mayoría de la gente usa IA abriendo una pestaña, escribiendo, copiando la respuesta y cerrando. Está bien — pero es alquilar. Lo que verás aquí es lo contrario: montar <strong>tu propia</strong> pieza de infraestructura, un asistente que no se apaga cuando cierras el laptop, al que le escribes desde el celular como a un contacto de WhatsApp, y que trabaja mientras haces otra cosa.</p>
+
+    <h2>Lo que vas a tener</h2>
+    <div class="value-grid">
+      <div class="value-card"><span class="ic">📱</span><h3>Chat desde el celular</h3><p>Le hablas por una app de chat privada, en iPhone, Android o Mac. Como un mensaje más.</p></div>
+      <div class="value-card"><span class="ic">🛠️</span><h3>Hace cosas de verdad</h3><p>Toca archivos, responde correos, revisa tu calendario, investiga, redacta, automatiza. No solo conversa.</p></div>
+      <div class="value-card"><span class="ic">🧠</span><h3>Memoria + tus notas</h3><p>Recuerda entre conversaciones y lee/escribe en tu Obsidian, sincronizado entre el celular y el Mac.</p></div>
+      <div class="value-card"><span class="ic">⚡</span><h3>Siempre encendido</h3><p>Vive en un servidor, no en tu equipo. Le dejas una tarea y sigue aunque apagues todo.</p></div>
+      <div class="value-card"><span class="ic">🔑</span><h3>Con tu propia IA</h3><p>Corre con la suscripción Claude Pro/Max que ya tienes. Sin pagar API por fuera.</p></div>
+      <div class="value-card"><span class="ic">🔒</span><h3>Privado de verdad</h3><p>El servidor no responde a nadie de afuera; el chat es público pero cerrado con tu login. Tus datos son tuyos.</p></div>
+    </div>
+
+    <h2>Cómo funciona (sin humo)</h2>
+    <p>Un servidor pequeño y siempre encendido corre el <strong>CLI oficial de Claude Code</strong> y lo conecta a una app de chat (<strong>Mattermost</strong>, que te auto-hospedas gratis). Un solo bot atiende todos tus canales. El chat sale a internet por un <strong>túnel de Cloudflare</strong> (HTTPS válido, sin abrir puertos, sin exponer la IP), y todo lo administrativo queda en una red privada (<strong>Tailscale</strong>). Tus notas viven en un repositorio de <strong>Obsidian</strong> que se sincroniza solo entre tus dispositivos y el servidor.</p>
+    <div class="callout"><strong>La clave:</strong> lo público es solo la puerta del chat (protegida por login). El servidor, tus datos y tus notas nadie externo los alcanza. Y si un día quieres moverlo a tu propia casa (un mini-PC), el mismo software se muda sin cambiar nada.</div>
+
+    <h2>El camino, en 6 movimientos</h2>
+    <ol class="flow">
+      <li><span class="mv-t">1 · El servidor</span><span class="mv-d">Un VPS chico (2 vCPU / 8 GB) con Ubuntu. Se instala Node, Docker y el CLI de Claude. Cinco minutos.</span></li>
+      <li><span class="mv-t">2 · La red privada</span><span class="mv-d">Tailscale para entrar tú de forma segura, y el firewall cerrado a todo lo demás.</span></li>
+      <li><span class="mv-t">3 · El chat público</span><span class="mv-d">Mattermost en Docker + túnel de Cloudflare → tu dominio con HTTPS. Descargas la app y ya entras.</span></li>
+      <li><span class="mv-t">4 · El correo</span><span class="mv-d">Amazon SES para que te lleguen notificaciones e invitaciones (con DKIM y DMARC bien puestos).</span></li>
+      <li><span class="mv-t">5 · El asistente</span><span class="mv-d">Se instala el agente, se conecta al chat, y se activa con tu cuenta de Claude. Arranca solo en cada reinicio.</span></li>
+      <li><span class="mv-t">6 · Tus notas</span><span class="mv-d">Tu bóveda de Obsidian sincronizada con el servidor, para que el asistente lea tus pendientes y te escriba resúmenes.</span></li>
+    </ol>
+
+    <h2>Lo que necesitas</h2>
+    <table>
+      <thead><tr><th>Pieza</th><th>Para qué</th><th>Dónde</th></tr></thead>
+      <tbody>
+        <tr><td><strong>VPS</strong></td><td>el servidor 24/7</td><td><a href="https://yoany.link/hostinger" target="_blank" rel="noopener">Hostinger →</a> (~$8/mes)</td></tr>
+        <tr><td><strong>Dominio</strong></td><td>tu chat con HTTPS</td><td>cualquier registrador (~$10/año)</td></tr>
+        <tr><td><strong>Cloudflare</strong></td><td>DNS + túnel + SSL</td><td>gratis</td></tr>
+        <tr><td><strong>Claude Pro/Max</strong></td><td>el motor</td><td>claude.ai</td></tr>
+        <tr><td><strong>Tailscale</strong></td><td>acceso privado</td><td>gratis</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout ok"><strong>¿Te suena bien pero no quieres pelear con la terminal?</strong> Todo esto lo montamos y lo entregamos listo. Y si quieres aprender a hacerlo tú —y mucho más con agentes de IA— la comunidad es el lugar.</div>
+
+    <div class="cta-final">
+      <h2>Empieza hoy</h2>
+      <p>Consigue tu servidor y monta el tuyo. Es más fácil de lo que parece, y a partir de ahí, el límite lo pones tú.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://yoany.link/hostinger" target="_blank" rel="noopener">Conseguir mi VPS →</a>
+        <a class="btn btn-ghost" href="https://yoany.link/imperio" target="_blank" rel="noopener">Unirme a la comunidad</a>
+      </div>
+    </div>
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://mystoredigital.com">mystoredigital.com</a></div>
+  </div></footer>
+</body>
+</html>
