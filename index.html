@@ -34,8 +34,16 @@
       <section class="section">
         <h2>INFRAESTRUCTURA</h2>
         <div class="entries">
-          <a class="entry" href="docs/01-acceso-ssh-y-snapshot.html">
+          <a class="entry" href="docs/21-hermes-clientes-infraestructura.html">
             <div class="entry-num">01</div>
+            <div class="entry-body">
+              <div class="entry-title">Hermes para Clientes — Infraestructura</div>
+              <div class="entry-desc">Un agente Hermes por cliente en Proxmox, con acceso remoto seguro vía Cloudflare Tunnel + Access y uso diario por Telegram.</div>
+            </div>
+            <div class="entry-meta">2026-06-04</div>
+          </a>
+          <a class="entry" href="docs/01-acceso-ssh-y-snapshot.html">
+            <div class="entry-num">02</div>
             <div class="entry-body">
               <div class="entry-title">Acceso SSH gestionado y snapshot de seguridad</div>
               <div class="entry-desc">Provisioning automatizado de claves SSH al VPS y snapshot manual previo a cualquier intervención.</div>
@@ -43,7 +51,7 @@
             <div class="entry-meta">2026-05-10</div>
           </a>
           <a class="entry" href="docs/02-recuperacion-supavisor.html">
-            <div class="entry-num">02</div>
+            <div class="entry-num">03</div>
             <div class="entry-body">
               <div class="entry-title">Recuperación de Supavisor en Supabase self-hosted</div>
               <div class="entry-desc">Diagnóstico y fix de un pooler de conexiones en crashloop tras 9.896 reintentos fallidos.</div>
@@ -51,7 +59,7 @@
             <div class="entry-meta">2026-05-10</div>
           </a>
           <a class="entry" href="docs/03-firewall-network-level.html">
-            <div class="entry-num">03</div>
+            <div class="entry-num">04</div>
             <div class="entry-body">
               <div class="entry-title">Firewall network-level con default-deny</div>
               <div class="entry-desc">Reducción de superficie de ataque mediante firewall a nivel de hipervisor con whitelist explícita.</div>
@@ -59,7 +67,7 @@
             <div class="entry-meta">2026-05-10</div>
           </a>
           <a class="entry" href="docs/04-vaultwarden-cleanup.html">
-            <div class="entry-num">04</div>
+            <div class="entry-num">05</div>
             <div class="entry-body">
               <div class="entry-title">Detección y limpieza de servicios abandonados</div>
               <div class="entry-desc">Cómo identificar contenedores que ya no se usan, hacer backup verificable y dejarlos detenidos sin pérdida de datos.</div>
@@ -73,7 +81,7 @@
         <h2>AUTOMATIZACIÓN</h2>
         <div class="entries">
           <a class="entry" href="docs/05-cloudflare-dns-integration.html">
-            <div class="entry-num">05</div>
+            <div class="entry-num">06</div>
             <div class="entry-body">
               <div class="entry-title">Integración programática con Cloudflare DNS</div>
               <div class="entry-desc">Token con scope mínimo, gestión de zones y registros A vía API para automatizar despliegues con subdominio.</div>
@@ -81,7 +89,7 @@
             <div class="entry-meta">2026-05-10</div>
           </a>
           <a class="entry" href="docs/06-dokploy-api.html">
-            <div class="entry-num">06</div>
+            <div class="entry-num">07</div>
             <div class="entry-body">
               <div class="entry-title">API de Dokploy para despliegues programáticos</div>
               <div class="entry-desc">Cómo descubrir, autenticar y consumir el API tRPC de Dokploy para gestionar proyectos y aplicaciones desde código.</div>
@@ -94,8 +102,88 @@
       <section class="section">
         <h2>CAPACIDADES</h2>
         <div class="entries">
+          <a class="entry" href="docs/28-calculo-dias-mora-cartera.html">
+            <div class="entry-num">08</div>
+            <div class="entry-body">
+              <div class="entry-title">¿Cómo debe contar los días de mora la cartera?</div>
+              <div class="entry-desc">Hallazgo sobre el cálculo de días de mora en cartera, con datos reales, y la fórmula que recomendamos.</div>
+            </div>
+            <div class="entry-meta">2026-07-02</div>
+          </a>
+          <a class="entry" href="docs/26-tutorial-proxy-acceso-ecuabet.html">
+            <div class="entry-num">09</div>
+            <div class="entry-body">
+              <div class="entry-title">Acceso a admin.ecuabet.com mediante proxy con IP fija</div>
+              <div class="entry-desc">Guía para operadores: conectarse al panel de Ecuabet a través del proxy con IP autorizada de My Store Digital.</div>
+            </div>
+            <div class="entry-meta">2026-06-12</div>
+          </a>
+          <a class="entry" href="docs/25-tutorial-clared-acceso-app-y-blog.html">
+            <div class="entry-num">10</div>
+            <div class="entry-body">
+              <div class="entry-title">Tutorial Clared — Acceso a la app y crear una publicación en el blog</div>
+              <div class="entry-desc">Guía paso a paso para entrar a app.mystoredigital.com desde tu correo, crear tu contraseña y publicar un nuevo artículo en el blog.</div>
+            </div>
+            <div class="entry-meta">2026-06-11</div>
+          </a>
+          <a class="entry" href="docs/24-html-sobre-markdown-planning-ia.html">
+            <div class="entry-num">11</div>
+            <div class="entry-body">
+              <div class="entry-title">HTML sobre Markdown para planning con IA</div>
+              <div class="entry-desc">Por qué los planes de tareas que un humano va a auditar deben ser HTML, no Markdown — metodología human-in-the-loop con Claude Code.</div>
+            </div>
+            <div class="entry-meta">2026-06-10</div>
+          </a>
+          <a class="entry" href="docs/23-guia-acceso-nextcloud-usuarios.html">
+            <div class="entry-num">12</div>
+            <div class="entry-body">
+              <div class="entry-title">Guía de acceso — Tu nube privada My Store Digital</div>
+              <div class="entry-desc">Cómo crear tu contraseña, ingresar, activar la verificación en dos pasos e instalar la app de tu nube privada.</div>
+            </div>
+            <div class="entry-meta">2026-06-08</div>
+          </a>
+          <a class="entry" href="docs/22-historial-whatsapp-cliente.html">
+            <div class="entry-num">13</div>
+            <div class="entry-body">
+              <div class="entry-title">Historial de WhatsApp en Odoo — opciones</div>
+              <div class="entry-desc">¿Se puede traer el historial de conversaciones de WhatsApp al vincular? Opciones, alcance real y nuestra recomendación.</div>
+            </div>
+            <div class="entry-meta">2026-06-05</div>
+          </a>
+          <a class="entry" href="docs/18-whatsapp-odoo-sin-meta.html">
+            <div class="entry-num">14</div>
+            <div class="entry-body">
+              <div class="entry-title">WhatsApp nativo en Odoo — sin la API de Meta</div>
+              <div class="entry-desc">Integración de WhatsApp con Odoo 19 mediante un agente propio (Baileys): enviar, recibir, IA y conversaciones unificadas en Discuss, con instancia privada por cliente.</div>
+            </div>
+            <div class="entry-meta">2026-05-30</div>
+          </a>
+          <a class="entry" href="docs/16-whatsapp-agent-roadmap-antiban.html">
+            <div class="entry-num">15</div>
+            <div class="entry-body">
+              <div class="entry-title">WhatsApp Agent — Roadmap de mejoras anti-ban</div>
+              <div class="entry-desc">Análisis técnico del estado actual del agente y plan priorizado de mejoras para una versión robusta orientada a clientes enterprise/agencia.</div>
+            </div>
+            <div class="entry-meta">2026-05-27</div>
+          </a>
+          <a class="entry" href="docs/17-whatsapp-agent-capacidades-cliente.html">
+            <div class="entry-num">16</div>
+            <div class="entry-body">
+              <div class="entry-title">WhatsApp Agent — Capacidades anti-bloqueo</div>
+              <div class="entry-desc">Cómo se construye nuestro agente de WhatsApp para mantenerse estable y no bloquear los números: rate limiting, ritmo humano, ventanas de operación, IA generativa y proxy bajo demanda.</div>
+            </div>
+            <div class="entry-meta">2026-05-27</div>
+          </a>
+          <a class="entry" href="docs/14-shopify-pos-lite-guia.html">
+            <div class="entry-num">17</div>
+            <div class="entry-body">
+              <div class="entry-title">Shopify POS Lite — Guía de tu punto de venta físico</div>
+              <div class="entry-desc">Cómo activar y usar Shopify POS Lite (incluido en tu plan, sin costo extra) para vender en tu tienda física con inventario sincronizado al e-commerce.</div>
+            </div>
+            <div class="entry-meta">2026-05-25</div>
+          </a>
           <a class="entry" href="docs/07-capacidades-end-to-end.html">
-            <div class="entry-num">07</div>
+            <div class="entry-num">18</div>
             <div class="entry-body">
               <div class="entry-title">Despliegue end-to-end de una aplicación nueva</div>
               <div class="entry-desc">Recorrido completo: del prompt a una URL pública con SSL en producción, sin intervención manual entre etapas.</div>
@@ -108,8 +196,32 @@
       <section class="section">
         <h2>ANÁLISIS DE MERCADO</h2>
         <div class="entries">
+          <a class="entry" href="docs/27-nvidia-modelos-ia-gratis-estrategia.html">
+            <div class="entry-num">19</div>
+            <div class="entry-body">
+              <div class="entry-title">NVIDIA y los modelos de IA gratis: la estrategia detrás de build.nvidia.com</div>
+              <div class="entry-desc">Por qué NVIDIA regala acceso a 100+ modelos de IA, qué ofrece su tier gratuito, y qué significa para My Store Digital.</div>
+            </div>
+            <div class="entry-meta">2026-06-17</div>
+          </a>
+          <a class="entry" href="docs/19-amscot-xepelin-smartcash.html">
+            <div class="entry-num">20</div>
+            <div class="entry-body">
+              <div class="entry-title">Amscot vs. Xepelin — Integración a SmartCash</div>
+              <div class="entry-desc">Análisis de dos referentes financieros y cómo integrar sus mejores prácticas al sistema de cartera de SmartCash, con foco en dar al cliente más posibilidades y facilidades.</div>
+            </div>
+            <div class="entry-meta">2026-06-01</div>
+          </a>
+          <a class="entry" href="docs/12-expansion-mystore-ecuador-estrategia.html">
+            <div class="entry-num">21</div>
+            <div class="entry-body">
+              <div class="entry-title">Expansión My Store Digital — Ecuador: Estrategia de Posicionamiento y Marketing</div>
+              <div class="entry-desc">Plan de expansión de My Store Digital al mercado ecuatoriano: investigación de mercado, estrategia de contenido, estructura de precios y siguientes pasos.</div>
+            </div>
+            <div class="entry-meta">2026-05-15</div>
+          </a>
           <a class="entry" href="docs/09-propuesta-amazon-usa-rubberfit.html">
-            <div class="entry-num">08</div>
+            <div class="entry-num">22</div>
             <div class="entry-body">
               <div class="entry-title">Propuesta Amazon USA v2 — Rubberfit</div>
               <div class="entry-desc">Propuesta de entrada al mercado USA vía Amazon: pricing, P&amp;L unitario, fases de despliegue y métricas de éxito (caso Rubberfit).</div>
@@ -117,7 +229,7 @@
             <div class="entry-meta">2026-05-09</div>
           </a>
           <a class="entry" href="docs/08-mercado-amazon-usa-rubberfit.html">
-            <div class="entry-num">09</div>
+            <div class="entry-num">23</div>
             <div class="entry-body">
               <div class="entry-title">Investigación de Mercado — Amazon USA — Rubberfit</div>
               <div class="entry-desc">Análisis del mercado Amazon USA: TAM, competencia directa, márgenes y barreras de entrada para un producto vertical (caso Rubberfit).</div>
@@ -126,12 +238,90 @@
           </a>
         </div>
       </section>
+
+      <section class="section">
+        <h2>ESTRATEGIA DIGITAL</h2>
+        <div class="entries">
+          <a class="entry" href="docs/11-escalamiento-marca-symbol-estrategia.html">
+            <div class="entry-num">24</div>
+            <div class="entry-body">
+              <div class="entry-title">Escalamiento de marca Symbol: estrategia legal, precios y e-commerce</div>
+              <div class="entry-desc">Estructuración de marca de ropa Symbol para escalar de voz a voz a canal digital: branding, registro legal, pricing premium accesible y e-commerce.</div>
+            </div>
+            <div class="entry-meta">2026-05-14</div>
+          </a>
+          <a class="entry" href="docs/10-estrategia-marketing-ecommerce-fitness.html">
+            <div class="entry-num">25</div>
+            <div class="entry-body">
+              <div class="entry-title">Estrategia de marketing digital y activación e‑commerce fitness en Shopify</div>
+              <div class="entry-desc">Plan de activación de campañas digitales, optimización de tienda Shopify y estrategia orgánica para marca fitness en Colombia.</div>
+            </div>
+            <div class="entry-meta">2026-05-02</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>FORMACIÓN</h2>
+        <div class="entries">
+          <a class="entry" href="docs/15-cerebro-digital-curso.html">
+            <div class="entry-num">26</div>
+            <div class="entry-body">
+              <div class="entry-title">Tu Cerebro Digital — Guía rápida del curso (Obsidian + IA en 7 días)</div>
+              <div class="entry-desc">Quick-start del sistema PARA + Wiki LLM. Descarga la plantilla, configura Obsidian en 15 min y empieza a usar tu segundo cerebro con IA.</div>
+            </div>
+            <div class="entry-meta">2026-05-26</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>HERRAMIENTAS</h2>
+        <div class="entries">
+          <a class="entry" href="docs/13-affine-onboarding-equipo.html">
+            <div class="entry-num">27</div>
+            <div class="entry-body">
+              <div class="entry-title">Affine — Nuestra nueva base de conocimiento (reemplaza Notion)</div>
+              <div class="entry-desc">Guía rápida para el equipo: cómo acceder a Affine self-hosted, crear tu primer workspace, importar plantillas y usar la herramienta día a día.</div>
+            </div>
+            <div class="entry-meta">2026-05-16</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>ONBOARDING</h2>
+        <div class="entries">
+          <a class="entry" href="docs/29-onboarding-batutahq.html">
+            <div class="entry-num">28</div>
+            <div class="entry-body">
+              <div class="entry-title">Configura tu asistente — Batuta HQ</div>
+              <div class="entry-desc">Guía para instalar Mattermost y Obsidian en el celular y empezar a usar tu asistente personal Batuta HQ.</div>
+            </div>
+            <div class="entry-meta">2026-07-06</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>REDES SOCIALES</h2>
+        <div class="entries">
+          <a class="entry" href="docs/20-informe-redes-sociales-semana-junio.html">
+            <div class="entry-num">29</div>
+            <div class="entry-body">
+              <div class="entry-title">Informe semanal de redes sociales — My Store Digital</div>
+              <div class="entry-desc">Desempeño de Instagram, LinkedIn y Facebook del 27 may al 2 jun 2026: 437 impresiones (+258%), Instagram disparado y Facebook caído por fallos de publicación.</div>
+            </div>
+            <div class="entry-meta">2026-06-03</div>
+          </a>
+        </div>
+      </section>
   </main>
 
   <footer class="site">
     <div class="inner">
       <img src="assets/logo.svg" alt="My Store Digital">
-      <div class="meta">9 documentos · build 2026-05-11 14:16 UTC · <a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+      <div class="meta">29 documentos · build 2026-07-07 02:06 UTC · <a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
     </div>
   </footer>
 </body>

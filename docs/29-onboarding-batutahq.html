@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configura tu asistente — Batuta HQ</title>
+  <meta name="description" content="Guía para instalar Mattermost y Obsidian en el celular y empezar a usar tu asistente personal Batuta HQ.">
+  <meta name="category" content="ONBOARDING">
+  <meta name="date" content="2026-07-06">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .stores{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0 2px}
+    .store{display:inline-flex;align-items:center;gap:10px;background:var(--black);color:#fff;
+      padding:11px 16px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;
+      transition:transform .15s ease, background .15s ease}
+    .store:hover{background:var(--orange-dark);color:#fff;transform:translateY(-1px)}
+    .store svg{width:18px;height:18px;fill:currentColor;flex:none}
+    .store small{display:block;font-size:10px;font-weight:500;opacity:.7;text-transform:uppercase;
+      letter-spacing:.05em;line-height:1;margin-bottom:2px}
+    .store span{line-height:1.1}
+    .doc-body ul.steps{list-style:none;padding:0;margin:20px 0;counter-reset:st}
+    .doc-body ul.steps>li{position:relative;padding:0 0 20px 48px;margin:0;counter-increment:st}
+    .doc-body ul.steps>li:last-child{padding-bottom:0}
+    .doc-body ul.steps>li::marker{content:none}
+    .doc-body ul.steps>li::before{content:counter(st);position:absolute;left:0;top:-2px;width:31px;height:31px;
+      display:flex;align-items:center;justify-content:center;border-radius:50%;
+      background:var(--orange-tint);border:1px solid #F2E1C5;color:var(--orange-dark);
+      font-family:var(--display);font-weight:700;font-size:14px}
+    .doc-body ul.steps .st-t{font-weight:700;color:var(--black);display:block;margin-bottom:3px}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Onboarding</div>
+      <h1>Configura tu asistente Batuta HQ</h1>
+      <p class="lede">Dos apps en tu celular y quedas listo. Te toma cinco minutos — el jueves lo activamos juntos.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-07-06</span>
+        <span><strong>Apps</strong> · Mattermost · Obsidian</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+    <p>Bienvenido, Juan David. Tu asistente personal vive siempre encendido en un servidor privado, listo para responderte desde el celular. Para empezar solo necesitas instalar dos aplicaciones y seguir estos pasos.</p>
+
+    <h2>1 · Mattermost — tu línea directa</h2>
+    <p>Es la app por donde le hablas a tu asistente, como un chat normal. Desde aquí le pides cosas y él responde.</p>
+
+    <ul class="steps">
+      <li>
+        <span class="st-t">Descarga la app</span>
+        Búscala como “Mattermost” en tu tienda, o usa estos enlaces:
+        <div class="stores">
+          <a class="store" href="https://apps.apple.com/app/mattermost/id1257222717" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.417 2.2-1.11 3.02-.84.99-2.2 1.75-3.32 1.66-.14-1.09.42-2.24 1.06-2.98.72-.85 2.02-1.5 3.13-1.55.02.28.24-.15.24.85zM20.5 17.4c-.53 1.22-.78 1.77-1.46 2.85-.95 1.5-2.29 3.37-3.95 3.38-1.47.02-1.85-.96-3.85-.95-2 .01-2.42.97-3.89.95-1.66-.01-2.93-1.69-3.88-3.19C.9 16.7.63 11.4 2.35 8.6c1.22-2 3.14-3.16 4.95-3.16 1.84 0 3 .96 4.52.96 1.48 0 2.38-.96 4.51-.96 1.6 0 3.31.87 4.52 2.38-3.97 2.18-3.32 7.85.15 9.58z"/></svg>
+            <span><small>iPhone</small>App Store</span>
+          </a>
+          <a class="store" href="https://play.google.com/store/apps/details?id=com.mattermost.rn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.9 13.4 12 3.6 22.1c-.36-.2-.6-.58-.6-1.05V2.95c0-.47.24-.85.6-1.05zM15 10.4l2.6-2.68 3.9 2.22c.75.43.75 1.4 0 1.83l-3.9 2.22L15 13.6 13.4 12 15 10.4zM4.9 1.2l9.2 5.24L16 8.15l-2 2.05L4.9 1.2zm0 21.6L14 13.8l2 2.05-1.9 1.71L4.9 22.8z"/></svg>
+            <span><small>Android</small>Google Play</span>
+          </a>
+        </div>
+      </li>
+      <li>
+        <span class="st-t">Crea tu contraseña</span>
+        Revisa tu correo: te llegó un enlace de <strong>Batuta HQ</strong> para elegir tu clave. Ábrelo y créala.
+      </li>
+      <li>
+        <span class="st-t">Conecta al servidor</span>
+        Abre Mattermost → “Conectar a un servidor” → Servidor: <code>matter.batutahq.com</code> · Nombre: <code>Batuta HQ</code>
+      </li>
+      <li>
+        <span class="st-t">Inicia sesión</span>
+        Usuario: <code>juandavid</code> · Contraseña: la que acabas de crear.
+      </li>
+    </ul>
+
+    <div class="callout ok">
+      <strong>Listo.</strong> Entrarás al espacio “Batuta HQ”. El <strong>jueves</strong> le ponemos nombre a tu asistente y lo dejamos respondiéndote aquí mismo.
+    </div>
+
+    <h2>2 · Obsidian — tu segundo cerebro</h2>
+    <p>Tu app de notas privada. Tu asistente podrá leer y escribir aquí: pendientes, ideas, agenda. Todo sincronizado entre tu celular y tu MacBook.</p>
+
+    <ul class="steps">
+      <li>
+        <span class="st-t">Descarga la app</span>
+        En el celular, y también en tu MacBook Air desde <code>obsidian.md</code>.
+        <div class="stores">
+          <a class="store" href="https://apps.apple.com/app/obsidian-connected-notes/id1557175442" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.417 2.2-1.11 3.02-.84.99-2.2 1.75-3.32 1.66-.14-1.09.42-2.24 1.06-2.98.72-.85 2.02-1.5 3.13-1.55.02.28.24-.15.24.85zM20.5 17.4c-.53 1.22-.78 1.77-1.46 2.85-.95 1.5-2.29 3.37-3.95 3.38-1.47.02-1.85-.96-3.85-.95-2 .01-2.42.97-3.89.95-1.66-.01-2.93-1.69-3.88-3.19C.9 16.7.63 11.4 2.35 8.6c1.22-2 3.14-3.16 4.95-3.16 1.84 0 3 .96 4.52.96 1.48 0 2.38-.96 4.51-.96 1.6 0 3.31.87 4.52 2.38-3.97 2.18-3.32 7.85.15 9.58z"/></svg>
+            <span><small>iPhone</small>App Store</span>
+          </a>
+          <a class="store" href="https://play.google.com/store/apps/details?id=md.obsidian" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.9 13.4 12 3.6 22.1c-.36-.2-.6-.58-.6-1.05V2.95c0-.47.24-.85.6-1.05zM15 10.4l2.6-2.68 3.9 2.22c.75.43.75 1.4 0 1.83l-3.9 2.22L15 13.6 13.4 12 15 10.4zM4.9 1.2l9.2 5.24L16 8.15l-2 2.05L4.9 1.2zm0 21.6L14 13.8l2 2.05-1.9 1.71L4.9 22.8z"/></svg>
+            <span><small>Android</small>Google Play</span>
+          </a>
+        </div>
+      </li>
+      <li>
+        <span class="st-t">Ábrela y crea tu cuenta</span>
+        Con tu correo. Si ya tienes Obsidian, solo inicia sesión.
+      </li>
+      <li>
+        <span class="st-t">Eso es todo por ahora</span>
+        No configures nada más. El <strong>jueves</strong> conectamos tu bóveda para que se sincronice sola entre el celular y el Mac.
+      </li>
+    </ul>
+
+    <h2>El jueves, juntos</h2>
+    <p>En una videollamada corta (~20 minutos) le damos el toque final:</p>
+    <ul>
+      <li>Elegimos el <strong>nombre</strong> de tu asistente.</li>
+      <li>Lo <strong>activamos</strong> con tu cuenta de Claude.</li>
+      <li>Conectamos tus <strong>notas de Obsidian</strong>.</li>
+      <li>Y haces tu <strong>primera conversación</strong> en vivo.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>¿Dudas antes del jueves?</strong> Escríbeme y lo resolvemos. Con instalar las dos apps y entrar a Mattermost ya vas un paso adelante.
+    </div>
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/My-Store-Digital-Team/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
