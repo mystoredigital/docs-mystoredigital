@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cerebro Digital — Sistema de Conocimiento My Store Digital</title>
+  <meta name="description" content="Guía completa del vault Obsidian de My Store Digital: filosofía Files over Apps, Bases Views, templates y Agent Memory.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-07-23">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Capacidades</div>
+      <h1>Cerebro Digital — Sistema de Conocimiento</h1>
+      <p class="lede">Vault Obsidian con filosofía Files over Apps: propiedades ricas, wikilinks internos, Obsidian Bases y Agent Memory. El conocimiento te pertenece.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-07-23</span>
+        <span><strong>Sistema</strong> · Obsidian · ClaudeClaw · GitHub</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué es:</strong> Sistema de gestión de conocimiento personal (PKM) basado en Obsidian, actualizado con la metodología del CEO de la plataforma (Steph Ango).</p>
+      <p><strong>Cambio central:</strong> migración de estructura por carpetas a estructura emergente por propiedades YAML + wikilinks + Obsidian Bases. La barra lateral deja de ser la navegación principal.</p>
+      <p><strong>Resultado:</strong> 4 Bases Views activas, 3 templates nuevos, Agent Memory en Obsidian, 38 sync-conflicts eliminados, repo público actualizado para el equipo.</p>
+    </div>
+
+    <div class="toc">
+      <div class="toc-label">Contenido</div>
+      <ol>
+        <li><a href="#filosofia">Filosofía: Files over Apps</a></li>
+        <li><a href="#estructura">Estructura del vault</a></li>
+        <li><a href="#bases">Obsidian Bases — vistas de base de datos</a></li>
+        <li><a href="#templates">Templates actualizados</a></li>
+        <li><a href="#agent-memory">Agent Memory en Obsidian</a></li>
+        <li><a href="#flujo">Flujo diario</a></li>
+        <li><a href="#repo">Repositorio GitHub</a></li>
+      </ol>
+    </div>
+
+    <h2 id="filosofia">Filosofía: Files over Apps</h2>
+
+    <p>El 23 de julio 2026 adoptamos la metodología del CEO de Obsidian, Steph Ango, basada en dos principios que cambian la forma de organizar el conocimiento:</p>
+
+    <div class="phase done">
+      <header>
+        <h3>Principio 1 — Files over Apps</h3>
+        <span class="status done">Implementado</span>
+      </header>
+      <p>El conocimiento vive en archivos markdown que <strong>tú controlas</strong>. No en bases de datos de ninguna aplicación. Si cambias de herramienta mañana, todo sigue contigo. Obsidian es un lector de archivos, no un custodio de tus datos.</p>
+    </div>
+
+    <div class="phase done">
+      <header>
+        <h3>Principio 2 — Estructura bottom-up</h3>
+        <span class="status done">Implementado</span>
+      </header>
+      <p>La estructura <strong>emerge</strong> de propiedades YAML y wikilinks, no se impone desde arriba con carpetas. Las carpetas son contenedores de <em>tipos</em>, no de <em>temas</em>. La barra lateral de carpetas deja de ser la navegación principal: la reemplazan las <strong>Obsidian Bases</strong>.</p>
+    </div>
+
+    <div class="callout info"><strong>Referencia.</strong> Vault original de Steph Ango disponible en <a href="https://stephango.com/vault" target="_blank">stephango.com/vault</a> y en GitHub: <a href="https://github.com/kepano/kepano-obsidian" target="_blank">kepano/kepano-obsidian</a>.</div>
+
+    <h2 id="estructura">Estructura del vault</h2>
+
+    <p>15 carpetas numeradas. Las carpetas agrupan tipos de notas, no temas. La navegación real es por Bases y wikilinks.</p>
+
+    <table>
+      <thead>
+        <tr><th>Carpeta</th><th>Tipo de contenido</th><th>Notas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>000 - 🧭 VISIÓN</code></td><td>Panel de control, objetivos 1/3/10 años</td><td>1</td></tr>
+        <tr><td><code>001 - 📥 CAPTURA</code></td><td>Inbox — todo entra aquí primero</td><td>194</td></tr>
+        <tr><td><code>050 - 🎬 PROMPTS</code></td><td>Prompts reusables para IA</td><td>22</td></tr>
+        <tr><td><code>099 - CLAUDE CODE</code></td><td>Skills, configs, notas de Claude</td><td>—</td></tr>
+        <tr><td><code>100 - ✅ PROYECTOS</code></td><td>Proyectos activos con deadline</td><td>215</td></tr>
+        <tr><td><code>150 - 🏆 ACTIVOS</code></td><td>Áreas permanentes (lo que construyes)</td><td>127</td></tr>
+        <tr><td><code>200 - 🌍 MEMORIA DIGITAL</code></td><td>Red Zettelkasten — conocimiento procesado</td><td>19</td></tr>
+        <tr><td><code>223 - 🤖 AGENT MEMORY</code></td><td>Memoria del agente IA Sam</td><td>6 <span class="status done">Nuevo</span></td></tr>
+        <tr><td><code>300 - 🧠 MODELOS MENTALES</code></td><td>Sabiduría, marcos de pensamiento</td><td>2</td></tr>
+        <tr><td><code>400 - 📞 CONTACTOS</code></td><td>CRM personal</td><td>54</td></tr>
+        <tr><td><code>900 - 📆 DIARIO</code></td><td>Reflexión diaria</td><td>7</td></tr>
+        <tr><td><code>901 - 🧱 PLANTILLAS</code></td><td>Templates reutilizables</td><td>15</td></tr>
+        <tr><td><code>999 - 🗃️ ARCHIVO</code></td><td>Completado / obsoleto</td><td>2</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Subcarpetas de CAPTURA (el inbox)</h3>
+    <p>Toda la información externa entra primero a <code>001 - 📥 CAPTURA</code> con IDs secuenciales donde aplica:</p>
+
+    <ul>
+      <li><code>YouTube/</code> — Videos capturados con IDs <code>YT-001</code> a <code>YT-099+</code></li>
+      <li><code>X-Twitter/</code> — Posts capturados con IDs <code>XT-###</code></li>
+      <li><code>Libros/</code> — Biblioteca personal</li>
+      <li><code>Artículos/</code> — Artículos y posts web</li>
+      <li><code>Herramientas/</code> — Apps y tools descubiertos</li>
+      <li><code>Instagram/</code> · <code>Skool/</code> — Contenido de redes</li>
+    </ul>
+
+    <h2 id="bases">Obsidian Bases — vistas de base de datos</h2>
+
+    <p>Obsidian Bases es una capa de base de datos nativa (sin plugins externos) que filtra y visualiza notas según sus propiedades YAML. El campo <code>tipo:</code> en el frontmatter de cada nota es la llave que Bases usa para filtrar.</p>
+
+    <div class="callout warn"><strong>Requisito.</strong> Para que Bases funcione, cada nota necesita <code>tipo:</code> en el frontmatter. Sin ese campo, la nota es invisible para las vistas.</div>
+
+    <h3>Las 4 Bases Views activas</h3>
+
+    <table>
+      <thead>
+        <tr><th>Vista</th><th>Ubicación</th><th>Filtra por</th><th>Tabs</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>📊 YouTube</td><td><code>001-CAPTURA/YouTube/</code></td><td><code>tipo: clipping</code> + <code>fuente: YouTube</code></td><td>Todos · Espiritualidad · Por personas · Por categoría</td></tr>
+        <tr><td>📊 Libros</td><td><code>001-CAPTURA/Libros/</code></td><td><code>tipo: libro</code></td><td>Todos · Pendientes · Leyendo ahora · Leídos</td></tr>
+        <tr><td>📊 Contactos</td><td><code>400-CONTACTOS/</code></td><td><code>tipo: contacto</code></td><td>Todos · Negocios · Cumpleaños</td></tr>
+        <tr><td>📊 Capturas</td><td><code>001-CAPTURA/</code></td><td><code>tipo: clipping</code></td><td>Todos · YouTube · Por categoría</td></tr>
+      </tbody>
+    </table>
+
+    <details class="collapse">
+      <summary><span class="title">Cómo crear una nueva Base View</span></summary>
+      <div class="collapse-body">
+        <ol class="steps">
+          <li>En el explorador de Obsidian, click derecho en la carpeta destino → <strong>New file</strong></li>
+          <li>Nombre con extensión <code>.base</code> — ej: <code>📊 Mi Vista.base</code>. La extensión activa el modo automáticamente.</li>
+          <li>Configurar filtros en el YAML del archivo:
+<pre><code>filters:
+  and:
+    - tipo.eq("clipping")
+    - fuente.eq("YouTube")</code></pre>
+          </li>
+          <li>Agregar propiedades a mostrar y crear tabs (views) con distintos filtros u ordenamientos.</li>
+        </ol>
+        <p>Ver <a href="https://github.com/mystoredigital/obsidian-vault-template/blob/main/BASES.md" target="_blank">BASES.md en el repo</a> para la sintaxis completa con ejemplos.</p>
+      </div>
+    </details>
+
+    <h2 id="templates">Templates actualizados</h2>
+
+    <p>Tres templates actualizados o creados. Todos incluyen <code>tipo:</code> y propiedades como listas (no texto) para permitir múltiples valores y filtrado en Bases.</p>
+
+    <details class="collapse">
+      <summary><span class="title">plantilla CAPTURA.md — Clippings</span> <span class="status done">Actualizado</span></summary>
+      <div class="collapse-body">
+        <p>Para YouTube, artículos, posts de redes, herramientas — cualquier contenido de terceros.</p>
+        <pre><code>---
+tipo: clipping
+fuente: ""          # YouTube / LinkedIn / Web / Instagram
+url: ""
+autor: []
+fecha_captura: YYYY-MM-DD
+categoria:
+  - "[[Categoría]]"
+temas: []
+personas: []
+tags:
+  - captura
+---</code></pre>
+        <div class="callout info"><strong>YouTube.</strong> Para videos de YouTube usar el skill <code>youtube-capture</code> de ClaudeClaw — crea la nota automáticamente con transcript, propiedades ricas y wikilinks.</div>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">plantilla LIBRO.md — Biblioteca personal</span> <span class="status done">Actualizado</span></summary>
+      <div class="collapse-body">
+        <p>Para libros en cualquier estado: pendiente, leyendo, leído.</p>
+        <pre><code>---
+tipo: libro
+categoria:
+  - "[[Libros]]"
+titulo: ""
+autor: []
+estado: pendiente   # pendiente | leyendo | leído
+rating:             # 1-5 al terminar
+año:
+paginas:
+temas: []
+personas: []
+conceptos: []
+---</code></pre>
+        <p>La Base View de Libros filtra por <code>estado:</code> para mostrar "Pendientes", "Leyendo ahora" y "Leídos" en tabs separados.</p>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">plantilla CONTACTO.md — CRM personal</span> <span class="status brand">Nuevo</span></summary>
+      <div class="collapse-body">
+        <p>Para cualquier persona en la red: negocio, proveedor, colaborador, familia.</p>
+        <pre><code>---
+tipo: contacto
+categoria:
+  - "[[Contactos]]"
+nombre: ""
+empresa: []
+relacion: ""        # negocio | familia | proveedor | colaborador
+telefono: ""
+email: ""
+cumpleanos: ""      # YYYY-MM-DD — Bases calcula edad automáticamente
+ultimo_contacto: "" # YYYY-MM-DD
+ciudad: ""
+tags:
+  - contacto
+---</code></pre>
+        <p>La propiedad <code>cumpleanos:</code> en formato ISO permite que la Base View de Contactos calcule la edad con una fórmula nativa.</p>
+      </div>
+    </details>
+
+    <h3>Regla de wikilinks (obligatoria)</h3>
+    <p>En el cuerpo de cualquier nota, usar <code>[[dobles corchetes]]</code> para conectar con personas, libros, conceptos y proyectos — aunque la nota destino no exista aún. Estos <strong>unresolved links son intencionales</strong>: aparecen grises en el grafo y se activan cuando creas la nota destino.</p>
+
+    <h2 id="agent-memory">Agent Memory en Obsidian</h2>
+
+    <p>La carpeta <code>223 - 🤖 AGENT MEMORY</code> es la memoria persistente del agente IA Sam entre sesiones. En lugar de guardar contexto en una base de datos interna opaca, vive en archivos markdown que <strong>tú controlas, editas y owns</strong>.</p>
+
+    <dl class="kv-grid">
+      <dt>Principio</dt><dd>Files over Apps aplicado a la IA — si el agente muere o migras, el contexto sobrevive</dd>
+      <dt>Formato</dt><dd>Markdown plano, editable desde Obsidian directamente</dd>
+      <dt>Soberanía</dt><dd>Tú editas → el agente respeta como fuente de verdad en la próxima sesión</dd>
+    </dl>
+
+    <table>
+      <thead>
+        <tr><th>Archivo</th><th>Contenido</th><th>Quién lo actualiza</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>CONTEXTO.md</code></td><td>Perfil del usuario, proyectos, stack, preferencias</td><td>Sam + Yoany</td></tr>
+        <tr><td><code>DECISIONES.md</code></td><td>Log de decisiones técnicas y de negocio</td><td>Sam al final de sesión</td></tr>
+        <tr><td><code>PENDIENTES.md</code></td><td>Tareas activas, blockers, completados</td><td>Sam + Yoany</td></tr>
+        <tr><td><code>SKILLS_ACTIVOS.md</code></td><td>Skills configurados y automatizaciones</td><td>Sam al configurar</td></tr>
+        <tr><td><code>PROTOCOLO.md</code></td><td>Reglas de cómo funciona el sistema</td><td>Yoany (define las reglas)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout ok"><strong>Antes vs ahora.</strong> Antes: Sam guardaba contexto en SQLite (caja negra). Ahora: todo en Obsidian markdown. Cambia de agente, de app, o de máquina — el contexto sobrevive en tus archivos.</div>
+
+    <h2 id="flujo">Flujo diario</h2>
+
+    <h3>Captura automática con Sam (ClaudeClaw)</h3>
+    <table>
+      <thead>
+        <tr><th>Qué envías</th><th>Sam crea</th><th>Dónde</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Link de YouTube</td><td><code>YT-###</code> con transcript + propiedades + wikilinks</td><td><code>001-CAPTURA/YouTube/</code></td></tr>
+        <tr><td>Link Twitter/X</td><td><code>XT-###</code> con contenido del post</td><td><code>001-CAPTURA/X-Twitter/</code></td></tr>
+        <tr><td>"modo lectura" + foto</td><td>Nota del libro con metadata web</td><td><code>001-CAPTURA/Libros/</code></td></tr>
+        <tr><td>Pregunta sobre tus notas</td><td>Busca en vault antes de responder</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Navegación sin carpetas</h3>
+    <table>
+      <thead>
+        <tr><th>Para encontrar…</th><th>Usa</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Una nota por nombre</td><td><code>Ctrl+O</code> → buscar</td></tr>
+        <tr><td>Videos de YouTube por categoría</td><td>📊 YouTube → Base de Datos</td></tr>
+        <tr><td>Libros pendientes de leer</td><td>📊 Libros → tab "Pendientes"</td></tr>
+        <tr><td>Contactos de negocio</td><td>📊 Contactos → tab "Negocios"</td></tr>
+        <tr><td>Todas las notas sobre un concepto</td><td>Abrir nota del concepto → backlinks</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Revisión semanal (30 min)</h3>
+    <ol class="steps">
+      <li>Revisar <code>001 - CAPTURA/</code> — notas sueltas sin procesar</li>
+      <li>Por cada nota: ¿vale la pena procesar? → crear evergreen en <code>200 - MEMORIA DIGITAL</code></li>
+      <li>Revisar <code>AGENT MEMORY/PENDIENTES.md</code> — actualizar tareas completadas</li>
+      <li>Mirar el grafo de Obsidian — ¿hay conexiones inesperadas entre notas?</li>
+    </ol>
+
+    <h2 id="repo">Repositorio GitHub</h2>
+
+    <p>El vault template está en GitHub para que el equipo pueda clonarlo y tener la misma estructura base.</p>
+
+    <dl class="kv-grid">
+      <dt>Repo</dt><dd><a href="https://github.com/mystoredigital/obsidian-vault-template" target="_blank">mystoredigital/obsidian-vault-template</a></dd>
+      <dt>Último commit</dt><dd><code>4040275</code> · 2026-07-23</dd>
+      <dt>Branch</dt><dd>main</dd>
+    </dl>
+
+    <h3>Qué incluye el commit de hoy</h3>
+
+    <table>
+      <thead>
+        <tr><th>Archivo</th><th>Estado</th><th>Descripción</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>README.md</code></td><td><span class="status in-progress">Actualizado</span></td><td>Reescrito con Files over Apps, estructura, Bases y Agent Memory</td></tr>
+        <tr><td><code>TEMPLATES.md</code></td><td><span class="status in-progress">Actualizado</span></td><td>Nuevas plantillas con <code>tipo:</code> y propiedades ricas</td></tr>
+        <tr><td><code>WORKFLOW.md</code></td><td><span class="status in-progress">Actualizado</span></td><td>Flujo actualizado con Bases como navegación principal</td></tr>
+        <tr><td><code>BASES.md</code></td><td><span class="status done">Nuevo</span></td><td>Guía completa de Obsidian Bases desde cero</td></tr>
+        <tr><td><code>plantilla CAPTURA.md</code></td><td><span class="status in-progress">Actualizado</span></td><td><code>tipo: clipping</code> + propiedades ricas</td></tr>
+        <tr><td><code>plantilla LIBRO.md</code></td><td><span class="status in-progress">Actualizado</span></td><td><code>tipo: libro</code> + estado + rating</td></tr>
+        <tr><td><code>plantilla CONTACTO.md</code></td><td><span class="status done">Nuevo</span></td><td>CRM properties con <code>tipo: contacto</code></td></tr>
+        <tr><td><code>223 - AGENT MEMORY/</code></td><td><span class="status done">Nuevo</span></td><td>4 archivos template para memoria del agente</td></tr>
+        <tr><td><code>📊 Libros.base</code></td><td><span class="status done">Nuevo</span></td><td>Base View lista para copiar</td></tr>
+        <tr><td><code>📊 Contactos.base</code></td><td><span class="status done">Nuevo</span></td><td>Base View con CRM + cumpleaños</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Quick start para el equipo</h3>
+    <pre><code># 1. Clonar
+git clone https://github.com/mystoredigital/obsidian-vault-template.git mi-cerebro
+
+# 2. Abrir en Obsidian → Open folder as vault
+
+# 3. Limpiar placeholders
+find . -name ".gitkeep" -delete
+
+# 4. Settings → Community plugins → Templater
+#    Template folder: MI CEREBRO DIGITAL/901 - 🧱 PLANTILLAS
+
+# 5. Abrir cualquier .base file para activar las vistas</code></pre>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
