@@ -739,3 +739,19 @@ footer.site a:hover { color: var(--orange); }
   .nav-inner { padding: 0 20px; }
   .nav-meta { display: none; }
 }
+
+/* ---------- Screenshots en docs ---------- */
+.doc-body figure.shot { margin: 24px 0 32px; }
+.doc-body figure.shot img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(26,26,26,.08);
+}
+.doc-body figure.shot figcaption {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--gray-600);
+}

@@ -60,9 +60,19 @@
       <li>Antes de escribir nada, lee el paso siguiente de esta guía — la contraseña maestra es la decisión más importante de todo el proceso.</li>
     </ol>
 
+    <figure class="shot">
+      <img src="img/bw-correo-invitacion.png" alt="Correo de invitación de Vaultwarden My Store Digital con el botón Join Organization Now">
+      <figcaption>Así se ve el correo de invitación. El botón azul <strong>Join Organization Now</strong> te lleva a crear tu cuenta.</figcaption>
+    </figure>
+
     <h2>Paso 2 — Crea tu contraseña maestra</h2>
 
     <div class="callout risk"><strong>Riesgo.</strong> La contraseña maestra <strong>no se puede recuperar</strong>. Si la olvidas, pierdes el acceso a tu caja fuerte y hay que empezar de cero. Es la <strong>única contraseña que debes memorizar</strong> de ahora en adelante — grábatela bien.</div>
+
+    <figure class="shot">
+      <img src="img/bw-contrasena-maestra.png" alt="Pantalla Unirse a Vaultwarden My Store Digital con los campos de contraseña maestra, confirmación y pista">
+      <figcaption>La pantalla que se abre al aceptar la invitación: contraseña maestra, confirmación y pista opcional.</figcaption>
+    </figure>
 
     <p>Requisitos:</p>
     <ul>
@@ -99,6 +109,12 @@
       <li>En "URL del servidor" escribe: <code>https://warden.mystoredigital.com</code></li>
       <li>Guarda y ya puedes ingresar con tu correo y tu contraseña maestra.</li>
     </ol>
+
+    <figure class="shot">
+      <img src="img/bw-login-autoalojado.png" alt="Pantalla de inicio de sesión de Bitwarden con el menú Accediendo abierto mostrando la opción autoalojado">
+      <figcaption>Al final de la pantalla de inicio de sesión, en <strong>"Accediendo"</strong>, elige <strong>autoalojado</strong> — no bitwarden.com.</figcaption>
+    </figure>
+
     <div class="callout warn"><strong>Advertencia.</strong> Si te aparece "usuario o contraseña incorrectos" y estás seguro de tus datos, casi siempre es esto: la app sigue apuntando a <code>bitwarden.com</code> en vez de al servidor autoalojado.</div>
 
     <h2>Paso 3 — Exporta las contraseñas de tu navegador</h2>
@@ -109,6 +125,21 @@
       <li>Busca <strong>"Exportar contraseñas"</strong> y haz clic en <strong>Descargar archivo</strong>.</li>
       <li>Chrome te pedirá confirmar con tu clave de Windows o PIN, y descargará un archivo <code>Contraseñas de Chrome.csv</code>.</li>
     </ol>
+
+    <figure class="shot">
+      <img src="img/bw-chrome-menu.png" alt="Menú de Chrome desplegado mostrando la ruta hacia Configuración y Contraseñas y Autocompletar">
+      <figcaption>Menú <strong>⋮</strong> de Chrome: ahí encuentras <strong>Contraseñas y Autocompletar</strong>.</figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="img/bw-gestor-configuracion.png" alt="Gestor de contraseñas de Google con el menú Configuración seleccionado y la opción Exportar contraseñas visible">
+      <figcaption>Dentro del Gestor de contraseñas, la exportación vive en el menú <strong>Configuración</strong> del panel izquierdo.</figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="img/bw-exportar-boton.png" alt="Opción Exportar contraseñas con el botón Descargar archivo">
+      <figcaption>El botón <strong>Descargar archivo</strong> genera el CSV con tus contraseñas.</figcaption>
+    </figure>
     <div class="callout risk"><strong>Riesgo.</strong> Ese archivo CSV contiene <strong>todas tus contraseñas en texto plano</strong>. No lo envíes por correo ni WhatsApp, no lo subas a ningún lado, y <strong>elimínalo apenas termines la importación</strong> (también de la papelera).</div>
 
     <h2>Paso 4 — Importa las contraseñas a tu caja fuerte</h2>
@@ -121,6 +152,11 @@
       <li>Verifica en <strong>Cajas fuertes</strong> que tus contraseñas aparecen.</li>
       <li class="risk"><strong>Elimina el archivo CSV</strong> de tu carpeta de Descargas y de la papelera.</li>
     </ol>
+
+    <figure class="shot">
+      <img src="img/bw-import-chrome.png" alt="Pantalla Import de Vaultwarden con destino Mi caja fuerte y el formato Chrome seleccionado en el desplegable">
+      <figcaption><strong>Herramientas → Import</strong>: destino "Mi caja fuerte" y formato <strong>Chrome</strong> bajo "Formatos comunes".</figcaption>
+    </figure>
     <div class="callout ok"><strong>OK.</strong> Con esto tu caja fuerte ya tiene todo. Recomendado: desactiva el guardado de contraseñas de Chrome (Gestor de contraseñas → Configuración → "Ofrecer guardar contraseñas") para que de ahora en adelante todo pase por Bitwarden y no queden copias regadas en el navegador.</div>
 
     <h2>Paso 5 — Activa el doble factor (2FA)</h2>
