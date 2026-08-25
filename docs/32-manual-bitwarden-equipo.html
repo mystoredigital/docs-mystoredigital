@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manual del equipo: Bitwarden (Vaultwarden)</title>
+  <meta name="description" content="Guía paso a paso para el equipo: aceptar la invitación, crear la contraseña maestra, migrar las contraseñas del navegador y activar el doble factor.">
+  <meta name="category" content="ONBOARDING">
+  <meta name="date" content="2026-08-25">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="../index.html">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </a>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <a class="back" href="../index.html">← Volver al índice</a>
+      <div class="badge">Onboarding</div>
+      <h1>Manual del equipo: Bitwarden (Vaultwarden)</h1>
+      <p class="lede">Cómo registrarte en el gestor de contraseñas del equipo, crear una contraseña maestra segura, traer tus contraseñas del navegador y activar el doble factor.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-08-25</span>
+        <span><strong>Sistema</strong> · Vaultwarden (Bitwarden autoalojado)</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué vas a hacer:</strong> unirte al Bitwarden del equipo, crear tu contraseña maestra, importar las contraseñas que hoy guarda tu navegador y activar el doble factor.</p>
+      <p><strong>Tiempo estimado:</strong> 15 minutos.</p>
+      <p><strong>Lo único que debes memorizar:</strong> tu contraseña maestra. Todo lo demás lo recuerda Bitwarden por ti.</p>
+    </div>
+
+    <dl class="kv-grid">
+      <dt>Servidor</dt>          <dd><code>https://warden.mystoredigital.com</code></dd>
+      <dt>Correo de invitación</dt> <dd>Vaultwarden My Store Digital &lt;warden@mystoredigital.com&gt;</dd>
+      <dt>Tipo de cuenta</dt>    <dd>Autoalojado (NO bitwarden.com)</dd>
+      <dt>Doble factor</dt>      <dd><span class="status brand">Obligatorio al final de esta guía</span></dd>
+    </dl>
+
+    <div class="callout info"><strong>Info.</strong> Usamos <strong>Vaultwarden</strong>, una versión de Bitwarden alojada en nuestros propios servidores. La app y la web se ven idénticas a Bitwarden — la única diferencia es que al iniciar sesión debes apuntar al servidor de la empresa, no al de Bitwarden oficial. Eso se explica en el paso 2.</div>
+
+    <h2>Paso 1 — Acepta la invitación</h2>
+    <p>Te llegó (o te llegará) un correo de <strong>Vaultwarden My Store Digital</strong> con el asunto <em>"Join Vaultwarden My Store Digital"</em>. Si no lo ves en la bandeja de entrada, revisa <strong>Spam</strong>.</p>
+    <ol class="steps">
+      <li>Abre el correo y haz clic en el botón azul <strong>Join Organization Now</strong>.</li>
+      <li>Se abre una página titulada <em>"Unirse a Vaultwarden My Store Digital"</em> donde te pide crear tu <strong>contraseña maestra</strong>.</li>
+      <li>Antes de escribir nada, lee el paso siguiente de esta guía — la contraseña maestra es la decisión más importante de todo el proceso.</li>
+    </ol>
+
+    <h2>Paso 2 — Crea tu contraseña maestra</h2>
+
+    <div class="callout risk"><strong>Riesgo.</strong> La contraseña maestra <strong>no se puede recuperar</strong>. Si la olvidas, pierdes el acceso a tu caja fuerte y hay que empezar de cero. Es la <strong>única contraseña que debes memorizar</strong> de ahora en adelante — grábatela bien.</div>
+
+    <p>Requisitos:</p>
+    <ul>
+      <li>Mínimo <strong>12 caracteres</strong> (más es mejor).</li>
+      <li>Combina <strong>mayúsculas, minúsculas, números y símbolos</strong> (<code>$ * # ! %</code>…).</li>
+      <li><strong>Fácil de recordar para ti, difícil de adivinar para los demás.</strong></li>
+    </ul>
+
+    <p>El truco: toma una palabra o frase que signifique algo para ti (que nadie asociaría contigo), y decórala con símbolos y números. Ejemplos del patrón:</p>
+
+    <table>
+      <thead><tr><th>Ejemplo</th><th>Por qué funciona</th></tr></thead>
+      <tbody>
+        <tr><td><code>Abundancia$$2026*</code></td><td>Palabra con significado personal + símbolos + año + símbolo final. 17 caracteres, fácil de recitar mentalmente.</td></tr>
+        <tr><td><code>CafeSinAzucar#77!</code></td><td>Frase cotidiana pegada + símbolo + número que solo tú conoces.</td></tr>
+        <tr><td><code>MiFinca*Verde2026#</code></td><td>Dos palabras con mayúscula + símbolos intercalados + año.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn"><strong>Advertencia.</strong> NO uses estos ejemplos tal cual — inventa el tuyo con el mismo patrón. Y evita lo obvio: tu nombre, tu cédula, tu fecha de nacimiento, el nombre de la empresa, o secuencias tipo <code>123456</code>.</div>
+
+    <ol class="steps">
+      <li>Escribe tu contraseña maestra en los dos campos (contraseña y confirmación).</li>
+      <li>Opcional: escribe una <strong>pista</strong> (máx. 50 caracteres) que te ayude a recordarla a ti — pero que <strong>no revele</strong> la contraseña. Ejemplo: para <code>Abundancia$$2026*</code>, una pista válida sería <em>"mi palabra del año + decoración"</em>.</li>
+      <li>Deja marcada la casilla <strong>"Comprobar filtración de datos conocidas"</strong>.</li>
+      <li>Haz clic en <strong>Crear cuenta</strong> e inicia sesión.</li>
+    </ol>
+
+    <h3 id="autoalojado">Muy importante: el servidor es "autoalojado"</h3>
+    <p>Cuando instales la <strong>extensión del navegador</strong> o la <strong>app del celular</strong>, la pantalla de inicio de sesión de Bitwarden apunta por defecto a <code>bitwarden.com</code>. Ahí tu cuenta <strong>no existe</strong> — vive en nuestro servidor.</p>
+    <ol class="steps">
+      <li>En la pantalla de inicio de sesión, baja <strong>hasta el final</strong>, donde dice <strong>"Accediendo: bitwarden.com"</strong>.</li>
+      <li>Haz clic y en el menú elige <strong>autoalojado</strong>.</li>
+      <li>En "URL del servidor" escribe: <code>https://warden.mystoredigital.com</code></li>
+      <li>Guarda y ya puedes ingresar con tu correo y tu contraseña maestra.</li>
+    </ol>
+    <div class="callout warn"><strong>Advertencia.</strong> Si te aparece "usuario o contraseña incorrectos" y estás seguro de tus datos, casi siempre es esto: la app sigue apuntando a <code>bitwarden.com</code> en vez de al servidor autoalojado.</div>
+
+    <h2>Paso 3 — Exporta las contraseñas de tu navegador</h2>
+    <p>Ahora vas a sacar las contraseñas que Chrome guarda hoy, para meterlas a tu caja fuerte. (Si usas Edge o Brave el camino es casi idéntico.)</p>
+    <ol class="steps">
+      <li>En Chrome, haz clic en el menú <strong>⋮</strong> (arriba a la derecha) → <strong>Contraseñas y Autocompletar</strong> → <strong>Gestor de contraseñas de Google</strong>.</li>
+      <li>En el panel izquierdo entra al menú <strong>Configuración</strong> — este es el paso que la gente se salta: la exportación NO está en la lista de contraseñas, está en <strong>Configuración</strong>.</li>
+      <li>Busca <strong>"Exportar contraseñas"</strong> y haz clic en <strong>Descargar archivo</strong>.</li>
+      <li>Chrome te pedirá confirmar con tu clave de Windows o PIN, y descargará un archivo <code>Contraseñas de Chrome.csv</code>.</li>
+    </ol>
+    <div class="callout risk"><strong>Riesgo.</strong> Ese archivo CSV contiene <strong>todas tus contraseñas en texto plano</strong>. No lo envíes por correo ni WhatsApp, no lo subas a ningún lado, y <strong>elimínalo apenas termines la importación</strong> (también de la papelera).</div>
+
+    <h2>Paso 4 — Importa las contraseñas a tu caja fuerte</h2>
+    <ol class="steps">
+      <li>Entra a <code>https://warden.mystoredigital.com</code> e inicia sesión.</li>
+      <li>En el menú izquierdo ve a <strong>Herramientas → Import</strong>.</li>
+      <li>En <strong>Destino</strong>, deja "Caja fuerte" en <strong>Mi caja fuerte</strong>.</li>
+      <li>En <strong>Formato de archivo</strong>, selecciona <strong>Chrome</strong> (está bajo "Formatos comunes").</li>
+      <li>Selecciona el archivo CSV que descargaste y confirma la importación.</li>
+      <li>Verifica en <strong>Cajas fuertes</strong> que tus contraseñas aparecen.</li>
+      <li class="risk"><strong>Elimina el archivo CSV</strong> de tu carpeta de Descargas y de la papelera.</li>
+    </ol>
+    <div class="callout ok"><strong>OK.</strong> Con esto tu caja fuerte ya tiene todo. Recomendado: desactiva el guardado de contraseñas de Chrome (Gestor de contraseñas → Configuración → "Ofrecer guardar contraseñas") para que de ahora en adelante todo pase por Bitwarden y no queden copias regadas en el navegador.</div>
+
+    <h2>Paso 5 — Activa el doble factor (2FA)</h2>
+    <p>El doble factor protege tu caja fuerte aunque alguien llegue a conocer tu contraseña maestra. Es el candado final y es <strong>obligatorio</strong> para el equipo.</p>
+    <ol class="steps">
+      <li>Instala en tu celular una app de autenticación si no tienes una: <strong>Google Authenticator</strong>, <strong>Microsoft Authenticator</strong> o <strong>2FAS</strong>.</li>
+      <li>En la web de Vaultwarden, ve a <strong>Configuración → Seguridad</strong> y abre la pestaña <strong>Autenticación en dos pasos</strong>.</li>
+      <li>En la opción <strong>"Aplicación de autenticación"</strong> haz clic en <strong>Administrar</strong> (te pedirá tu contraseña maestra).</li>
+      <li>Escanea el <strong>código QR</strong> con la app de tu celular.</li>
+      <li>Escribe el código de 6 dígitos que muestra la app y confirma.</li>
+      <li class="risk">Guarda el <strong>código de recuperación</strong> que te muestra Bitwarden — anótalo en papel y guárdalo en un lugar seguro. Es tu salvavidas si pierdes el celular.</li>
+    </ol>
+
+    <h2>Preguntas frecuentes</h2>
+
+    <details class="collapse">
+      <summary><span class="title">¿Qué pasa si olvido mi contraseña maestra?</span></summary>
+      <div class="collapse-body">
+        <p>No hay recuperación por correo como en otros servicios: nadie —ni el administrador— puede verla ni restablecerla. Puedes pedir que te envíen la <strong>pista</strong> que configuraste desde la pantalla de inicio de sesión. Si aun así no la recuerdas, avisa al administrador para eliminar tu cuenta e invitarte de nuevo, y perderás lo que tuvieras guardado en tu caja fuerte personal.</p>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">¿Puedo usarlo en el celular y en el navegador?</span></summary>
+      <div class="collapse-body">
+        <p>Sí, y es lo recomendado. Instala la app <strong>Bitwarden</strong> (App Store / Play Store) y la <strong>extensión Bitwarden</strong> en tu navegador. En ambas, antes de iniciar sesión, recuerda <a href="#autoalojado">cambiar la región a <strong>autoalojado</strong></a> con el servidor <code>https://warden.mystoredigital.com</code>.</p>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">¿Cuál es la diferencia entre "Mi caja fuerte" y la organización?</span></summary>
+      <div class="collapse-body">
+        <p><strong>Mi caja fuerte</strong> es tu espacio personal: solo tú ves lo que hay ahí. La organización <strong>Vaultwarden My Store Digital</strong> es el espacio compartido del equipo: ahí viven los accesos comunes, organizados en colecciones según tu rol. Cuando guardes un acceso nuevo, fíjate en cuál de los dos lo estás creando.</p>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">¿Uso Edge, Brave u otro navegador — cambia algo?</span></summary>
+      <div class="collapse-body">
+        <p>El flujo es el mismo: exportar a CSV desde la configuración de contraseñas del navegador, e importar en Vaultwarden eligiendo el formato correspondiente en <strong>Herramientas → Import</strong> (hay opciones para Chrome, Edge, Firefox, Opera, Safari y más). Brave usa el mismo formato de Chrome.</p>
+      </div>
+    </details>
+
+    <div class="callout info"><strong>Info.</strong> ¿Dudas o algo no te funcionó? Escríbele a Yoany antes de improvisar — especialmente si el problema es con la contraseña maestra o el doble factor.</div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="../index.html">índice</a> · <a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
