@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceso a admin.ecuabet.com con Tailscale</title>
+  <meta name="description" content="Guía para operadores: reemplazar la configuración manual de proxy por la app de Tailscale, con verificación de IP y solución de problemas.">
+  <meta name="category" content="CAPACIDADES">
+  <meta name="date" content="2026-09-04">
+  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <img class="iso" src="../assets/isotipo.svg" alt="My Store Digital">
+        <span class="wordmark">My Store <span class="o">Digital</span> · docs</span>
+      </div>
+      <div class="nav-meta"><a href="https://github.com/mystoredigital/docs-mystoredigital" target="_blank" rel="noopener">github</a></div>
+    </div>
+  </nav>
+
+  <header class="doc-hero">
+    <div class="doc-hero-inner">
+      <div class="badge">Capacidades</div>
+      <h1>Acceso a admin.ecuabet.com con Tailscale</h1>
+      <p class="lede">Guía para operadores: reemplazar la configuración manual de proxy por la app de Tailscale, con verificación de IP y solución de problemas.</p>
+      <div class="meta">
+        <span><strong>Fecha</strong> · 2026-09-04</span>
+        <span><strong>Sistema</strong> · Tailscale · Windows, macOS, Android, iPhone</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-body"><article>
+
+    <div class="summary-card">
+      <div class="summary-label">Resumen</div>
+      <p><strong>Qué cambia:</strong> ya no configuras un proxy a mano en el navegador. Instalas una app, la enciendes y listo.</p>
+      <p><strong>Por qué:</strong> la configuración manual se pierde, solo funciona en el navegador donde la pusiste, y la clave es la misma para todos.</p>
+      <p><strong>Resultado:</strong> sales por la misma IP autorizada de siempre, pero con tu propio acceso, en todo el equipo y también en el celular.</p>
+    </div>
+
+    <h2>Qué es esto y por qué cambiamos</h2>
+
+    <p>El panel de Ecuabet solo acepta conexiones desde direcciones que la empresa tiene autorizadas. Tu conexión de casa no está en esa lista, por eso al entrar directo te aparece un error de acceso.</p>
+
+    <p>Hasta ahora eso se resolvía configurando un proxy a mano en el navegador. Funcionaba, pero tenía tres problemas: había que repetir la configuración en cada equipo y cada navegador, se perdía al actualizar o reinstalar, y todos usábamos la misma clave.</p>
+
+    <p>Con Tailscale el equipo se conecta solo. Enciendes un interruptor y todo tu tráfico sale por la dirección autorizada, sin tocar la configuración del navegador.</p>
+
+    <div class="callout ok"><strong>Lo importante.</strong> La dirección desde la que Ecuabet te ve es exactamente la misma de antes. Para ellos no cambia nada; el cambio es solo en cómo te conectas tú.</div>
+
+    <h2>Antes de empezar</h2>
+
+    <p>Tu supervisor te va a enviar dos cosas por privado:</p>
+
+    <ul>
+      <li>Una <strong>clave de acceso</strong> (empieza por <code>tskey-</code>). Es personal e individual.</li>
+      <li>El <strong>nombre del nodo de salida</strong> que debes seleccionar en la app.</li>
+    </ul>
+
+    <div class="callout warn"><strong>No compartas tu clave.</strong> Es tuya y queda registrada a tu nombre. Si otra persona necesita acceso, pide que le generen la suya. Si crees que la tuya se filtró, avisa de inmediato y se revoca sin afectar a nadie más.</div>
+
+    <h2>Paso 1 — Instalar la app</h2>
+
+    <p>Descarga Tailscale desde <a href="https://tailscale.com/download" target="_blank" rel="noopener">tailscale.com/download</a> y elige tu sistema.</p>
+
+    <ol class="steps">
+      <li>Descarga e instala el programa como cualquier otro.</li>
+      <li>Al abrirlo por primera vez te pedirá iniciar sesión.</li>
+      <li>Busca la opción de ingresar con <strong>clave de acceso</strong> (auth key) y pega la que te enviaron.</li>
+      <li>Cuando termine verás el ícono de Tailscale en la barra de tareas (Windows) o en la barra superior (Mac).</li>
+    </ol>
+
+    <details class="collapse">
+      <summary><span class="title">Si prefieres hacerlo por consola</span></summary>
+      <div class="collapse-body">
+        <p><strong>Windows</strong> (PowerShell):</p>
+        <pre><code>tailscale up --auth-key=TU_CLAVE --exit-node=NOMBRE_DEL_NODO --exit-node-allow-lan-access --shields-up</code></pre>
+        <p><strong>macOS o Linux</strong>:</p>
+        <pre><code>sudo tailscale up --auth-key=TU_CLAVE --exit-node=NOMBRE_DEL_NODO --exit-node-allow-lan-access --shields-up</code></pre>
+        <p>Reemplaza <code>TU_CLAVE</code> y <code>NOMBRE_DEL_NODO</code> por los datos que te enviaron. Con esto quedan hechos los pasos 1 y 2 de una vez.</p>
+      </div>
+    </details>
+
+    <h2>Paso 2 — Activar la salida</h2>
+
+    <p>Este es el paso que hace que salgas por la dirección autorizada. Si te lo saltas, la app queda conectada pero sigues saliendo por tu internet de casa y Ecuabet te seguirá bloqueando.</p>
+
+    <ol class="steps">
+      <li>Haz clic en el ícono de Tailscale.</li>
+      <li>Entra al menú <strong>Exit Node</strong> (o <em>Nodo de salida</em>).</li>
+      <li>Selecciona el nodo que te indicó tu supervisor.</li>
+      <li>Marca también <strong>Allow local network access</strong>, para que tu impresora y tu red de casa te sigan funcionando.</li>
+    </ol>
+
+    <div class="callout info"><strong>Cómo saber que está activo.</strong> El ícono de Tailscale cambia de aspecto y en el menú aparece el nombre del nodo seleccionado. En Windows además verás una notificación al activarlo.</div>
+
+    <h2>Paso 3 — Verificar antes de operar</h2>
+
+    <p>Antes de entrar al panel, comprueba siempre que estás saliendo por donde debes. Abre <a href="https://ipinfo.io" target="_blank" rel="noopener">ipinfo.io</a> en el navegador.</p>
+
+    <table>
+      <thead><tr><th>Qué ves en la página</th><th>Qué significa</th></tr></thead>
+      <tbody>
+        <tr><td>Organización: <strong>Oracle Corporation</strong></td><td>Correcto. Ya puedes entrar a Ecuabet.</td></tr>
+        <tr><td>El nombre de tu proveedor de internet de casa</td><td>La salida no está activa. Vuelve al paso 2.</td></tr>
+        <tr><td>La página no carga</td><td>Revisa que Tailscale esté conectado y vuelve a intentar.</td></tr>
+      </tbody>
+    </table>
+
+    <p>Cuando la organización sea la correcta, abre <code>admin.ecuabet.com</code> y entra con tu usuario de siempre.</p>
+
+    <h2>Al terminar el turno</h2>
+
+    <p>Puedes dejar Tailscale encendido sin problema, pero mientras la salida esté activa <strong>toda</strong> tu navegación pasa por la conexión de la oficina, no solo Ecuabet.</p>
+
+    <p>Si vas a usar el equipo para cosas personales, entra al menú <strong>Exit Node</strong> y elige <strong>None</strong> (ninguno). Tu internet vuelve a la normalidad al instante y no hace falta desinstalar nada. Cuando vuelvas a trabajar, lo seleccionas otra vez.</p>
+
+    <h2>Problemas frecuentes</h2>
+
+    <details class="collapse">
+      <summary><span class="title">Ecuabet me sigue dando error de acceso</span></summary>
+      <div class="collapse-body">
+        <p>Casi siempre es que la salida no está activa. Verifica en ipinfo.io: si aparece tu proveedor de internet de casa, vuelve al paso 2 y selecciona el nodo.</p>
+        <p>Si ipinfo.io ya muestra <strong>Oracle Corporation</strong> pero el panel sigue fallando, cierra sesión en Ecuabet, borra las cookies de ese sitio y vuelve a entrar. A veces queda una sesión vieja abierta desde tu dirección anterior.</p>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">Internet me quedó muy lento</span></summary>
+      <div class="collapse-body">
+        <p>Es esperable: tu tráfico da una vuelta más. Para trabajar en el panel no se nota, pero para videollamadas o descargas grandes sí.</p>
+        <p>La solución es desactivar la salida (Exit Node → None) mientras haces esas otras cosas, y volver a activarla para operar.</p>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">Dejé de ver mi impresora o los archivos compartidos de casa</span></summary>
+      <div class="collapse-body">
+        <p>Falta marcar <strong>Allow local network access</strong> en el mismo menú del nodo de salida. Al activarlo recuperas el acceso a tu red local sin perder la salida autorizada.</p>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">La app dice que mi clave expiró o no la acepta</span></summary>
+      <div class="collapse-body">
+        <p>Las claves tienen vencimiento por seguridad. Pide una nueva a tu supervisor; toma un minuto generarla.</p>
+        <p>No intentes reutilizar la clave de un compañero: cada una queda registrada a nombre de una persona y compartirlas nos deja sin saber quién hizo qué.</p>
+      </div>
+    </details>
+
+    <details class="collapse">
+      <summary><span class="title">Cambié de computador</span></summary>
+      <div class="collapse-body">
+        <p>Avisa a tu supervisor para que te genere una clave nueva y dé de baja el equipo anterior. Cada dispositivo se registra por separado, así que el equipo viejo sigue con acceso hasta que se retire.</p>
+      </div>
+    </details>
+
+    <h2>Qué hacemos con el método anterior</h2>
+
+    <p>La configuración de proxy en el navegador queda descontinuada. Durante las primeras semanas seguirá funcionando por si alguien tiene inconvenientes con la migración, pero después se desactiva.</p>
+
+    <div class="callout warn"><strong>Quita la configuración vieja.</strong> Cuando confirmes que Tailscale te funciona, borra el proxy manual de tu navegador o de la configuración de red de Windows. Si dejas ambos activos, el navegador puede intentar salir por los dos y darte errores intermitentes difíciles de diagnosticar.</div>
+
+    <div class="callout ok"><strong>Ante cualquier duda.</strong> Escribe a tu supervisor antes de improvisar cambios en la configuración de red del equipo. Migrar toma cinco minutos con acompañamiento.</div>
+
+  </article></main>
+
+  <footer class="site"><div class="inner">
+    <img src="../assets/logo.svg" alt="My Store Digital">
+    <div class="meta"><a href="https://github.com/mystoredigital/docs-mystoredigital">github</a></div>
+  </div></footer>
+</body>
+</html>
